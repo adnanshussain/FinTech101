@@ -1,0 +1,37 @@
+﻿<table border="1" style="width:50%">
+    <thead>
+        <tr>
+            <th style="text-align:center">Day of Week</th>
+            <th style="text-align:center">No Change</th>
+            <th style="text-align:center">Positive</th>
+            <th style="text-align:center">Negative</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in ViewBag.result)
+            {
+                string posBgColor = item.Positive > item.Negative ? "lightgrey" : "none";
+                string negBgColor = item.Positive < item.Negative ? "lightgrey" : "none";
+                string dayOfWeek = string.Empty;
+                int day = item.Day;
+                switch(day)
+                {
+                    case 1: dayOfWeek = "Sunday"; break;
+                    case 2: dayOfWeek = "Monday"; break;
+                    case 3: dayOfWeek = "Tuesday"; break;
+                    case 4: dayOfWeek = "Wednesday"; break;
+                    case 5: dayOfWeek = "Thursday"; break;
+                    case 6: dayOfWeek = "Friday"; break;
+                    case 7: dayOfWeek = "Saturday"; break;
+                }
+            <tr>
+                <td style="text-align:center">@dayOfWeek</td>
+                <td style="text-align:center">@item.NoChange</td>
+                <td style="text-align:center; background-color:@posBgColor">@item.Positive</td>
+                <td style="text-align:center; background-color:@negBgColor">@item.Negative</td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>

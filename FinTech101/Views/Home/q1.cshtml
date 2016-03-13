@@ -1,0 +1,7 @@
+﻿
+@{ 
+    foreach(var item in ViewBag.dates)
+    {
+        @item.ForDate.ToString("dd MMM yyyy") <br/>
+    }
+}
