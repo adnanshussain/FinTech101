@@ -17,9 +17,9 @@ namespace FinTech101.Controllers
 
         public ActionResult fintech()
         {
-            using (ArgPlusKenshoDataContext dc = new ArgPlusKenshoDataContext())
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var companies = from p in dc.Companies
+                var companies = from p in aadc.Companies
                                 where p.IsActive == true
                                 && p.HasOnlyBasicProfile == false
                                 && p.MarketStatusID == 3
@@ -30,7 +30,16 @@ namespace FinTech101.Controllers
                                     Text = p.ShortNameEn + " - " + p.CompanyNameEn
                                 };
                 ViewBag.AllCompanies = companies.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text }).ToList<SelectListItem>();
-            }
+
+                var events = from p in aadc.GlobalEvents
+                             select new
+                             {
+                                 Value = p.GlobalEventID,
+                                 Text = p.EventDesc, 
+                                 Date = p.OccuredOn
+                             };
+                ViewBag.AllEvents = events.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text + " [" + item.Date.ToString("dd MMM yyyy") + "]" }).ToList<SelectListItem>();
+        }
 
             List<String> years = new List<string>();
             for (int i = 1993; i<= 2016; i++)
@@ -45,9 +54,9 @@ namespace FinTech101.Controllers
 
         public ActionResult q1(int companyID, string upOrDown, float percent, int year)
         {
-            using (ArgPlusKenshoDataContext dc = new ArgPlusKenshoDataContext())
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = dc.SP_CompanyUpOrDownByPercent(companyID, upOrDown, (decimal) percent, year);
+                var result = aadc.SP_CompanyUpOrDownByPercent(companyID, upOrDown, (decimal) percent, year);
 
                 ViewBag.dates = result.ToList();
             }
@@ -57,9 +66,9 @@ namespace FinTech101.Controllers
 
         public ActionResult q2(int companyID, int year)
         {
-            using (ArgPlusKenshoDataContext dc = new ArgPlusKenshoDataContext())
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = dc.SP_CommpanyGoodAndBadDays(companyID, year);
+                var result = aadc.SP_CommpanyGoodAndBadDays(companyID, year);
 
                 ViewBag.result = result.ToList();
             }
@@ -69,9 +78,9 @@ namespace FinTech101.Controllers
 
         public ActionResult q3(int companyID, int from_year, int to_year)
         {
-            using (ArgPlusKenshoDataContext dc = new ArgPlusKenshoDataContext())
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = dc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
+                var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
 
                 ViewBag.result = result.ToList();
             }
@@ -79,11 +88,43 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
+        public ActionResult q4(int eventID, int weeksBefore, int weeksAfter, int companyID)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var eventDate = (from p in aadc.GlobalEvents
+                                where p.GlobalEventID == eventID
+                                select p.OccuredOn).FirstOrDefault();
+
+                var result = (aadc.SP_PricesAroundEvents(eventDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
+
+                ViewBag.eventDate = eventDate;
+
+                ViewBag.result = result;
+
+                ViewBag.resultDates = (from r in result
+                                      group r by new { r.ForDate, r.DoW }
+                                      into grp
+                                      select new DateWithDoW
+                                      {
+                                          ForDate = grp.Key.ForDate.Value,
+                                          DoW = grp.Key.DoW
+                                      }).ToList();
+
+                ViewBag.CompanyID = companyID;
+                ViewBag.CompanyName = (from p in aadc.Companies
+                                       where p.CompanyID == companyID
+                                       select p.CompanyNameEn).FirstOrDefault();
+            }
+
+            return (PartialView());
+        }
+
         public JsonResult q3_json(int companyID, int from_year, int to_year)
         {
-            using (ArgPlusKenshoDataContext dc = new ArgPlusKenshoDataContext())
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = dc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
+                var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
 
                 ViewBag.result = result.ToList();
             }

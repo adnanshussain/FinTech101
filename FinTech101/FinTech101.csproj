@@ -175,11 +175,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ArgPlusKensho.designer.cs">
+    <Compile Include="Models\ArgPlusKensho1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ArgPlusKensho.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DateWithDoW.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,8 +196,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Models\ArgPlusKensho.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>ArgPlusKensho.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>ArgPlusKensho1.designer.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\ToWebServer.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -252,6 +253,7 @@
     <Content Include="Views\Home\q1.cshtml" />
     <Content Include="Views\Home\q2.cshtml" />
     <Content Include="Views\Home\q3.cshtml" />
+    <Content Include="Views\Home\q4.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

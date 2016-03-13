@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Argaam_Analytics" Class="ArgPlusKenshoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Argaam_Analytics" Class="ArgaamAnalyticsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=172.16.3.51;Initial Catalog=Argaam_Analytics;User ID=argplus_user" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Argaam_AnalyticsConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Companies" Member="Companies">
     <Type Name="Company">
@@ -28,6 +28,13 @@
       <Column Name="IsSponsor" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.GlobalEvents" Member="GlobalEvents">
+    <Type Name="GlobalEvent">
+      <Column Name="GlobalEventID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="OccuredOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Function Name="dbo.SP_CommpanyGoodAndBadDays" Method="SP_CommpanyGoodAndBadDays">
     <Parameter Name="company_id" Type="System.Int32" DbType="Int" />
     <Parameter Name="year" Type="System.Int32" DbType="Int" />
@@ -45,18 +52,6 @@
     <Parameter Name="p_year" Type="System.Int32" DbType="Int" />
     <ElementType Name="SP_CompanyUpOrDownByPercentResult">
       <Column Name="ForDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.SP_PricesAroundEvents" Method="SP_PricesAroundEvents">
-    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
-    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_PricesAroundEventsResult">
-      <Column Name="ForDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(9) NOT NULL" CanBeNull="false" />
-      <Column Name="CommodityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
   <Function Name="dbo.SP_MonthsCompanyWasUpOrDown" Method="SP_MonthsCompanyWasUpOrDown">
@@ -77,6 +72,18 @@
       <Column Name="[10]" Member="_10" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[11]" Member="_11" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[12]" Member="_12" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SP_PricesAroundEvents" Method="SP_PricesAroundEvents">
+    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_PricesAroundEventsResult">
+      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="CID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

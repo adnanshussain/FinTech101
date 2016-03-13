@@ -14,6 +14,9 @@
 <p>
     Which months was @Html.DropDownList("q3_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) Up / Down From @Html.DropDownList("q3_from_year", (SelectList)ViewBag.AllYearsSL) to @Html.DropDownList("q3_to_year", (SelectList)ViewBag.AllYearsSL) <button id="q3_go">Go</button>
 </p>
+<p>
+    Show the prices of @Html.DropDownList("q4_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) @Html.TextBox("q4_weeks_before", 1, new { size = 3 }) week(s) before and @Html.TextBox("q4_weeks_after", 1, new { size = 3 }) week(s) after @Html.DropDownList("q4_event", new SelectList(ViewBag.AllEvents, "Value", "Text")) <button id="q4_go">Go</button>
+</p>
 
 <h2>Fintech Results</h2>
 <div id="result">

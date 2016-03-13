@@ -1,0 +1,51 @@
+﻿@using FinTech101.Models
+<table border="1">
+    <thead>
+        <tr>
+            <th>
+                Commodity / Date
+            </th>
+            @{
+                foreach (var item in ViewBag.resultDates)
+                {
+                    <th style="background-color:@(item.ForDate.ToShortDateString() == ViewBag.eventDate.ToShortDateString()? "lightblue" : "")">@item.ForDate.ToString("dd MMM yyyy") @item.DoW</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                BRENT
+            </td>
+            @{
+                foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == 1))
+                {
+                    <td style="background-color:@(item.Close > 0 ? "lightgreen" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                }
+            }
+        </tr>
+        <tr>
+            <td>
+                CRUDE
+            </td>
+            @{
+                foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == 3))
+                {
+                    <td style="background-color:@(item.Close > 0 ? "lightgreen" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                }
+            }
+        </tr>
+        <tr>
+            <td>
+                @ViewBag.CompanyName
+            </td>
+            @{
+                foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == ViewBag.CompanyID))
+                {
+                    <td style="background-color:@(item.Close > 0 ? "lightgreen" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                }
+            }
+        </tr>
+    </tbody>
+</table>
