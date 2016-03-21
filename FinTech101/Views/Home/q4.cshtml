@@ -1,4 +1,5 @@
 ﻿@using FinTech101.Models
+This is it @ViewBag.eventDateClosingPrice
 <table border="1">
     <thead>
         <tr>
@@ -43,7 +44,10 @@
             @{
                 foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == ViewBag.CompanyID))
                 {
-                    <td style="background-color:@(item.Close > 0 ? "lightgreen" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                    //http://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio
+                    var newHue = ((((item.Close - ViewBag.minClose) * (100 - 40)) / (ViewBag.maxClose - ViewBag.minClose)) + 40).ToString() + "%";
+
+                    <td style="background-color:@(item.Close > 0 ? "hsl(107," + newHue + ", 50%)" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
                 }
             }
         </tr>

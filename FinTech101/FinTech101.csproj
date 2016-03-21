@@ -175,14 +175,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ArgPlusKensho1.designer.cs">
+    <Compile Include="Models\ArgaamAnalytics1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ArgPlusKensho.dbml</DependentUpon>
+      <DependentUpon>ArgaamAnalytics.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\DateWithDoW.cs" />
+    <Compile Include="Models\FintechService.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PartialClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -194,11 +196,11 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Models\ArgPlusKensho.dbml">
+    <None Include="Models\ArgaamAnalytics.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>ArgPlusKensho1.designer.cs</LastGenOutput>
-    </Content>
+      <LastGenOutput>ArgaamAnalytics1.designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\PublishProfiles\ToWebServer.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fintech.js" />
@@ -254,6 +256,7 @@
     <Content Include="Views\Home\q2.cshtml" />
     <Content Include="Views\Home\q3.cshtml" />
     <Content Include="Views\Home\q4.cshtml" />
+    <Content Include="Views\Home\q5.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -271,8 +274,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\ArgPlusKensho.dbml.layout">
-      <DependentUpon>ArgPlusKensho.dbml</DependentUpon>
+    <None Include="Models\ArgaamAnalytics.dbml.layout">
+      <DependentUpon>ArgaamAnalytics.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <PropertyGroup>

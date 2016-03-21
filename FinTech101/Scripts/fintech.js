@@ -1,8 +1,18 @@
-﻿$(function () {
+﻿function initResults() {
+    $('#result-error').html("");
+    $('#result').html("Loading... Please wait...");
+}
+
+function resultWasError() {
+    $("#result").html("");
+    $('#result-error').html("There was an error processing the request.");
+}
+
+$(function () {
     console.log("fintech ready!");
 
     $("#q1_go").on("click", function () {
-        $('#result').html("Loading... Please wait...");
+        initResults();
 
         $.ajax('/home/q1', {
             data: {
@@ -16,13 +26,13 @@
                 $('#result').html(data);
             },
             error: function (xhrObj, status, errorThrown) {
-                debugger;
+                resultWasError();
             }
         })
     });
 
     $("#q2_go").on("click", function () {
-        $('#result').html("Loading... Please wait...");
+        initResults();
 
         $.ajax('/home/q2', {
             data: {
@@ -34,13 +44,13 @@
                 $('#result').html(data);
             },
             error: function (xhrObj, status, errorThrown) {
-                debugger;
+                resultWasError();
             }
         })
     });
 
     $("#q3_go").on("click", function () {
-        $('#result').html("Loading... Please wait...");
+        initResults();
 
         $.ajax('/home/q3', {
             data: {
@@ -53,13 +63,13 @@
                 $('#result').html(data);
             },
             error: function (xhrObj, status, errorThrown) {
-                debugger;
+                resultWasError();
             }
         })
     });
 
     $("#q4_go").on("click", function () {
-        $('#result').html("Loading... Please wait...");
+        initResults();
 
         $.ajax('/home/q4', {
             data: {
@@ -73,7 +83,26 @@
                 $('#result').html(data);
             },
             error: function (xhrObj, status, errorThrown) {
-                debugger;
+                resultWasError();
+            }
+        })
+    });
+
+    $("#q5_go").on("click", function () {
+        initResults();
+
+        $.ajax('/home/q5', {
+            data: {
+                percent: $('#q5_percent').val(),
+                from_year: $('#q5_from_year').val(),
+                to_year: $('#q5_to_year').val()
+            },
+            success: function (data, status, xhrObj) {
+                console.log("ajax success");
+                $('#result').html(data);
+            },
+            error: function (xhrObj, status, errorThrown) {
+                resultWasError();
             }
         })
     });

@@ -76,14 +76,20 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
+        // Months company was up or down
         public ActionResult q3(int companyID, int from_year, int to_year)
         {
-            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
-            {
-                var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
+            ViewBag.result = FintechService.MonthsCompanyWasUpOrDown(companyID, from_year, to_year);
 
-                ViewBag.result = result.ToList();
-            }
+            return PartialView();
+        }
+
+        // Which companies were up more than n percent in selected date range
+        public ActionResult q5(int from_year, int to_year, decimal percent)
+        {
+            ViewBag.result = FintechService.CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(from_year, to_year, percent);
+
+            ViewBag.percent = percent;
 
             return PartialView();
         }
@@ -115,6 +121,18 @@ namespace FinTech101.Controllers
                 ViewBag.CompanyName = (from p in aadc.Companies
                                        where p.CompanyID == companyID
                                        select p.CompanyNameEn).FirstOrDefault();
+
+                ViewBag.eventDateClosingPrice = (from r in result
+                                                 where r.CID == companyID
+                                                 select r.Close).Skip(weeksBefore * 7).Take(1).First();
+                ViewBag.minClose = (from r in result
+                                    where r.CID == companyID
+                                    && r.Close > 0
+                                    select r.Close).Min().Value;
+                ViewBag.maxClose = (from r in result
+                                    where r.CID == companyID
+                                    select r.Close).Max().Value;
+
             }
 
             return (PartialView());

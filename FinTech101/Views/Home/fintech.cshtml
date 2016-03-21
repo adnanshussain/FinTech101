@@ -5,21 +5,27 @@
 
 <br />
 <p>
-    How many times was @Html.DropDownList("q1_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) <select id="q1_uod"><option value="up">up</option><option value="down">down</option> </select>
+    <span style="font-weight:bold">Q1:</span> How many times was @Html.DropDownList("q1_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) <select id="q1_uod"><option value="up">up</option><option value="down">down</option> </select>
     by <input type="text" id="q1_percent"/> % in @Html.DropDownList("q1_year", (SelectList)ViewBag.AllYearsSL) <button id="q1_go">Go</button>
 </p>
 <p>
-    What have been the best and worst days for @Html.DropDownList("q2_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) in @Html.DropDownList("q2_year", (SelectList)ViewBag.AllYearsSL) <button id="q2_go">Go</button>
+    <span style="font-weight:bold">Q2:</span> What have been the best and worst days for @Html.DropDownList("q2_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) in @Html.DropDownList("q2_year", (SelectList)ViewBag.AllYearsSL) <button id="q2_go">Go</button>
 </p>
 <p>
-    Which months was @Html.DropDownList("q3_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) Up / Down From @Html.DropDownList("q3_from_year", (SelectList)ViewBag.AllYearsSL) to @Html.DropDownList("q3_to_year", (SelectList)ViewBag.AllYearsSL) <button id="q3_go">Go</button>
+    <span style="font-weight:bold">Q3:</span> Which months was @Html.DropDownList("q3_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) Up / Down from @Html.DropDownList("q3_from_year", (SelectList)ViewBag.AllYearsSL) to @Html.DropDownList("q3_to_year", (SelectList)ViewBag.AllYearsSL) <button id="q3_go">Go</button>
 </p>
 <p>
-    Show the prices of @Html.DropDownList("q4_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) @Html.TextBox("q4_weeks_before", 1, new { size = 3 }) week(s) before and @Html.TextBox("q4_weeks_after", 1, new { size = 3 }) week(s) after @Html.DropDownList("q4_event", new SelectList(ViewBag.AllEvents, "Value", "Text")) <button id="q4_go">Go</button>
+    <span style="font-weight:bold">Q4:</span> Show the prices of @Html.DropDownList("q4_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) @Html.TextBox("q4_weeks_before", 1, new { size = 3 }) week(s) before and @Html.TextBox("q4_weeks_after", 1, new { size = 3 }) week(s) after @Html.DropDownList("q4_event", new SelectList(ViewBag.AllEvents, "Value", "Text")) <button id="q4_go">Go</button>
+</p>
+<p>
+    <span style="font-weight:bold">Q5:</span> Which companies were up more than @Html.TextBox("q5_percent", 70, new { size = 3 }) % from @Html.DropDownList("q5_from_year", (SelectList)ViewBag.AllYearsSL) to @Html.DropDownList("q5_to_year", (SelectList)ViewBag.AllYearsSL) <button id="q5_go">Go</button>
 </p>
 
 <h2>Fintech Results</h2>
 <div id="result">
+
+</div>
+<div id="result-error" style="color:red">
 
 </div>
 

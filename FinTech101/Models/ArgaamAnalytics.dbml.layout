@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="ArgaamAnalytics">
+  <DataContextMoniker Name="/ArgaamAnalyticsDataContext" />
+  <nestedChildShapes>
+    <classShape Id="271727f2-4127-461a-8b5d-898fcf9b38c2" absoluteBounds="0.75, 0.75, 2, 5.4246240234375">
+      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/Company" />
+      <nestedChildShapes>
+        <elementListCompartment Id="51ea8cdb-2b59-47f3-8d1a-2efb46203c06" absoluteBounds="0.765, 1.21, 1.9700000000000002, 4.8646240234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5a9bc5fe-32c3-4213-a5ef-52048d225f92" absoluteBounds="3.75, 0.75, 2, 1.3862939453125">
+      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/GlobalEvent" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1d3938ae-98fb-4688-9a3f-86281695403f" absoluteBounds="3.765, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

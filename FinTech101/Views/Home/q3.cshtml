@@ -1,34 +1,49 @@
-﻿<table border="1" style="width:50%">
+﻿<table border="1" style="width:75%">
     <thead>
         <tr>
-            <th  style="text-align:center">Year</th>
-            <th  style="text-align:center">Jan</th>
-            <th  style="text-align:center">Feb</th>
-            <th  style="text-align:center">Mar</th>
-            <th  style="text-align:center">Apr</th>
-            <th  style="text-align:center">May</th>
-            <th  style="text-align:center">Jun</th>
-            <th  style="text-align:center">Jul</th>
-            <th  style="text-align:center">Aug</th>
-            <th  style="text-align:center">Sep</th>
-            <th  style="text-align:center">Oct</th>
-            <th  style="text-align:center">Nov</th>
-            <th  style="text-align:center">Dec</th>
+            <th style="text-align:center">Year</th>
+            <th style="text-align:center">Jan</th>
+            <th style="text-align:center">Feb</th>
+            <th style="text-align:center">Mar</th>
+            <th style="text-align:center">Apr</th>
+            <th style="text-align:center">May</th>
+            <th style="text-align:center">Jun</th>
+            <th style="text-align:center">Jul</th>
+            <th style="text-align:center">Aug</th>
+            <th style="text-align:center">Sep</th>
+            <th style="text-align:center">Oct</th>
+            <th style="text-align:center">Nov</th>
+            <th style="text-align:center">Dec</th>
         </tr>
     </thead>
     <tbody>
         @{
             foreach (var item in ViewBag.result)
             {
-                <tr>
-                    <td style="text-align:center">@item.Year</td>
-                    @for(var i = 1; i<=12; i++)
-                    {
+                if (item.Year > 0)
+                {
+                    <tr>
+                        <td style="text-align:center">@item.Year</td>
+                        @for (var i = 1; i <= 12; i++)
+                       {
                         var pName = "_" + i.ToString();
                         var value = item.GetType().GetProperty(pName).GetValue(item, null);
-                        <td style="text-align:center; background-color:@(value > 0 ? "lightgreen" : "white")">@value</td>
-                    }
-                </tr>
+                            <td style="text-align:center; background-color:@(value > 0 ? "lightgreen" : "white")">@value</td>
+                        }
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td style="text-align:center"></td>
+                        @for (var i = 1; i <= 12; i++)
+                        {
+                            var pName = "_" + i.ToString();
+                            var value = item.GetType().GetProperty(pName).GetValue(item, null);
+                            <td style="text-align:center; background-color:lightblue;font-weight:bold">@value.ToString("0.00")&nbsp;%</td>
+                        }
+                    </tr>
+                }
             }
         }
     </tbody>

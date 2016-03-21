@@ -108,6 +108,13 @@ namespace FinTech101.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_week_before, p_week_after, p_company_id);
 			return ((ISingleResult<SP_PricesAroundEventsResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_MonthsInWhichCompaniesWereUpAndDown")]
+		public ISingleResult<SP_MonthsInWhichCompaniesWereUpAndDownResult> SP_MonthsInWhichCompaniesWereUpAndDown([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> to_year)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), from_year, to_year);
+			return ((ISingleResult<SP_MonthsInWhichCompaniesWereUpAndDownResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Companies")]
@@ -1084,6 +1091,266 @@ namespace FinTech101.Models
 				if ((this._Close != value))
 				{
 					this._Close = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_MonthsInWhichCompaniesWereUpAndDownResult
+	{
+		
+		private int _CompanyID;
+		
+		private System.Nullable<int> _Year;
+		
+		private System.Nullable<decimal> @__1;
+		
+		private System.Nullable<decimal> @__2;
+		
+		private System.Nullable<decimal> @__3;
+		
+		private System.Nullable<decimal> @__4;
+		
+		private System.Nullable<decimal> @__5;
+		
+		private System.Nullable<decimal> @__6;
+		
+		private System.Nullable<decimal> @__7;
+		
+		private System.Nullable<decimal> @__8;
+		
+		private System.Nullable<decimal> @__9;
+		
+		private System.Nullable<decimal> @__10;
+		
+		private System.Nullable<decimal> @__11;
+		
+		private System.Nullable<decimal> @__12;
+		
+		public SP_MonthsInWhichCompaniesWereUpAndDownResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyID", DbType="Int NOT NULL")]
+		public int CompanyID
+		{
+			get
+			{
+				return this._CompanyID;
+			}
+			set
+			{
+				if ((this._CompanyID != value))
+				{
+					this._CompanyID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int")]
+		public System.Nullable<int> Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this._Year = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[1]", Storage="__1", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _1
+		{
+			get
+			{
+				return this.@__1;
+			}
+			set
+			{
+				if ((this.@__1 != value))
+				{
+					this.@__1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[2]", Storage="__2", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _2
+		{
+			get
+			{
+				return this.@__2;
+			}
+			set
+			{
+				if ((this.@__2 != value))
+				{
+					this.@__2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[3]", Storage="__3", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _3
+		{
+			get
+			{
+				return this.@__3;
+			}
+			set
+			{
+				if ((this.@__3 != value))
+				{
+					this.@__3 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[4]", Storage="__4", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _4
+		{
+			get
+			{
+				return this.@__4;
+			}
+			set
+			{
+				if ((this.@__4 != value))
+				{
+					this.@__4 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[5]", Storage="__5", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _5
+		{
+			get
+			{
+				return this.@__5;
+			}
+			set
+			{
+				if ((this.@__5 != value))
+				{
+					this.@__5 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[6]", Storage="__6", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _6
+		{
+			get
+			{
+				return this.@__6;
+			}
+			set
+			{
+				if ((this.@__6 != value))
+				{
+					this.@__6 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[7]", Storage="__7", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _7
+		{
+			get
+			{
+				return this.@__7;
+			}
+			set
+			{
+				if ((this.@__7 != value))
+				{
+					this.@__7 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[8]", Storage="__8", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _8
+		{
+			get
+			{
+				return this.@__8;
+			}
+			set
+			{
+				if ((this.@__8 != value))
+				{
+					this.@__8 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[9]", Storage="__9", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _9
+		{
+			get
+			{
+				return this.@__9;
+			}
+			set
+			{
+				if ((this.@__9 != value))
+				{
+					this.@__9 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[10]", Storage="__10", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _10
+		{
+			get
+			{
+				return this.@__10;
+			}
+			set
+			{
+				if ((this.@__10 != value))
+				{
+					this.@__10 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[11]", Storage="__11", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _11
+		{
+			get
+			{
+				return this.@__11;
+			}
+			set
+			{
+				if ((this.@__11 != value))
+				{
+					this.@__11 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[12]", Storage="__12", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _12
+		{
+			get
+			{
+				return this.@__12;
+			}
+			set
+			{
+				if ((this.@__12 != value))
+				{
+					this.@__12 = value;
 				}
 			}
 		}
