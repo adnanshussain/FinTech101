@@ -88,13 +88,6 @@ namespace FinTech101.Models
 			return ((ISingleResult<SP_CommpanyGoodAndBadDaysResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_CompanyUpOrDownByPercent")]
-		public ISingleResult<SP_CompanyUpOrDownByPercentResult> SP_CompanyUpOrDownByPercent([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_company_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8)")] string p_up_or_down, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Decimal(18,0)")] System.Nullable<decimal> p_percent, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_year)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_company_id, p_up_or_down, p_percent, p_year);
-			return ((ISingleResult<SP_CompanyUpOrDownByPercentResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_MonthsCompanyWasUpOrDown")]
 		public ISingleResult<SP_MonthsCompanyWasUpOrDownResult> SP_MonthsCompanyWasUpOrDown([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> to_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> company_ID)
 		{
@@ -114,6 +107,13 @@ namespace FinTech101.Models
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), from_year, to_year);
 			return ((ISingleResult<SP_MonthsInWhichCompaniesWereUpAndDownResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_CompanyUpOrDownByPercent")]
+		public ISingleResult<SP_CompanyUpOrDownByPercentResult> SP_CompanyUpOrDownByPercent([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_company_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8)")] string p_up_or_down, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Decimal(18,0)")] System.Nullable<decimal> p_percent, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_company_id, p_up_or_down, p_percent, p_from_year, p_to_year);
+			return ((ISingleResult<SP_CompanyUpOrDownByPercentResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -748,32 +748,6 @@ namespace FinTech101.Models
 		}
 	}
 	
-	public partial class SP_CompanyUpOrDownByPercentResult
-	{
-		
-		private System.DateTime _ForDate;
-		
-		public SP_CompanyUpOrDownByPercentResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForDate", DbType="Date NOT NULL")]
-		public System.DateTime ForDate
-		{
-			get
-			{
-				return this._ForDate;
-			}
-			set
-			{
-				if ((this._ForDate != value))
-				{
-					this._ForDate = value;
-				}
-			}
-		}
-	}
-	
 	public partial class SP_MonthsCompanyWasUpOrDownResult
 	{
 		
@@ -1351,6 +1325,86 @@ namespace FinTech101.Models
 				if ((this.@__12 != value))
 				{
 					this.@__12 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_CompanyUpOrDownByPercentResult
+	{
+		
+		private System.Nullable<int> _year;
+		
+		private System.Nullable<int> _month;
+		
+		private System.Nullable<int> _day;
+		
+		private string _theDate;
+		
+		public SP_CompanyUpOrDownByPercentResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_year", DbType="Int")]
+		public System.Nullable<int> year
+		{
+			get
+			{
+				return this._year;
+			}
+			set
+			{
+				if ((this._year != value))
+				{
+					this._year = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_month", DbType="Int")]
+		public System.Nullable<int> month
+		{
+			get
+			{
+				return this._month;
+			}
+			set
+			{
+				if ((this._month != value))
+				{
+					this._month = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_day", DbType="Int")]
+		public System.Nullable<int> day
+		{
+			get
+			{
+				return this._day;
+			}
+			set
+			{
+				if ((this._day != value))
+				{
+					this._day = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_theDate", DbType="NVarChar(33)")]
+		public string theDate
+		{
+			get
+			{
+				return this._theDate;
+			}
+			set
+			{
+				if ((this._theDate != value))
+				{
+					this._theDate = value;
 				}
 			}
 		}

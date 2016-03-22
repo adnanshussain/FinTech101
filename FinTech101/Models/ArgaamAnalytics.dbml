@@ -45,15 +45,6 @@
       <Column Name="Negative" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.SP_CompanyUpOrDownByPercent" Method="SP_CompanyUpOrDownByPercent">
-    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_up_or_down" Type="System.String" DbType="VarChar(8)" />
-    <Parameter Name="p_percent" Type="System.Decimal" DbType="Decimal(18,0)" />
-    <Parameter Name="p_year" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_CompanyUpOrDownByPercentResult">
-      <Column Name="ForDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.SP_MonthsCompanyWasUpOrDown" Method="SP_MonthsCompanyWasUpOrDown">
     <Parameter Name="from_year" Type="System.Int32" DbType="Int" />
     <Parameter Name="to_year" Type="System.Int32" DbType="Int" />
@@ -104,6 +95,19 @@
       <Column Name="[10]" Member="_10" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[11]" Member="_11" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[12]" Member="_12" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SP_CompanyUpOrDownByPercent" Method="SP_CompanyUpOrDownByPercent">
+    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_up_or_down" Type="System.String" DbType="VarChar(8)" />
+    <Parameter Name="p_percent" Type="System.Decimal" DbType="Decimal(18,0)" />
+    <Parameter Name="p_from_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_to_year" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_CompanyUpOrDownByPercentResult">
+      <Column Name="year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="month" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="day" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="theDate" Type="System.String" DbType="NVarChar(33)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

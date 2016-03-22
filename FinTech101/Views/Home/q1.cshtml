@@ -1,7 +1,45 @@
-﻿
+﻿@using FinTech101.Models
 @{ 
-    foreach(var item in ViewBag.dates)
-    {
-        @item.ForDate.ToString("dd MMM yyyy") <br/>
-    }
+    List<KeyAndCount> years = ViewBag.years;
+    List<SP_CompanyUpOrDownByPercentResult> result = ViewBag.result;
 }
+<table border="1" width="75%">
+    <thead>
+        <tr>
+            <td align="center">
+                Month / Year
+            </td>
+            @{
+                foreach (var yearItem in years)
+                {
+                    <td align="center" style="font-weight:bold">
+                        @yearItem.Key <br/> (@yearItem.Count)
+                    </td>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            for(int m=1; m<=12; m++)
+            {
+                <tr>
+                    <td align="center" style="font-weight:bold">
+                        @*@new DateTime(2010, 8, 1).ToString("MMM", CultureInfo.InvariantCulture);*@
+                        @(new System.Globalization.DateTimeFormatInfo().GetMonthName(m).ToString())
+                    </td>
+                    @foreach(var yearItem in years)
+                    {
+                        var monthDays = (from r in result where r.year == int.Parse(yearItem.Key) && r.month == m select r.theDate).ToList();
+                        <td align="center">
+                            @foreach(var monthDay in monthDays)
+                            {
+                                @monthDay<br/>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>

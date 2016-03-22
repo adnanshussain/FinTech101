@@ -10,4 +10,10 @@ namespace FinTech101.Models
         public DateTime ForDate;
         public String DoW;
     }
+
+    public class KeyAndCount
+    {
+        public String Key { get; set; }
+        public int Count { get; set; }
+    }
 }

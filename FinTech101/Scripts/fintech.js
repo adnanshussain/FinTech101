@@ -8,27 +8,33 @@ function resultWasError() {
     $('#result-error').html("There was an error processing the request.");
 }
 
+function fetchResult(qno, data) {
+    initResults();
+
+    $.ajax('/home/' + qno, {
+        data: data,
+        success: function (data, status, xhrObj) {
+            console.log("ajax success");
+            $('#result').html(data);
+        },
+        error: function (xhrObj, status, errorThrown) {
+            resultWasError();
+        }
+    });
+}
+
 $(function () {
     console.log("fintech ready!");
 
     $("#q1_go").on("click", function () {
-        initResults();
-
-        $.ajax('/home/q1', {
-            data: {
+        fetchResult('q1',
+            {
                 companyID: $('#q1_company').val(),
                 upOrDown: $('#q1_uod').val(),
                 percent: $('#q1_percent').val(),
-                year: $('#q1_year').val()
-            },
-            success: function (data, status, xhrObj) {
-                console.log("ajax success");
-                $('#result').html(data);
-            },
-            error: function (xhrObj, status, errorThrown) {
-                resultWasError();
-            }
-        })
+                fromYear: $('#q1_from_year').val(),
+                toYear: $('#q1_to_year').val(),
+            });
     });
 
     $("#q2_go").on("click", function () {

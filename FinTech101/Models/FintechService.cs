@@ -7,6 +7,16 @@ namespace FinTech101.Models
 {
     public class FintechService
     {
+        public static List<SP_CompanyUpOrDownByPercentResult> CompanyWasUpOrDownByPercent(int companyID, string upOrDown, float percent, int fromYear, int toYear)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var result = aadc.SP_CompanyUpOrDownByPercent(companyID, upOrDown, (decimal)percent, fromYear, toYear);
+
+                return result.ToList();
+            }
+        }
+
         public static List<SP_MonthsCompanyWasUpOrDownResult> MonthsCompanyWasUpOrDown(int companyID, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
@@ -37,7 +47,21 @@ namespace FinTech101.Models
 
                 for (int i = 1; i <= 12; i++)
                 {
-                    summaryRow.GetType().GetProperty("_" + i.ToString()).SetValue(summaryRow, new System.Nullable<Decimal>(positiveItems[i-1] / totalItems[i-1] * 100));
+                    if (totalItems[i - 1] > 0)
+                    {
+                        var percentUp = positiveItems[i - 1] / totalItems[i - 1] * 100;
+                        summaryRow.GetType().GetProperty("_" + i.ToString()).SetValue(summaryRow, new System.Nullable<Decimal>(percentUp));
+
+                        //if (percentUp >= percent)
+                        //{
+                        //    includeSummary = true;
+                        //}
+                    }
+                    else
+                    {
+                        summaryRow.GetType().GetProperty("_" + i.ToString()).SetValue(summaryRow, new System.Nullable<Decimal>(0));
+                    }
+                    //summaryRow.GetType().GetProperty("_" + i.ToString()).SetValue(summaryRow, new System.Nullable<Decimal>(positiveItems[i-1] / totalItems[i-1] * 100));
                 }
 
                 result.Add(summaryRow);

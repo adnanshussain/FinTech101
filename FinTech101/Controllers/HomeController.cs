@@ -52,14 +52,19 @@ namespace FinTech101.Controllers
             return View();
         }
 
-        public ActionResult q1(int companyID, string upOrDown, float percent, int year)
+        public ActionResult q1(int companyID, string upOrDown, float percent, int fromYear, int toYear)
         {
-            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
-            {
-                var result = aadc.SP_CompanyUpOrDownByPercent(companyID, upOrDown, (decimal) percent, year);
+            var result = FintechService.CompanyWasUpOrDownByPercent(companyID, upOrDown, percent, fromYear, toYear);
 
-                ViewBag.dates = result.ToList();
-            }
+            ViewBag.result = result;
+
+            ViewBag.years = (from p in result
+                             group p by p.year into g
+                             select new KeyAndCount
+                             {
+                                 Key = g.Key.ToString(),
+                                 Count = g.Count()
+                             }).ToList();
 
             return PartialView();
         }
