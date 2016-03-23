@@ -1,4 +1,16 @@
-﻿<table border="1" style="width:75%">
+﻿@{
+    if (!ViewBag.isPartial) {
+        Layout = "~/Views/Shared/_Layout2.cshtml";
+    }
+}
+@{
+    if (ViewBag.CompanyName != null)
+    {
+        <p style="font-weight:bold">@ViewBag.CompanyName</p>
+        <br/>
+    }
+}
+<table border="1" style="width:75%">
     <thead>
         <tr>
             <th style="text-align:center">Year</th>

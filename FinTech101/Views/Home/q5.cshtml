@@ -1,0 +1,59 @@
+﻿<table border="1" style="width:100%">
+    <thead>
+        <tr>
+            <th style="text-align:center">Company ID</th>
+            <th style="text-align:center">Company</th>
+            <th style="text-align:center">Jan</th>
+            <th style="text-align:center">Feb</th>
+            <th style="text-align:center">Mar</th>
+            <th style="text-align:center">Apr</th>
+            <th style="text-align:center">May</th>
+            <th style="text-align:center">Jun</th>
+            <th style="text-align:center">Jul</th>
+            <th style="text-align:center">Aug</th>
+            <th style="text-align:center">Sep</th>
+            <th style="text-align:center">Oct</th>
+            <th style="text-align:center">Nov</th>
+            <th style="text-align:center">Dec</th>
+            <th style="text-align:center"># of Years Active</th>
+            <th style="text-align:center">Years Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in ViewBag.result)
+            {
+                var bgColor = "white";
+                if (item.StartYear > ViewBag.fromYear && item.EndYear < ViewBag.toYear)
+                {
+                    bgColor = "grey";
+                }
+                else if (item.StartYear > ViewBag.fromYear)
+                {
+                    bgColor = "yellow";
+                }
+                else if (item.EndYear < ViewBag.toYear)
+                {
+                    bgColor = "orange";
+                }
+
+                <tr>
+                    <td style="text-align:center">@item.CompanyID</td>
+                    <td style="text-align:center">@item.CompanyName</td>
+                    @for (var i = 1; i <= 12; i++)
+                    {
+                        var pName = "_" + i.ToString();
+                        var value = item.GetType().GetProperty(pName).GetValue(item, null);
+                        <td style="text-align:center; background-color:@(value >= ViewBag.percent ? (value == 100 ? "lightgreen" : "lightgreen") : "");@(value == 100 ? "font-weight:bold" : "")">@value.ToString("0.00")&nbsp;%</td>
+                    }
+                    <td style="text-align:center">@item.YearsActive.ToString("0.00")</td>
+                    <td style="text-align:center;background-color:@(bgColor)">
+                        <a href="q3?companyID=@(item.CompanyID)&from_year=@(ViewBag.fromYear)&to_year=@(ViewBag.toYear)&isPartial=false"
+                           onclick="window.open(this.href, 'mywin', 'left=50,top=50,width=800,height=640,toolbar=1,resizable=0'); return false;">@item.StartYear-@item.EndYear</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

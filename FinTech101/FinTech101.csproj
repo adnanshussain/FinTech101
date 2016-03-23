@@ -257,6 +257,7 @@
     <Content Include="Views\Home\q3.cshtml" />
     <Content Include="Views\Home\q4.cshtml" />
     <Content Include="Views\Home\q5.cshtml" />
+    <Content Include="Views\Shared\_Layout2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

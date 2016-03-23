@@ -82,9 +82,13 @@ namespace FinTech101.Controllers
         }
 
         // Months company was up or down
-        public ActionResult q3(int companyID, int from_year, int to_year)
+        public ActionResult q3(int companyID, int from_year, int to_year, bool isPartial)
         {
             ViewBag.result = FintechService.MonthsCompanyWasUpOrDown(companyID, from_year, to_year);
+
+            ViewBag.CompanyName = FintechService.GetCompany(companyID).CompanyNameEn;
+
+            ViewBag.isPartial = isPartial;
 
             return PartialView();
         }
@@ -95,6 +99,8 @@ namespace FinTech101.Controllers
             ViewBag.result = FintechService.CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(from_year, to_year, percent);
 
             ViewBag.percent = percent;
+            ViewBag.fromYear = from_year;
+            ViewBag.toYear = to_year;
 
             return PartialView();
         }

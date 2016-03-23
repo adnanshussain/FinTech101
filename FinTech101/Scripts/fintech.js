@@ -62,7 +62,8 @@ $(function () {
             data: {
                 companyID: $('#q3_company').val(),
                 from_year: $('#q3_from_year').val(),
-                to_year: $('#q3_to_year').val()
+                to_year: $('#q3_to_year').val(),
+                isPartial: true
             },
             success: function (data, status, xhrObj) {
                 console.log("ajax success");

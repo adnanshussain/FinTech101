@@ -7,6 +7,18 @@ namespace FinTech101.Models
 {
     public class FintechService
     {
+        public static Company GetCompany(int companyID)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var result = (from p in aadc.Companies
+                              where p.CompanyID == companyID
+                              select p).FirstOrDefault();
+
+                return result;
+            }
+        }
+
         public static List<SP_CompanyUpOrDownByPercentResult> CompanyWasUpOrDownByPercent(int companyID, string upOrDown, float percent, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
@@ -95,9 +107,19 @@ namespace FinTech101.Models
 
                     decimal[] positiveItems = new decimal[12]; // Enumerable.Repeat(0, 12).ToArray();
                     decimal[] totalItems = new decimal[12];
+                    int startYear = 0;
+                    int endYear = 0;
+                    decimal yearsActive = 0;
+                    int monthsActive = 0;
 
                     foreach (var item in companyRecords)
                     {
+                        if (startYear == 0)
+                        {
+                            startYear = item.Year.Value;
+                        }
+                        endYear = item.Year.Value;
+
                         for (int i = 1; i <= 12; i++)
                         {
                             decimal? value = (decimal?)item.GetType().GetProperty("_" + i.ToString()).GetValue(item);
@@ -108,7 +130,17 @@ namespace FinTech101.Models
                                 {
                                     positiveItems[i - 1]++;
                                 }
+                                monthsActive++;
                             }
+                        }
+
+                        if(monthsActive < 12)
+                        {
+                            yearsActive += (decimal)monthsActive / 12;
+                        }
+                        else
+                        {
+                            yearsActive++;
                         }
                     }
 
@@ -134,9 +166,15 @@ namespace FinTech101.Models
 
                     if (includeSummary)
                     {
+                        summaryRow.StartYear = startYear;
+                        summaryRow.EndYear = endYear;
+                        summaryRow.YearsActive = yearsActive;
+
                         retVal.Add(summaryRow);
                     }
                 }
+
+                retVal = retVal.OrderByDescending(r => r.YearsActive).ToList();
 
                 return (retVal);
             }
