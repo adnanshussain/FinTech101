@@ -68,12 +68,13 @@
                 var totalDates = companyPrices.Count;
                 var firstValidClosingPriceIndex = 0;
                 var lastValidClosingPriceIndex = totalDates - 1;
+                var eventDateIndex = -1;
 
                 for (var index = 0; index < companyPrices.Count; index++)
                 {
                     var item = companyPrices[index];
 
-                    if(item.ForDate.Value.ToShortDateString() == ViewBag.firstValidClosingPriceDate.ToShortDateString())
+                    if (item.ForDate.Value.ToShortDateString() == ViewBag.firstValidClosingPriceDate.ToShortDateString())
                     {
                         firstValidClosingPriceIndex = index;
                         firstClosingPrice = item.Close.Value;
@@ -88,58 +89,57 @@
                     var newHue = ((((item.Close - ViewBag.minClose) * (100 - 40)) / (ViewBag.maxClose - ViewBag.minClose)) + 40).ToString() + "%";
                     @*<td style="background-color:@(item.Close > 0 ? "hsl(107," + newHue + ", 50%)" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>*@
 
-                    var bgColor = "";
-                    if ((ViewBag.eventDateClosingPriceWasZero && item.ForDate.Value.ToShortDateString() == ViewBag.eventDateClosingPriceAltDate.ToShortDateString())
-                        || (item.ForDate.Value.ToShortDateString() == ViewBag.eventDate.ToShortDateString()))
-                    {
-                        bgColor = "lightblue";
-                    }
-                    else if (item.Close == 0)
-                    {
-                        bgColor = "white";
-                    }
-                    else if (item.Close.Value >= ViewBag.eventDateClosingPrice)
-                    {
-                        bgColor = "lightgreen";
-                    }
-                    else
-                    {
-                        bgColor = "red";
-                    }
+            var bgColor = "";
+            if ((ViewBag.eventDateClosingPriceWasZero && item.ForDate.Value.ToShortDateString() == ViewBag.eventDateClosingPriceAltDate.ToShortDateString())
+                || (item.ForDate.Value.ToShortDateString() == ViewBag.eventDate.ToShortDateString()))
+            {
+                bgColor = "lightblue";
+                eventDateIndex = index;
+            }
+            else if (item.Close == 0)
+            {
+                bgColor = "white";
+            }
+            else if (item.Close.Value >= ViewBag.eventDateClosingPrice)
+            {
+                bgColor = "lightgreen";
+            }
+            else
+            {
+                bgColor = "red";
+            }
 
-                    <td style="background-color:@bgColor;text-align:center"><span style="font-weight:bold;color:@(item.Close < ViewBag.eventDateClosingPrice ? "white" : "black")">@(item.Close != 0 ? item.Close.ToString() : "")</span></td>
+            <td style="background-color:@bgColor;text-align:center"><span style="font-weight:bold;color:@(item.Close < ViewBag.eventDateClosingPrice ? "white" : "black")">@(item.Close != 0 ? item.Close.ToString() : "")</span></td>
                 }
             }
         </tr>
         <tr>
-                <td>
-                </td>
-                @{
-                    var changePercentage = 0.0;
+            <td></td>
+            @{
+                var changePercentage = 0.0;
 
-                    for (var index = 0; index < totalDates; index++)
+                for (var index = 0; index < totalDates; index++)
+                {
+                    if(index == eventDateIndex)
                     {
-                        if(index == firstValidClosingPriceIndex || index == lastValidClosingPriceIndex)
+                        <td style="background-color:lightblue"></td>
+                    }
+                    else if (index == firstValidClosingPriceIndex || index == lastValidClosingPriceIndex)
+                    {
+                        var firstClosingPriceChangePercent = (((ViewBag.eventDateClosingPrice - firstClosingPrice) / firstClosingPrice) * 100);
+                        var lastClosingPriceChangePercent = (((lastClosingPrice - ViewBag.eventDateClosingPrice) / ViewBag.eventDateClosingPrice) * 100);
+
+                        if (index == firstValidClosingPriceIndex)
                         {
-                            var firstClosingPriceChangePercent = (((firstClosingPrice - ViewBag.eventDateClosingPrice) / ViewBag.eventDateClosingPrice) * 100);
-                            var lastClosingPriceChangePercent = (((lastClosingPrice - ViewBag.eventDateClosingPrice) / ViewBag.eventDateClosingPrice) * 100);
-
-                    if (index == firstValidClosingPriceIndex)
-                    {
-                                    <td style="text-align:center;background-color:@(firstClosingPriceChangePercent >= 0 ? "lightgreen" : "red")"><span style="font-weight:bold;color:@(firstClosingPriceChangePercent < 0 ? "white" : "black")">@firstClosingPriceChangePercent.ToString("0.00")</span></td>
-                                }
-                                else
-                                {
-                                    <td style="text-align:center;background-color:@(lastClosingPriceChangePercent >= 0 ? "lightgreen" : "red")"><span style="font-weight:bold;color:@(lastClosingPriceChangePercent < 0 ? "white" : "black")">@lastClosingPriceChangePercent.ToString("0.00")</span></td>
-                                }
-                            }
-                            else
-                            {
-                                <td></td>
-                            }
-                        
+                            <td colspan="@(ViewBag.weeksBefore * 7)" style="text-align:center;background-color:@(firstClosingPriceChangePercent >= 0 ? "lightgreen" : "red")"><span style="font-weight:bold;color:@(firstClosingPriceChangePercent < 0 ? "white" : "black")">@firstClosingPriceChangePercent.ToString("0.00")</span></td>
+                        }
+                        else
+                        {
+                            <td colspan="@(ViewBag.weeksAfter * 7)" style="text-align:center;background-color:@(lastClosingPriceChangePercent >= 0 ? "lightgreen" : "red")"><span style="font-weight:bold;color:@(lastClosingPriceChangePercent < 0 ? "white" : "black")">@lastClosingPriceChangePercent.ToString("0.00")</span></td>
+                        }
                     }
                 }
-            </tr>
+            }
+        </tr>
     </tbody>
 </table>

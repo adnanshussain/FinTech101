@@ -199,6 +199,9 @@ namespace FinTech101.Controllers
                                     where r.CID == companyID
                                     select r.Close).Max().Value;
 
+                ViewBag.weeksBefore = weeksBefore;
+                ViewBag.weeksAfter = weeksAfter;
+
             }
 
             return (PartialView());
