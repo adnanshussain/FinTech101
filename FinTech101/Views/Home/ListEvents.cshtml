@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "ListEvents";
+}
+<h2>Events</h2>
+<table width="30%" border="1">
+    <thead>
+        <tr>
+            <th>Event Description</th>
+            <th style="text-align:center">Event Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            foreach(var eventItem in ViewBag.result)
+            {
+                <tr>
+                    <td>@eventItem.EventDesc</td>
+                    <td align="center">@eventItem.OccuredOn.ToString("dd-MM-yyyy")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

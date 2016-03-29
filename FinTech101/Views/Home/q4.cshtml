@@ -22,7 +22,17 @@
             @{
                 foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == 1))
                 {
-                    <td style="background-color:@(item.Close > 0 ? "lightgreen" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                    var bgColor = "";
+                    if (item.ForDate.Value.ToShortDateString() == ViewBag.eventDate.ToShortDateString())
+                    {
+                        bgColor = "lightblue";
+                    }
+                    else if (item.Close.Value > 0)
+                    {
+                        bgColor = "lightgreen";
+                    }
+
+                    <td style="background-color:@bgColor">@(item.Close != 0 ? item.Close.ToString() : "")</td>
                 }
             }
         </tr>
@@ -33,7 +43,17 @@
             @{
                 foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == 3))
                 {
-                    <td style="background-color:@(item.Close > 0 ? "lightgreen" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                    var bgColor = "";
+                    if (item.ForDate.Value.ToShortDateString() == ViewBag.eventDate.ToShortDateString())
+                    {
+                        bgColor = "lightblue";
+                    }
+                    else if (item.Close.Value > 0)
+                    {
+                        bgColor = "lightgreen";
+                    }
+
+                    <td style="background-color:@bgColor">@(item.Close != 0 ? item.Close.ToString() : "")</td>
                 }
             }
         </tr>
@@ -42,14 +62,84 @@
                 @ViewBag.CompanyName
             </td>
             @{
-                foreach (var item in ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == ViewBag.CompanyID))
+                var companyPrices = ((List<SP_PricesAroundEventsResult>)ViewBag.result).Where(r => r.CID == ViewBag.CompanyID).ToList();
+                var firstClosingPrice = 0.0M;
+                var lastClosingPrice = 0.0M;
+                var totalDates = companyPrices.Count;
+                var firstValidClosingPriceIndex = 0;
+                var lastValidClosingPriceIndex = totalDates - 1;
+
+                for (var index = 0; index < companyPrices.Count; index++)
                 {
+                    var item = companyPrices[index];
+
+                    if(item.ForDate.Value.ToShortDateString() == ViewBag.firstValidClosingPriceDate.ToShortDateString())
+                    {
+                        firstValidClosingPriceIndex = index;
+                        firstClosingPrice = item.Close.Value;
+                    }
+                    if (item.ForDate.Value.ToShortDateString() == ViewBag.lastValidClosingPriceDate.ToShortDateString())
+                    {
+                        lastValidClosingPriceIndex = index;
+                        lastClosingPrice = item.Close.Value;
+                    }
+
                     //http://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio
                     var newHue = ((((item.Close - ViewBag.minClose) * (100 - 40)) / (ViewBag.maxClose - ViewBag.minClose)) + 40).ToString() + "%";
+                    @*<td style="background-color:@(item.Close > 0 ? "hsl(107," + newHue + ", 50%)" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>*@
 
-                    <td style="background-color:@(item.Close > 0 ? "hsl(107," + newHue + ", 50%)" : "")">@(item.Close != 0 ? item.Close.ToString() : "")</td>
+                    var bgColor = "";
+                    if ((ViewBag.eventDateClosingPriceWasZero && item.ForDate.Value.ToShortDateString() == ViewBag.eventDateClosingPriceAltDate.ToShortDateString())
+                        || (item.ForDate.Value.ToShortDateString() == ViewBag.eventDate.ToShortDateString()))
+                    {
+                        bgColor = "lightblue";
+                    }
+                    else if (item.Close == 0)
+                    {
+                        bgColor = "white";
+                    }
+                    else if (item.Close.Value >= ViewBag.eventDateClosingPrice)
+                    {
+                        bgColor = "lightgreen";
+                    }
+                    else
+                    {
+                        bgColor = "red";
+                    }
+
+                    <td style="background-color:@bgColor;text-align:center"><span style="font-weight:bold;color:@(item.Close < ViewBag.eventDateClosingPrice ? "white" : "black")">@(item.Close != 0 ? item.Close.ToString() : "")</span></td>
                 }
             }
         </tr>
+        <tr>
+                <td>
+                </td>
+                @{
+                    var changePercentage = 0.0;
+
+                    for (var index = 0; index < totalDates; index++)
+                    {
+                        if(index == firstValidClosingPriceIndex || index == lastValidClosingPriceIndex)
+                        {
+                            var firstClosingPriceChangePercent = (((firstClosingPrice - ViewBag.eventDateClosingPrice) / ViewBag.eventDateClosingPrice) * 100);
+                            var lastClosingPriceChangePercent = (((lastClosingPrice - ViewBag.eventDateClosingPrice) / ViewBag.eventDateClosingPrice) * 100);
+
+                    if (index == firstValidClosingPriceIndex)
+                    {
+                                    <td style="text-align:center;background-color:@(firstClosingPriceChangePercent >= 0 ? "lightgreen" : "red")"><span style="font-weight:bold;color:@(firstClosingPriceChangePercent < 0 ? "white" : "black")">@firstClosingPriceChangePercent.ToString("0.00")</span></td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:center;background-color:@(lastClosingPriceChangePercent >= 0 ? "lightgreen" : "red")"><span style="font-weight:bold;color:@(lastClosingPriceChangePercent < 0 ? "white" : "black")">@lastClosingPriceChangePercent.ToString("0.00")</span></td>
+                                }
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        
+                    }
+                }
+            </tr>
     </tbody>
 </table>

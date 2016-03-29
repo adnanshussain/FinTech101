@@ -15,7 +15,7 @@ namespace FinTech101.Controllers
             return View();
         }
 
-        public ActionResult fintech()
+        public ActionResult Fintech()
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
@@ -35,14 +35,14 @@ namespace FinTech101.Controllers
                              select new
                              {
                                  Value = p.GlobalEventID,
-                                 Text = p.EventDesc, 
+                                 Text = p.EventDesc,
                                  Date = p.OccuredOn
                              };
                 ViewBag.AllEvents = events.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text + " [" + item.Date.ToString("dd MMM yyyy") + "]" }).ToList<SelectListItem>();
-        }
+            }
 
             List<String> years = new List<string>();
-            for (int i = 1993; i<= 2016; i++)
+            for (int i = 1993; i <= 2016; i++)
             {
                 years.Add(i.ToString());
             }
@@ -92,6 +92,17 @@ namespace FinTech101.Controllers
 
             return PartialView();
         }
+        public JsonResult q3_json(int companyID, int from_year, int to_year)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
+
+                ViewBag.result = result.ToList();
+            }
+
+            return Json(ViewBag.result, JsonRequestBehavior.AllowGet);
+        }
 
         // Which companies were up more than n percent in selected date range
         public ActionResult q5(int from_year, int to_year, decimal percent)
@@ -110,8 +121,8 @@ namespace FinTech101.Controllers
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 var eventDate = (from p in aadc.GlobalEvents
-                                where p.GlobalEventID == eventID
-                                select p.OccuredOn).FirstOrDefault();
+                                 where p.GlobalEventID == eventID
+                                 select p.OccuredOn).FirstOrDefault();
 
                 var result = (aadc.SP_PricesAroundEvents(eventDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
 
@@ -120,22 +131,66 @@ namespace FinTech101.Controllers
                 ViewBag.result = result;
 
                 ViewBag.resultDates = (from r in result
-                                      group r by new { r.ForDate, r.DoW }
+                                       group r by new { r.ForDate, r.DoW }
                                       into grp
-                                      select new DateWithDoW
-                                      {
-                                          ForDate = grp.Key.ForDate.Value,
-                                          DoW = grp.Key.DoW
-                                      }).ToList();
+                                       select new DateWithDoW
+                                       {
+                                           ForDate = grp.Key.ForDate.Value,
+                                           DoW = grp.Key.DoW
+                                       }).ToList();
 
                 ViewBag.CompanyID = companyID;
                 ViewBag.CompanyName = (from p in aadc.Companies
                                        where p.CompanyID == companyID
                                        select p.CompanyNameEn).FirstOrDefault();
 
+                ViewBag.eventDateClosingPriceWasZero = false;
                 ViewBag.eventDateClosingPrice = (from r in result
                                                  where r.CID == companyID
                                                  select r.Close).Skip(weeksBefore * 7).Take(1).First();
+                if (ViewBag.eventDateClosingPrice == 0)
+                {
+                    // Pick up the last closing value that was not 0
+                    ViewBag.eventDateClosingPriceWasZero = true;
+                    var a = (from r in result
+                             where r.CID == companyID
+                             && r.ForDate < eventDate
+                             && r.Close != 0
+                             orderby r.ForDate descending
+                             select new
+                             {
+                                 r.ForDate,
+                                 r.Close
+                             }).Take(1).First();
+
+                    ViewBag.eventDateClosingPrice = a.Close;
+                    ViewBag.eventDateClosingPriceAltDate = a.ForDate;
+                }
+
+                var b = (from r in result
+                         where r.CID == companyID
+                         && r.Close != 0
+                         orderby r.ForDate
+                         select new
+                         {
+                             r.ForDate,
+                             r.Close
+                         }).Take(1).First();
+                ViewBag.firstValidClosingPrice = b.Close;
+                ViewBag.firstValidClosingPriceDate = b.ForDate;
+
+                var c = (from r in result
+                         where r.CID == companyID
+                         && r.Close != 0
+                         orderby r.ForDate descending
+                         select new
+                         {
+                             r.ForDate,
+                             r.Close
+                         }).Take(1).First();
+                ViewBag.lastValidClosingPrice = c.Close;
+                ViewBag.lastValidClosingPriceDate = c.ForDate;
+
                 ViewBag.minClose = (from r in result
                                     where r.CID == companyID
                                     && r.Close > 0
@@ -149,16 +204,21 @@ namespace FinTech101.Controllers
             return (PartialView());
         }
 
-        public JsonResult q3_json(int companyID, int from_year, int to_year)
+        public ActionResult ListEvents()
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
-
-                ViewBag.result = result.ToList();
+                ViewBag.result = (from p in aadc.GlobalEvents
+                                  orderby p.OccuredOn
+                                  select p).ToList();
             }
 
-            return Json(ViewBag.result, JsonRequestBehavior.AllowGet);
+            return (View());
+        }
+
+        public ActionResult AddGlobalEvent()
+        {
+            return (View());
         }
 
         public ActionResult About()
