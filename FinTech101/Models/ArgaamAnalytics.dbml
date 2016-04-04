@@ -28,11 +28,19 @@
       <Column Name="IsSponsor" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.GlobalEventCategories" Member="GlobalEventCategories">
+    <Type Name="GlobalEventCategory">
+      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EventCategoryName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.GlobalEvents" Member="GlobalEvents">
     <Type Name="GlobalEvent">
       <Column Name="GlobalEventID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="OccuredOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="StartsOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="EndsOn" Type="System.DateTime" DbType="Date" CanBeNull="true" UpdateCheck="Never" />
     </Type>
   </Table>
   <Function Name="dbo.SP_CommpanyGoodAndBadDays" Method="SP_CommpanyGoodAndBadDays">
@@ -63,18 +71,6 @@
       <Column Name="[10]" Member="_10" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[11]" Member="_11" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[12]" Member="_12" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.SP_PricesAroundEvents" Method="SP_PricesAroundEvents">
-    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
-    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_PricesAroundEventsResult">
-      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
-      <Column Name="CID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </ElementType>
   </Function>
   <Function Name="dbo.SP_MonthsInWhichCompaniesWereUpAndDown" Method="SP_MonthsInWhichCompaniesWereUpAndDown">
@@ -108,6 +104,19 @@
       <Column Name="month" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="day" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="theDate" Type="System.String" DbType="NVarChar(33)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SP_PricesAroundEvents" Method="SP_PricesAroundEvents">
+    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_event_end_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_PricesAroundEventsResult">
+      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="CID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

@@ -30,6 +30,9 @@ namespace FinTech101.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertGlobalEventCategory(GlobalEventCategory instance);
+    partial void UpdateGlobalEventCategory(GlobalEventCategory instance);
+    partial void DeleteGlobalEventCategory(GlobalEventCategory instance);
     partial void InsertGlobalEvent(GlobalEvent instance);
     partial void UpdateGlobalEvent(GlobalEvent instance);
     partial void DeleteGlobalEvent(GlobalEvent instance);
@@ -73,6 +76,14 @@ namespace FinTech101.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<GlobalEventCategory> GlobalEventCategories
+		{
+			get
+			{
+				return this.GetTable<GlobalEventCategory>();
+			}
+		}
+		
 		public System.Data.Linq.Table<GlobalEvent> GlobalEvents
 		{
 			get
@@ -95,13 +106,6 @@ namespace FinTech101.Models
 			return ((ISingleResult<SP_MonthsCompanyWasUpOrDownResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_PricesAroundEvents")]
-		public ISingleResult<SP_PricesAroundEventsResult> SP_PricesAroundEvents([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_after, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_company_id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_week_before, p_week_after, p_company_id);
-			return ((ISingleResult<SP_PricesAroundEventsResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_MonthsInWhichCompaniesWereUpAndDown")]
 		public ISingleResult<SP_MonthsInWhichCompaniesWereUpAndDownResult> SP_MonthsInWhichCompaniesWereUpAndDown([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> to_year)
 		{
@@ -114,6 +118,13 @@ namespace FinTech101.Models
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_company_id, p_up_or_down, p_percent, p_from_year, p_to_year);
 			return ((ISingleResult<SP_CompanyUpOrDownByPercentResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_PricesAroundEvents")]
+		public ISingleResult<SP_PricesAroundEventsResult> SP_PricesAroundEvents([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_end_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_after, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_company_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_week_before, p_week_after, p_company_id);
+			return ((ISingleResult<SP_PricesAroundEventsResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -558,6 +569,92 @@ namespace FinTech101.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GlobalEventCategories")]
+	public partial class GlobalEventCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _EventCategoryID;
+		
+		private string _EventCategoryName;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEventCategoryIDChanging(int value);
+    partial void OnEventCategoryIDChanged();
+    partial void OnEventCategoryNameChanging(string value);
+    partial void OnEventCategoryNameChanged();
+    #endregion
+		
+		public GlobalEventCategory()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int EventCategoryID
+		{
+			get
+			{
+				return this._EventCategoryID;
+			}
+			set
+			{
+				if ((this._EventCategoryID != value))
+				{
+					this.OnEventCategoryIDChanging(value);
+					this.SendPropertyChanging();
+					this._EventCategoryID = value;
+					this.SendPropertyChanged("EventCategoryID");
+					this.OnEventCategoryIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string EventCategoryName
+		{
+			get
+			{
+				return this._EventCategoryName;
+			}
+			set
+			{
+				if ((this._EventCategoryName != value))
+				{
+					this.OnEventCategoryNameChanging(value);
+					this.SendPropertyChanging();
+					this._EventCategoryName = value;
+					this.SendPropertyChanged("EventCategoryName");
+					this.OnEventCategoryNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GlobalEvents")]
 	public partial class GlobalEvent : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -566,9 +663,13 @@ namespace FinTech101.Models
 		
 		private int _GlobalEventID;
 		
+		private int _EventCategoryID;
+		
 		private string _EventDesc;
 		
-		private System.DateTime _OccuredOn;
+		private System.DateTime _StartsOn;
+		
+		private System.Nullable<System.DateTime> _EndsOn;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -576,10 +677,14 @@ namespace FinTech101.Models
     partial void OnCreated();
     partial void OnGlobalEventIDChanging(int value);
     partial void OnGlobalEventIDChanged();
+    partial void OnEventCategoryIDChanging(int value);
+    partial void OnEventCategoryIDChanged();
     partial void OnEventDescChanging(string value);
     partial void OnEventDescChanged();
-    partial void OnOccuredOnChanging(System.DateTime value);
-    partial void OnOccuredOnChanged();
+    partial void OnStartsOnChanging(System.DateTime value);
+    partial void OnStartsOnChanged();
+    partial void OnEndsOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnEndsOnChanged();
     #endregion
 		
 		public GlobalEvent()
@@ -607,7 +712,27 @@ namespace FinTech101.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDesc", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int EventCategoryID
+		{
+			get
+			{
+				return this._EventCategoryID;
+			}
+			set
+			{
+				if ((this._EventCategoryID != value))
+				{
+					this.OnEventCategoryIDChanging(value);
+					this.SendPropertyChanging();
+					this._EventCategoryID = value;
+					this.SendPropertyChanged("EventCategoryID");
+					this.OnEventCategoryIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDesc", DbType="NVarChar(128) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
 		public string EventDesc
 		{
 			get
@@ -627,22 +752,42 @@ namespace FinTech101.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OccuredOn", DbType="Date NOT NULL")]
-		public System.DateTime OccuredOn
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartsOn", DbType="Date NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public System.DateTime StartsOn
 		{
 			get
 			{
-				return this._OccuredOn;
+				return this._StartsOn;
 			}
 			set
 			{
-				if ((this._OccuredOn != value))
+				if ((this._StartsOn != value))
 				{
-					this.OnOccuredOnChanging(value);
+					this.OnStartsOnChanging(value);
 					this.SendPropertyChanging();
-					this._OccuredOn = value;
-					this.SendPropertyChanged("OccuredOn");
-					this.OnOccuredOnChanged();
+					this._StartsOn = value;
+					this.SendPropertyChanged("StartsOn");
+					this.OnStartsOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndsOn", DbType="Date", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<System.DateTime> EndsOn
+		{
+			get
+			{
+				return this._EndsOn;
+			}
+			set
+			{
+				if ((this._EndsOn != value))
+				{
+					this.OnEndsOnChanging(value);
+					this.SendPropertyChanging();
+					this._EndsOn = value;
+					this.SendPropertyChanged("EndsOn");
+					this.OnEndsOnChanged();
 				}
 			}
 		}
@@ -990,86 +1135,6 @@ namespace FinTech101.Models
 		}
 	}
 	
-	public partial class SP_PricesAroundEventsResult
-	{
-		
-		private System.Nullable<System.DateTime> _ForDate;
-		
-		private string _DoW;
-		
-		private System.Nullable<int> _CID;
-		
-		private System.Nullable<decimal> _Close;
-		
-		public SP_PricesAroundEventsResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForDate", DbType="Date")]
-		public System.Nullable<System.DateTime> ForDate
-		{
-			get
-			{
-				return this._ForDate;
-			}
-			set
-			{
-				if ((this._ForDate != value))
-				{
-					this._ForDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoW", DbType="NVarChar(30)")]
-		public string DoW
-		{
-			get
-			{
-				return this._DoW;
-			}
-			set
-			{
-				if ((this._DoW != value))
-				{
-					this._DoW = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", DbType="Int")]
-		public System.Nullable<int> CID
-		{
-			get
-			{
-				return this._CID;
-			}
-			set
-			{
-				if ((this._CID != value))
-				{
-					this._CID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Close]", Storage="_Close", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Close
-		{
-			get
-			{
-				return this._Close;
-			}
-			set
-			{
-				if ((this._Close != value))
-				{
-					this._Close = value;
-				}
-			}
-		}
-	}
-	
 	public partial class SP_MonthsInWhichCompaniesWereUpAndDownResult
 	{
 		
@@ -1405,6 +1470,86 @@ namespace FinTech101.Models
 				if ((this._theDate != value))
 				{
 					this._theDate = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_PricesAroundEventsResult
+	{
+		
+		private System.Nullable<System.DateTime> _ForDate;
+		
+		private string _DoW;
+		
+		private System.Nullable<int> _CID;
+		
+		private System.Nullable<decimal> _Close;
+		
+		public SP_PricesAroundEventsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForDate", DbType="Date")]
+		public System.Nullable<System.DateTime> ForDate
+		{
+			get
+			{
+				return this._ForDate;
+			}
+			set
+			{
+				if ((this._ForDate != value))
+				{
+					this._ForDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoW", DbType="NVarChar(30)")]
+		public string DoW
+		{
+			get
+			{
+				return this._DoW;
+			}
+			set
+			{
+				if ((this._DoW != value))
+				{
+					this._DoW = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", DbType="Int")]
+		public System.Nullable<int> CID
+		{
+			get
+			{
+				return this._CID;
+			}
+			set
+			{
+				if ((this._CID != value))
+				{
+					this._CID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Close]", Storage="_Close", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Close
+		{
+			get
+			{
+				return this._Close;
+			}
+			set
+			{
+				if ((this._Close != value))
+				{
+					this._Close = value;
 				}
 			}
 		}

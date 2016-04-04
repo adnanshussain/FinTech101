@@ -1,0 +1,25 @@
+﻿<table width="30%" border="1">
+    <thead>
+        <tr>
+            <th>Event Description</th>
+            <th style="text-align:center">Event Start Date</th>
+            <th style="text-align:center">Event End Date</th>
+            <th style="text-align:center">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var eventItem in ViewBag.allEvents)
+            {
+                <tr>
+                    <td>@eventItem.EventDesc</td>
+                    <td align="center">@eventItem.StartsOn.ToString("dd-MM-yyyy")</td>
+                    <td align="center">@(eventItem.EndsOn != null ? eventItem.EndsOn.ToString("dd-MM-yyyy") : "")</td>
+                    <td align="center"><span style="font-weight:bold"><a href="javascript:void(0)" class="deleteEvent" id="@eventItem.GlobalEventID">X</a></span></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+

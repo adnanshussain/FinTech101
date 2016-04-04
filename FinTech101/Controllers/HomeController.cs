@@ -35,10 +35,11 @@ namespace FinTech101.Controllers
                              select new
                              {
                                  Value = p.GlobalEventID,
-                                 Text = p.EventDesc,
-                                 Date = p.OccuredOn
+                                 Desc = p.EventDesc,
+                                 StartDate = p.StartsOn,
+                                 EndDate = p.EndsOn
                              };
-                ViewBag.AllEvents = events.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text + " [" + item.Date.ToString("dd MMM yyyy") + "]" }).ToList<SelectListItem>();
+                ViewBag.AllEvents = events.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Desc /*+ " [" + item.StartDate.ToString("dd MMM yyyy") + "]"*/ }).ToList<SelectListItem>();
             }
 
             List<String> years = new List<string>();
@@ -118,13 +119,38 @@ namespace FinTech101.Controllers
 
         public ActionResult q4(int eventID, int weeksBefore, int weeksAfter, int companyID)
         {
+            List<TableRowViewModel> model = null;
+
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 var eventDate = (from p in aadc.GlobalEvents
                                  where p.GlobalEventID == eventID
-                                 select p.OccuredOn).FirstOrDefault();
+                                 select new
+                                 {
+                                     StartDate = p.StartsOn,
+                                     EndDate = p.EndsOn
+                                 }).FirstOrDefault();
 
-                var result = (aadc.SP_PricesAroundEvents(eventDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
+                model = FintechService.GetCompanyPriceAroundDates_UI(eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, weeksBefore, weeksAfter, companyID);
+            }
+
+            return (View("q4_with_range", model));
+        }
+
+        [NonAction]
+        public ActionResult q4_old(int eventID, int weeksBefore, int weeksAfter, int companyID)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var eventDate = (from p in aadc.GlobalEvents
+                                 where p.GlobalEventID == eventID
+                                 select new
+                                 {
+                                     StartDate = p.StartsOn,
+                                     EndDate = p.EndsOn
+                                 }).FirstOrDefault();
+
+                var result = (aadc.SP_PricesAroundEvents(eventDate.StartDate, eventDate.EndDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
 
                 ViewBag.eventDate = eventDate;
 
@@ -154,7 +180,7 @@ namespace FinTech101.Controllers
                     ViewBag.eventDateClosingPriceWasZero = true;
                     var a = (from r in result
                              where r.CID == companyID
-                             && r.ForDate < eventDate
+                             && r.ForDate < eventDate.StartDate
                              && r.Close != 0
                              orderby r.ForDate descending
                              select new
@@ -211,12 +237,83 @@ namespace FinTech101.Controllers
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                ViewBag.result = (from p in aadc.GlobalEvents
-                                  orderby p.OccuredOn
-                                  select p).ToList();
+                var events = (from p in aadc.GlobalEvents
+                                  //where (eventCategoryID > 0 && p.EventCategoryID == eventCategoryID) || true
+                              orderby p.StartsOn
+                              select p).ToList();
+
+                ViewBag.allEvents = events;
+
+                var eventCategories = (from p in aadc.GlobalEventCategories
+                                       select p).ToList();
+
+                var allEventCategories = eventCategories.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList<SelectListItem>();
+                allEventCategories.Insert(0, new SelectListItem() { Value = "0", Text = "SHOW ALL" });
+
+                ViewBag.allEventCategories = allEventCategories;
             }
 
             return (View());
+        }
+
+        public ActionResult EventsList(int eventCategoryID = 0)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var events = (from p in aadc.GlobalEvents
+                              where (eventCategoryID > 0 && p.EventCategoryID == eventCategoryID) || (eventCategoryID == 0)
+                              orderby p.StartsOn
+                              select p).ToList();
+
+                ViewBag.allEvents = events;
+            }
+
+            return (PartialView("_eventsList"));
+        }
+
+        public ActionResult AddEvent()
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var eventCategories = (from p in aadc.GlobalEventCategories
+                                       select p).ToList();
+
+                var allEventCategories = eventCategories.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList<SelectListItem>();
+
+                ViewBag.allEventCategories = allEventCategories;
+            }
+
+            return (View());
+        }
+
+        [HttpPost]
+        public ActionResult AddEvent(GlobalEvent globalEvent)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                aadc.GlobalEvents.InsertOnSubmit(globalEvent);
+                aadc.SubmitChanges();
+            }
+
+            return (Redirect("/home/listevents"));
+        }
+
+        public JsonResult DeleteEvent(int eventID)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                //var ge = (from rec in aadc.GlobalEvents
+                //          where rec.GlobalEventID == eventID
+                //          select rec).Single();
+
+                var ge = new GlobalEvent() { GlobalEventID = eventID };
+
+                aadc.GlobalEvents.Attach(ge);
+                aadc.GlobalEvents.DeleteOnSubmit(ge);
+                aadc.SubmitChanges();
+            }
+
+            return (Json("SUCCESS", JsonRequestBehavior.AllowGet));
         }
 
         public ActionResult AddGlobalEvent()

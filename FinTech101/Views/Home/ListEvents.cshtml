@@ -2,23 +2,14 @@
     ViewBag.Title = "ListEvents";
 }
 <h2>Events</h2>
-<table width="30%" border="1">
-    <thead>
-        <tr>
-            <th>Event Description</th>
-            <th style="text-align:center">Event Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{ 
-            foreach(var eventItem in ViewBag.result)
-            {
-                <tr>
-                    <td>@eventItem.EventDesc</td>
-                    <td align="center">@eventItem.OccuredOn.ToString("dd-MM-yyyy")</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
+<p>Filter By Event Category: @Html.DropDownList("event_categories", new SelectList(ViewBag.allEventCategories, "Value", "Text"))</p>
+<div id="events_list_result">
+    @Html.Partial("_eventsList")
+</div>
+<br/>
+<p>
+    <a href="/home/addevent">Add Event</a>
+</p>
+@section scripts {
+    @Scripts.Render("~/bundles/fintech")
+}

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "AddEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Event</h2>
+<form action="/home/addevent" method="post">
+    Event Category: @Html.DropDownList("EventCategoryID", new SelectList(ViewBag.allEventCategories, "Value", "Text"))
+    Event Desc: @Html.TextBox("EventDesc")
+    Event Start Date: <input type="date" name="StartsOn" />
+    Event End Date: <input type="date" name="EndsOn" />
+    <br/>
+    <input type="submit" value="Save" />
+</form>
+
