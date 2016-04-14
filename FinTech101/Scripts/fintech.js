@@ -26,10 +26,15 @@ function fetchResult(qno, data) {
 $(function () {
     console.log("fintech ready!");
 
+    $("#set_selection").on("change", function () {
+        window.location = "/home/fintech?setid=" + $(this).val();
+    });
+
     $("#q1_go").on("click", function () {
         fetchResult('q1',
             {
-                companyID: $('#q1_company').val(),
+                setID: $('#set_selection').val(),
+                seID: $('#q1_se').val(),
                 upOrDown: $('#q1_uod').val(),
                 percent: $('#q1_percent').val(),
                 fromYear: $('#q1_from_year').val(),
@@ -38,21 +43,12 @@ $(function () {
     });
 
     $("#q2_go").on("click", function () {
-        initResults();
-
-        $.ajax('/home/q2', {
-            data: {
-                companyID: $('#q2_company').val(),
+        fetchResult("q2",
+            {
+                setID: $('#set_selection').val(),
+                seID: $('#q2_se').val(),
                 year: $('#q2_year').val()
-            },
-            success: function (data, status, xhrObj) {
-                console.log("ajax success");
-                $('#result').html(data);
-            },
-            error: function (xhrObj, status, errorThrown) {
-                resultWasError();
-            }
-        })
+            });
     });
 
     $("#q3_go").on("click", function () {

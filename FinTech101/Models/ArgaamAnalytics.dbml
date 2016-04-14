@@ -1,33 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Argaam_Analytics" Class="ArgaamAnalyticsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=172.16.3.51;Initial Catalog=Argaam_Analytics;User ID=argplus_user" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Argaam_AnalyticsConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Companies" Member="Companies">
-    <Type Name="Company">
-      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CompanyNameEn" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="CompanyNameAr" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="HasOnlyBasicProfile" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="StockSymbol" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
-      <Column Name="MarketStatusID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="OwnershipTypeID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="CompanyActivityCategoryID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="ShortNameEn" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
-      <Column Name="ShortNameAr" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
-      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CurrencyID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="CountryOfOriginID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="LogoID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="LogoURL" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
-      <Column Name="YearEndMonth" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
-      <Column Name="ArgaamID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="IsVisibleInPetrochemical" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="SalaryUnit" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="CountryID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="CityID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="IsTotalSalariesAndBonusesUsed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsBroker" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsSponsor" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
+  <Connection Mode="WebSettings" ConnectionString="Data Source=danat-adnan;Initial Catalog=Argaam_Analytics;User ID=argplus_user" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Argaam_AnalyticsConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.GlobalEventCategories" Member="GlobalEventCategories">
     <Type Name="GlobalEventCategory">
       <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -43,21 +15,69 @@
       <Column Name="EndsOn" Type="System.DateTime" DbType="Date" CanBeNull="true" UpdateCheck="Never" />
     </Type>
   </Table>
-  <Function Name="dbo.SP_CommpanyGoodAndBadDays" Method="SP_CommpanyGoodAndBadDays">
-    <Parameter Name="company_id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="year" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_CommpanyGoodAndBadDaysResult">
+  <Table Name="dbo.StockEntities" Member="StockEntities">
+    <Type Name="StockEntity">
+      <Column Name="StockEntityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NameEn" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="NameAr" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ShortNameEn" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ShortNameAr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Symbol" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StockEntityTypes" Member="StockEntityTypes">
+    <Type Name="StockEntityType">
+      <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StockEntityTypeName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StockEntityPrices" Member="StockEntityPrices">
+    <Type Name="StockEntityPrice">
+      <Column Name="StockEntityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="[Open]" Member="Open" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Min" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Max" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Volume" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.SP_PricesAroundEventDate" Method="SP_PricesAroundEventDate">
+    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_event_end_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_type_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_PricesAroundEventDateResult">
+      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="CID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SET_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SP_StockEntityGoodAndBadDays" Method="SP_StockEntityGoodAndBadDays">
+    <Parameter Name="p_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_type_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_year" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_StockEntityGoodAndBadDaysResult">
       <Column Name="Day" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="NoChange" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Positive" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Negative" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.SP_MonthsCompanyWasUpOrDown" Method="SP_MonthsCompanyWasUpOrDown">
-    <Parameter Name="from_year" Type="System.Int32" DbType="Int" />
-    <Parameter Name="to_year" Type="System.Int32" DbType="Int" />
-    <Parameter Name="company_ID" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_MonthsCompanyWasUpOrDownResult">
+  <Function Name="dbo.SP_StockEntityTypeUpAndDownMonths" Method="SP_StockEntityTypeUpAndDownMonths">
+    <Parameter Name="p_from_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_to_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_type_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_StockEntityTypeUpAndDownMonthsResult">
+      <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StockEntityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="[1]" Member="_1" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[2]" Member="_2" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
@@ -73,11 +93,12 @@
       <Column Name="[12]" Member="_12" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.SP_MonthsInWhichCompaniesWereUpAndDown" Method="SP_MonthsInWhichCompaniesWereUpAndDown">
-    <Parameter Name="from_year" Type="System.Int32" DbType="Int" />
-    <Parameter Name="to_year" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_MonthsInWhichCompaniesWereUpAndDownResult">
-      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+  <Function Name="dbo.SP_StockEntityUpDownMonths" Method="SP_StockEntityUpDownMonths">
+    <Parameter Name="p_from_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_to_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_type_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_StockEntityUpDownMonthsResult">
       <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="[1]" Member="_1" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
       <Column Name="[2]" Member="_2" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
@@ -93,30 +114,18 @@
       <Column Name="[12]" Member="_12" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.SP_CompanyUpOrDownByPercent" Method="SP_CompanyUpOrDownByPercent">
-    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
+  <Function Name="dbo.SP_StockEntityWasUpOrDownByPercent" Method="SP_StockEntityWasUpOrDownByPercent">
+    <Parameter Name="p_stock_entity_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_stock_entity_type_id" Type="System.Int32" DbType="Int" />
     <Parameter Name="p_up_or_down" Type="System.String" DbType="VarChar(8)" />
     <Parameter Name="p_percent" Type="System.Decimal" DbType="Decimal(18,0)" />
     <Parameter Name="p_from_year" Type="System.Int32" DbType="Int" />
     <Parameter Name="p_to_year" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_CompanyUpOrDownByPercentResult">
+    <ElementType Name="SP_StockEntityWasUpOrDownByPercentResult">
       <Column Name="year" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="month" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="day" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="theDate" Type="System.String" DbType="NVarChar(33)" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.SP_PricesAroundEvents" Method="SP_PricesAroundEvents">
-    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
-    <Parameter Name="p_event_end_date" Type="System.DateTime" DbType="Date" />
-    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_company_id" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_PricesAroundEventsResult">
-      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
-      <Column Name="CID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

@@ -181,6 +181,7 @@
       <DependentUpon>ArgaamAnalytics.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\DateWithDoW.cs" />
+    <Compile Include="Models\FintechHomeViewModel.cs" />
     <Compile Include="Models\FintechService.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

@@ -15,21 +15,36 @@ namespace FinTech101.Controllers
             return View();
         }
 
-        public ActionResult Fintech()
+        public ActionResult Fintech(int setID = 1)
         {
+            FintechHomeViewModel model = new FintechHomeViewModel();
+
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var companies = from p in aadc.Companies
-                                where p.IsActive == true
-                                && p.HasOnlyBasicProfile == false
-                                && p.MarketStatusID == 3
-                                orderby p.ShortNameEn
-                                select new
-                                {
-                                    Value = p.CompanyID,
-                                    Text = p.ShortNameEn + " - " + p.CompanyNameEn
-                                };
-                ViewBag.AllCompanies = companies.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text }).ToList<SelectListItem>();
+                var stockEntityTypes = from p in aadc.StockEntityTypes
+                                       select new
+                                       {
+                                           Value = p.StockEntityTypeID,
+                                           Text = p.StockEntityTypeName
+                                       };
+                model.StockEntityTypes = new SelectList(stockEntityTypes.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text }).ToList<SelectListItem>(), "Value", "Text", setID);
+
+                var stockEntities = from p in aadc.StockEntities
+                                    where p.StockEntityTypeID == setID
+                                    orderby p.NameEn
+                                    select p;
+                model.StockEntities = new SelectList(stockEntities.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.StockEntityID.ToString(), Text = item.NameEn }).ToList<SelectListItem>(), "Value", "Text");
+
+                model.SetMinYear = (from p in aadc.StockEntityPrices where p.StockEntityTypeID == setID select p.ForDate).Min().Value.Year;
+                model.SetMaxYear = (from p in aadc.StockEntityPrices where p.StockEntityTypeID == setID select p.ForDate).Max().Value.Year;
+                List<String> years = new List<string>();
+                for (int i = model.SetMinYear; i <= model.SetMaxYear; i++)
+                {
+                    years.Add(i.ToString());
+                }
+
+                model.SetActiveYears_From = new SelectList(years.Select(year => new SelectListItem() { Value = year, Text = year }), "Value", "Text", model.SetMinYear);
+                model.SetActiveYears_To = new SelectList(years.Select(year => new SelectListItem() { Value = year, Text = year }), "Value", "Text", model.SetMaxYear);
 
                 var events = from p in aadc.GlobalEvents
                              select new
@@ -42,20 +57,12 @@ namespace FinTech101.Controllers
                 ViewBag.AllEvents = events.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Desc /*+ " [" + item.StartDate.ToString("dd MMM yyyy") + "]"*/ }).ToList<SelectListItem>();
             }
 
-            List<String> years = new List<string>();
-            for (int i = 1993; i <= 2016; i++)
-            {
-                years.Add(i.ToString());
-            }
-
-            ViewBag.AllYearsSL = new SelectList(years.Select(year => new SelectListItem() { Value = year, Text = year }), "Value", "Text");
-
-            return View();
+            return View(model);
         }
 
-        public ActionResult q1(int companyID, string upOrDown, float percent, int fromYear, int toYear)
+        public ActionResult q1(int setID, int seID, string upOrDown, decimal percent, int fromYear, int toYear)
         {
-            var result = FintechService.CompanyWasUpOrDownByPercent(companyID, upOrDown, percent, fromYear, toYear);
+            var result = FintechService.StockEntityWasUpOrDownByPercent(setID, seID, upOrDown, percent, fromYear, toYear);
 
             ViewBag.result = result;
 
@@ -70,11 +77,11 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
-        public ActionResult q2(int companyID, int year)
+        public ActionResult q2(int setID, int seID, int year)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_CommpanyGoodAndBadDays(companyID, year);
+                var result = aadc.SP_StockEntityGoodAndBadDays(seID, setID, year);
 
                 ViewBag.result = result.ToList();
             }
@@ -87,7 +94,7 @@ namespace FinTech101.Controllers
         {
             ViewBag.result = FintechService.MonthsCompanyWasUpOrDown(companyID, from_year, to_year);
 
-            ViewBag.CompanyName = FintechService.GetCompany(companyID).CompanyNameEn;
+            //ViewBag.CompanyName = FintechService.GetCompany(companyID).CompanyNameEn;
 
             ViewBag.isPartial = isPartial;
 
@@ -97,9 +104,9 @@ namespace FinTech101.Controllers
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
+                //var result = aadc.SP_MonthsCompanyWasUpOrDown(from_year, to_year, companyID);
 
-                ViewBag.result = result.ToList();
+                //ViewBag.result = result.ToList();
             }
 
             return Json(ViewBag.result, JsonRequestBehavior.AllowGet);
@@ -108,7 +115,7 @@ namespace FinTech101.Controllers
         // Which companies were up more than n percent in selected date range
         public ActionResult q5(int from_year, int to_year, decimal percent)
         {
-            ViewBag.result = FintechService.CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(from_year, to_year, percent);
+            //ViewBag.result = FintechService.CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(from_year, to_year, percent);
 
             ViewBag.percent = percent;
             ViewBag.fromYear = from_year;
@@ -131,7 +138,7 @@ namespace FinTech101.Controllers
                                      EndDate = p.EndsOn
                                  }).FirstOrDefault();
 
-                model = FintechService.GetCompanyPriceAroundDates_UI(eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, weeksBefore, weeksAfter, companyID);
+                //model = FintechService.GetCompanyPriceAroundDates_UI(eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, weeksBefore, weeksAfter, companyID);
             }
 
             return (View("q4_with_range", model));
@@ -150,7 +157,7 @@ namespace FinTech101.Controllers
                                      EndDate = p.EndsOn
                                  }).FirstOrDefault();
 
-                var result = (aadc.SP_PricesAroundEvents(eventDate.StartDate, eventDate.EndDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
+                var result = new List<SP_PricesAroundEventDateResult>();// (aadc.SP_PricesAroundEvents(eventDate.StartDate, eventDate.EndDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
 
                 ViewBag.eventDate = eventDate;
 
@@ -166,9 +173,9 @@ namespace FinTech101.Controllers
                                        }).ToList();
 
                 ViewBag.CompanyID = companyID;
-                ViewBag.CompanyName = (from p in aadc.Companies
+                /*ViewBag.CompanyName = (from p in aadc.Companies
                                        where p.CompanyID == companyID
-                                       select p.CompanyNameEn).FirstOrDefault();
+                                       select p.CompanyNameEn).FirstOrDefault();*/
 
                 ViewBag.eventDateClosingPriceWasZero = false;
                 ViewBag.eventDateClosingPrice = (from r in result

@@ -2,40 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace FinTech101.Models
 {
     public class FintechService
     {
-        public static Company GetCompany(int companyID)
+        public static List<SP_StockEntityWasUpOrDownByPercentResult> StockEntityWasUpOrDownByPercent(int setID, int seID, string upOrDown, decimal percent, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = (from p in aadc.Companies
-                              where p.CompanyID == companyID
-                              select p).FirstOrDefault();
-
-                return result;
-            }
-        }
-
-        public static List<SP_CompanyUpOrDownByPercentResult> CompanyWasUpOrDownByPercent(int companyID, string upOrDown, float percent, int fromYear, int toYear)
-        {
-            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
-            {
-                var result = aadc.SP_CompanyUpOrDownByPercent(companyID, upOrDown, (decimal)percent, fromYear, toYear);
+                var result = aadc.SP_StockEntityWasUpOrDownByPercent(seID, setID, upOrDown, percent, fromYear, toYear);
 
                 return result.ToList();
             }
         }
 
-        public static List<SP_MonthsCompanyWasUpOrDownResult> MonthsCompanyWasUpOrDown(int companyID, int fromYear, int toYear)
+        public static List<SP_StockEntityUpDownMonthsResult> MonthsCompanyWasUpOrDown(int companyID, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_MonthsCompanyWasUpOrDown(fromYear, toYear, companyID).ToList();
+                var result = aadc.SP_StockEntityUpDownMonths(fromYear, toYear, companyID, 1).ToList();
 
-                SP_MonthsCompanyWasUpOrDownResult summaryRow = new SP_MonthsCompanyWasUpOrDownResult();
+                SP_StockEntityUpDownMonthsResult summaryRow = new SP_StockEntityUpDownMonthsResult();
                 summaryRow.Year = 0;
 
                 decimal[] positiveItems = new decimal[12]; // Enumerable.Repeat(0, 12).ToArray();
@@ -82,6 +71,7 @@ namespace FinTech101.Models
             }
         }
 
+        /*
         public static List<SP_MonthsInWhichCompaniesWereUpAndDownResult> CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(int fromYear, int toYear, decimal percent)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
@@ -179,7 +169,9 @@ namespace FinTech101.Models
                 return (retVal);
             }
         }
+        */
 
+        /*
         public static List<TableRowViewModel> GetCompanyPriceAroundDates_UI(DateTime startsOn, DateTime? endsOn, int weeksBefore, int weeksAfter, int companyID)
         {
             var result = new List<TableRowViewModel>();
@@ -383,11 +375,7 @@ namespace FinTech101.Models
                 {
                     TableCellViewModel cell = new TableCellViewModel();
 
-                    /*if(i < firstValidPriceIndex)
-                    {
-                        row4.TableCells.Add(cell);
-                    }
-                    else */if(i == firstValidPriceIndex)
+                    if(i == firstValidPriceIndex)
                     {
                         var firstClosingPriceChangePercent = (((eventDateClosingPrice - firstValidClosingPrice) / firstValidClosingPrice) * 100);
                         cell.Text = firstClosingPriceChangePercent.Value.ToString("0.00") + "%";
@@ -428,5 +416,6 @@ namespace FinTech101.Models
 
             return (result);
         }
+        */
     }
 }
