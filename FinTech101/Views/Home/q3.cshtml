@@ -41,7 +41,7 @@
                         {
                             var pName = "_" + i.ToString();
                             decimal? monthVal = (decimal?) item.GetType().GetProperty(pName).GetValue(item, null);
-                            <td style="text-align:center; background-color:@(monthVal.HasValue && monthVal.Value > 0 ? "lightgreen" : "white")">@(monthVal.HasValue ? monthVal.Value : 0)</td>
+                            <td style="text-align:center; background-color:@(monthVal.HasValue && monthVal.Value > 0 ? "lightgreen" : "white")">@(monthVal.HasValue ? monthVal.Value.ToString("0.00") : "0")</td>
                         }
                     </tr>
                 }

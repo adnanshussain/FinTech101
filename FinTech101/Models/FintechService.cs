@@ -85,9 +85,7 @@ namespace FinTech101.Models
 
                 foreach (int seID in distinctSeIDs)
                 {
-                    var seRecords = (from r in result
-                                          where r.StockEntityID == seID
-                                          select r).ToList();
+                    var seRecords = (from r in result where r.StockEntityID == seID select r).ToList();
 
                     SP_Q5_StockEntityTypeUpAndDownMonthsResult summaryRow = new SP_Q5_StockEntityTypeUpAndDownMonthsResult();
                     summaryRow.StockEntityName = FintechService.GetStockEntity(setID, seID).NameEn;
@@ -125,7 +123,7 @@ namespace FinTech101.Models
 
                         if (monthsActive < 12)
                         {
-                            yearsActive += (decimal)monthsActive / 12;
+                            yearsActive += (decimal) monthsActive / 12;
                         }
                         else
                         {
