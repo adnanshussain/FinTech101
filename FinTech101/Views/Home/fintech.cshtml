@@ -20,10 +20,10 @@
 </p>
 @*    <p class="well well-sm" style="width:65%">
         <span style="font-weight:bold">Q4:</span> Show the prices of @Html.DropDownList("q4_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) @Html.TextBox("q4_weeks_before", 1, new { size = 3 }) week(s) before and @Html.TextBox("q4_weeks_after", 1, new { size = 3 }) week(s) after @Html.DropDownList("q4_event", new SelectList(ViewBag.AllEvents, "Value", "Text")) <button id="q4_go">Go</button>
-    </p>
-    <p class="well well-sm" style="width:65%">
-        <span style="font-weight:bold">Q5:</span> Which companies were up more than @Html.TextBox("q5_percent", 70, new { size = 3 }) % from @Html.DropDownList("q5_from_year", (SelectList)ViewBag.AllYearsSL) to @Html.DropDownList("q5_to_year", (SelectList)ViewBag.AllYearsSL) <button id="q5_go">Go</button>
     </p>*@
+<p class="well well-sm" style="width:65%">
+    <span style="font-weight:bold">Q5:</span> Which @Model.SelectedSET.Text was up more than @Html.TextBox("q5_percent", 70, new { size = 3 }) % from @Html.DropDownList("q5_from_year", Model.SetActiveYears_From) to @Html.DropDownList("q5_to_year", Model.SetActiveYears_To) <button id="q5_go">Go</button>
+</p>
 
 <h2>Fintech Results</h2>
 <div id="result">

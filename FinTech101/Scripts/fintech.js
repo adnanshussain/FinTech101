@@ -97,6 +97,7 @@ $(function () {
 
         $.ajax('/home/q5', {
             data: {
+                setID: $('#set_selection').val(),
                 percent: $('#q5_percent').val(),
                 from_year: $('#q5_from_year').val(),
                 to_year: $('#q5_to_year').val()

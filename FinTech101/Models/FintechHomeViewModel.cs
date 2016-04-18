@@ -14,5 +14,6 @@ namespace FinTech101.Models
         public SelectList SetActiveYears_To;
         public int SetMinYear;
         public int SetMaxYear;
+        public ValueTextModel SelectedSET;
     }
 }

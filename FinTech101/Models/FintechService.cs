@@ -71,28 +71,27 @@ namespace FinTech101.Models
             }
         }
 
-        /*
-        public static List<SP_MonthsInWhichCompaniesWereUpAndDownResult> CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(int fromYear, int toYear, decimal percent)
+        public static List<SP_StockEntityTypeUpAndDownMonthsResult> StockEntityTypesWhichWereUpMoreThanEnnPercentOfTheTime(int setID, int fromYear, int toYear, decimal percent)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var companies = (from p in aadc.Companies select p).ToList();
+                var stockEntities = FintechService.GetStockEntities(setID);
 
-                var result = aadc.SP_MonthsInWhichCompaniesWereUpAndDown(fromYear, toYear).ToList();
+                var result = aadc.SP_StockEntityTypeUpAndDownMonths(fromYear, toYear, setID).ToList();
 
-                List<SP_MonthsInWhichCompaniesWereUpAndDownResult> retVal = new List<SP_MonthsInWhichCompaniesWereUpAndDownResult>();
-                var distinctCompanyIDs = (from r in result
-                                          select r.CompanyID).Distinct().ToList();
+                List<SP_StockEntityTypeUpAndDownMonthsResult> retVal = new List<SP_StockEntityTypeUpAndDownMonthsResult>();
+                var distinctSeIDs = (from r in result
+                                          select r.StockEntityID).Distinct().ToList();
 
-                foreach (int companyID in distinctCompanyIDs)
+                foreach (int seID in distinctSeIDs)
                 {
-                    var companyRecords = (from r in result
-                                          where r.CompanyID == companyID
+                    var seRecords = (from r in result
+                                          where r.StockEntityID == seID
                                           select r).ToList();
 
-                    SP_MonthsInWhichCompaniesWereUpAndDownResult summaryRow = new SP_MonthsInWhichCompaniesWereUpAndDownResult();
-                    summaryRow.CompanyName = (from c in companies where c.CompanyID == companyID select c.CompanyNameEn).FirstOrDefault();
-                    summaryRow.CompanyID = companyID;
+                    SP_StockEntityTypeUpAndDownMonthsResult summaryRow = new SP_StockEntityTypeUpAndDownMonthsResult();
+                    summaryRow.StockEntityName = FintechService.GetStockEntity(setID, seID).NameEn;
+                    summaryRow.StockEntityID = seID;
                     summaryRow.Year = 0;
 
                     decimal[] positiveItems = new decimal[12]; // Enumerable.Repeat(0, 12).ToArray();
@@ -102,7 +101,7 @@ namespace FinTech101.Models
                     decimal yearsActive = 0;
                     int monthsActive = 0;
 
-                    foreach (var item in companyRecords)
+                    foreach (var item in seRecords)
                     {
                         if (startYear == 0)
                         {
@@ -169,7 +168,6 @@ namespace FinTech101.Models
                 return (retVal);
             }
         }
-        */
 
         /*
         public static List<TableRowViewModel> GetCompanyPriceAroundDates_UI(DateTime startsOn, DateTime? endsOn, int weeksBefore, int weeksAfter, int companyID)
@@ -417,6 +415,16 @@ namespace FinTech101.Models
             return (result);
         }
         */
+
+        public static List<StockEntity> GetStockEntities(int setID)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                return (from p in aadc.StockEntities
+                                      where p.StockEntityTypeID == setID
+                                      select p).ToList();
+            }
+        }
 
         public static StockEntity GetStockEntity(int setID, int seID)
         {

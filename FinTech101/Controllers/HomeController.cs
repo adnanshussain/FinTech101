@@ -22,12 +22,13 @@ namespace FinTech101.Controllers
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 var stockEntityTypes = from p in aadc.StockEntityTypes
-                                       select new
+                                       select new ValueTextModel
                                        {
                                            Value = p.StockEntityTypeID,
                                            Text = p.StockEntityTypeName
                                        };
                 model.StockEntityTypes = new SelectList(stockEntityTypes.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Text }).ToList<SelectListItem>(), "Value", "Text", setID);
+                model.SelectedSET = (from p in stockEntityTypes where p.Value == setID select p).First();
 
                 var stockEntities = from p in aadc.StockEntities
                                     where p.StockEntityTypeID == setID
@@ -78,6 +79,7 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
+        // What were the number of good / bad / neutral days for a Stock Entity in a specified year
         public ActionResult q2(int setID, int seID, int year)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
@@ -90,7 +92,7 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
-        // Months company was up or down
+        // Months in which a Stock entity was up or down in a date range
         public ActionResult q3(int setID, int seID, int from_year, int to_year, bool isPartial)
         {
             ViewData["RESULT"] = FintechService.MonthsCompanyWasUpOrDown(setID, seID, from_year, to_year);
@@ -113,13 +115,14 @@ namespace FinTech101.Controllers
         }
 
         // Which companies were up more than n percent in selected date range
-        public ActionResult q5(int from_year, int to_year, decimal percent)
+        public ActionResult q5(int setID, int from_year, int to_year, decimal percent)
         {
-            //ViewBag.result = FintechService.CompaniesWhichWereUpMoreThanEnnPercentOfTheTime(from_year, to_year, percent);
+            ViewBag.result = FintechService.StockEntityTypesWhichWereUpMoreThanEnnPercentOfTheTime(setID, from_year, to_year, percent);
 
             ViewBag.percent = percent;
             ViewBag.fromYear = from_year;
             ViewBag.toYear = to_year;
+            ViewBag.setID = setID;
 
             return PartialView();
         }
