@@ -108,39 +108,39 @@ namespace FinTech101.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_PricesAroundEventDate")]
-		public ISingleResult<SP_PricesAroundEventDateResult> SP_PricesAroundEventDate([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_end_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_after, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_week_before, p_week_after, p_se_id, p_se_type_id);
-			return ((ISingleResult<SP_PricesAroundEventDateResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_StockEntityGoodAndBadDays")]
-		public ISingleResult<SP_StockEntityGoodAndBadDaysResult> SP_StockEntityGoodAndBadDays([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_year)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_se_id, p_se_type_id, p_year);
-			return ((ISingleResult<SP_StockEntityGoodAndBadDaysResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_StockEntityTypeUpAndDownMonths")]
-		public ISingleResult<SP_StockEntityTypeUpAndDownMonthsResult> SP_StockEntityTypeUpAndDownMonths([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_from_year, p_to_year, p_se_type_id);
-			return ((ISingleResult<SP_StockEntityTypeUpAndDownMonthsResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_StockEntityUpDownMonths")]
-		public ISingleResult<SP_StockEntityUpDownMonthsResult> SP_StockEntityUpDownMonths([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_from_year, p_to_year, p_se_id, p_se_type_id);
-			return ((ISingleResult<SP_StockEntityUpDownMonthsResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_StockEntityWasUpOrDownByPercent")]
-		public ISingleResult<SP_StockEntityWasUpOrDownByPercentResult> SP_StockEntityWasUpOrDownByPercent([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_stock_entity_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_stock_entity_type_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8)")] string p_up_or_down, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Decimal(18,0)")] System.Nullable<decimal> p_percent, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q1_StockEntityWasUpOrDownByPercent")]
+		public ISingleResult<SP_Q1_StockEntityWasUpOrDownByPercentResult> SP_Q1_StockEntityWasUpOrDownByPercent([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_stock_entity_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_stock_entity_type_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8)")] string p_up_or_down, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Decimal(18,0)")] System.Nullable<decimal> p_percent, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_stock_entity_id, p_stock_entity_type_id, p_up_or_down, p_percent, p_from_year, p_to_year);
-			return ((ISingleResult<SP_StockEntityWasUpOrDownByPercentResult>)(result.ReturnValue));
+			return ((ISingleResult<SP_Q1_StockEntityWasUpOrDownByPercentResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q2_StockEntityGoodAndBadDays")]
+		public ISingleResult<SP_Q2_StockEntityGoodAndBadDaysResult> SP_Q2_StockEntityGoodAndBadDays([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_year)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_se_id, p_se_type_id, p_year);
+			return ((ISingleResult<SP_Q2_StockEntityGoodAndBadDaysResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q3_StockEntityUpDownMonths")]
+		public ISingleResult<SP_Q3_StockEntityUpDownMonthsResult> SP_Q3_StockEntityUpDownMonths([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_from_year, p_to_year, p_se_id, p_se_type_id);
+			return ((ISingleResult<SP_Q3_StockEntityUpDownMonthsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q4_PricesAroundEventDate")]
+		public ISingleResult<SP_Q4_PricesAroundEventDateResult> SP_Q4_PricesAroundEventDate([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_end_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_after, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_week_before, p_week_after, p_se_id, p_se_type_id);
+			return ((ISingleResult<SP_Q4_PricesAroundEventDateResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q5_StockEntityTypeUpAndDownMonths")]
+		public ISingleResult<SP_Q5_StockEntityTypeUpAndDownMonthsResult> SP_Q5_StockEntityTypeUpAndDownMonths([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_from_year, p_to_year, p_se_type_id);
+			return ((ISingleResult<SP_Q5_StockEntityTypeUpAndDownMonthsResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -739,7 +739,409 @@ namespace FinTech101.Models
 		}
 	}
 	
-	public partial class SP_PricesAroundEventDateResult
+	public partial class SP_Q1_StockEntityWasUpOrDownByPercentResult
+	{
+		
+		private System.Nullable<int> _year;
+		
+		private System.Nullable<int> _month;
+		
+		private System.Nullable<int> _day;
+		
+		private string _theDate;
+		
+		public SP_Q1_StockEntityWasUpOrDownByPercentResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_year", DbType="Int")]
+		public System.Nullable<int> year
+		{
+			get
+			{
+				return this._year;
+			}
+			set
+			{
+				if ((this._year != value))
+				{
+					this._year = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_month", DbType="Int")]
+		public System.Nullable<int> month
+		{
+			get
+			{
+				return this._month;
+			}
+			set
+			{
+				if ((this._month != value))
+				{
+					this._month = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_day", DbType="Int")]
+		public System.Nullable<int> day
+		{
+			get
+			{
+				return this._day;
+			}
+			set
+			{
+				if ((this._day != value))
+				{
+					this._day = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_theDate", DbType="NVarChar(33)")]
+		public string theDate
+		{
+			get
+			{
+				return this._theDate;
+			}
+			set
+			{
+				if ((this._theDate != value))
+				{
+					this._theDate = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_Q2_StockEntityGoodAndBadDaysResult
+	{
+		
+		private System.Nullable<int> _Day;
+		
+		private System.Nullable<int> _NoChange;
+		
+		private System.Nullable<int> _Positive;
+		
+		private System.Nullable<int> _Negative;
+		
+		public SP_Q2_StockEntityGoodAndBadDaysResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Day", DbType="Int")]
+		public System.Nullable<int> Day
+		{
+			get
+			{
+				return this._Day;
+			}
+			set
+			{
+				if ((this._Day != value))
+				{
+					this._Day = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NoChange", DbType="Int")]
+		public System.Nullable<int> NoChange
+		{
+			get
+			{
+				return this._NoChange;
+			}
+			set
+			{
+				if ((this._NoChange != value))
+				{
+					this._NoChange = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Positive", DbType="Int")]
+		public System.Nullable<int> Positive
+		{
+			get
+			{
+				return this._Positive;
+			}
+			set
+			{
+				if ((this._Positive != value))
+				{
+					this._Positive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Negative", DbType="Int")]
+		public System.Nullable<int> Negative
+		{
+			get
+			{
+				return this._Negative;
+			}
+			set
+			{
+				if ((this._Negative != value))
+				{
+					this._Negative = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_Q3_StockEntityUpDownMonthsResult
+	{
+		
+		private System.Nullable<int> _Year;
+		
+		private System.Nullable<decimal> @__1;
+		
+		private System.Nullable<decimal> @__2;
+		
+		private System.Nullable<decimal> @__3;
+		
+		private System.Nullable<decimal> @__4;
+		
+		private System.Nullable<decimal> @__5;
+		
+		private System.Nullable<decimal> @__6;
+		
+		private System.Nullable<decimal> @__7;
+		
+		private System.Nullable<decimal> @__8;
+		
+		private System.Nullable<decimal> @__9;
+		
+		private System.Nullable<decimal> @__10;
+		
+		private System.Nullable<decimal> @__11;
+		
+		private System.Nullable<decimal> @__12;
+		
+		public SP_Q3_StockEntityUpDownMonthsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int")]
+		public System.Nullable<int> Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this._Year = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[1]", Storage="__1", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _1
+		{
+			get
+			{
+				return this.@__1;
+			}
+			set
+			{
+				if ((this.@__1 != value))
+				{
+					this.@__1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[2]", Storage="__2", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _2
+		{
+			get
+			{
+				return this.@__2;
+			}
+			set
+			{
+				if ((this.@__2 != value))
+				{
+					this.@__2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[3]", Storage="__3", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _3
+		{
+			get
+			{
+				return this.@__3;
+			}
+			set
+			{
+				if ((this.@__3 != value))
+				{
+					this.@__3 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[4]", Storage="__4", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _4
+		{
+			get
+			{
+				return this.@__4;
+			}
+			set
+			{
+				if ((this.@__4 != value))
+				{
+					this.@__4 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[5]", Storage="__5", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _5
+		{
+			get
+			{
+				return this.@__5;
+			}
+			set
+			{
+				if ((this.@__5 != value))
+				{
+					this.@__5 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[6]", Storage="__6", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _6
+		{
+			get
+			{
+				return this.@__6;
+			}
+			set
+			{
+				if ((this.@__6 != value))
+				{
+					this.@__6 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[7]", Storage="__7", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _7
+		{
+			get
+			{
+				return this.@__7;
+			}
+			set
+			{
+				if ((this.@__7 != value))
+				{
+					this.@__7 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[8]", Storage="__8", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _8
+		{
+			get
+			{
+				return this.@__8;
+			}
+			set
+			{
+				if ((this.@__8 != value))
+				{
+					this.@__8 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[9]", Storage="__9", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _9
+		{
+			get
+			{
+				return this.@__9;
+			}
+			set
+			{
+				if ((this.@__9 != value))
+				{
+					this.@__9 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[10]", Storage="__10", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _10
+		{
+			get
+			{
+				return this.@__10;
+			}
+			set
+			{
+				if ((this.@__10 != value))
+				{
+					this.@__10 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[11]", Storage="__11", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _11
+		{
+			get
+			{
+				return this.@__11;
+			}
+			set
+			{
+				if ((this.@__11 != value))
+				{
+					this.@__11 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[12]", Storage="__12", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> _12
+		{
+			get
+			{
+				return this.@__12;
+			}
+			set
+			{
+				if ((this.@__12 != value))
+				{
+					this.@__12 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_Q4_PricesAroundEventDateResult
 	{
 		
 		private System.Nullable<System.DateTime> _ForDate;
@@ -752,7 +1154,7 @@ namespace FinTech101.Models
 		
 		private System.Nullable<decimal> _Close;
 		
-		public SP_PricesAroundEventDateResult()
+		public SP_Q4_PricesAroundEventDateResult()
 		{
 		}
 		
@@ -837,87 +1239,7 @@ namespace FinTech101.Models
 		}
 	}
 	
-	public partial class SP_StockEntityGoodAndBadDaysResult
-	{
-		
-		private System.Nullable<int> _Day;
-		
-		private System.Nullable<int> _NoChange;
-		
-		private System.Nullable<int> _Positive;
-		
-		private System.Nullable<int> _Negative;
-		
-		public SP_StockEntityGoodAndBadDaysResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Day", DbType="Int")]
-		public System.Nullable<int> Day
-		{
-			get
-			{
-				return this._Day;
-			}
-			set
-			{
-				if ((this._Day != value))
-				{
-					this._Day = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NoChange", DbType="Int")]
-		public System.Nullable<int> NoChange
-		{
-			get
-			{
-				return this._NoChange;
-			}
-			set
-			{
-				if ((this._NoChange != value))
-				{
-					this._NoChange = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Positive", DbType="Int")]
-		public System.Nullable<int> Positive
-		{
-			get
-			{
-				return this._Positive;
-			}
-			set
-			{
-				if ((this._Positive != value))
-				{
-					this._Positive = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Negative", DbType="Int")]
-		public System.Nullable<int> Negative
-		{
-			get
-			{
-				return this._Negative;
-			}
-			set
-			{
-				if ((this._Negative != value))
-				{
-					this._Negative = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SP_StockEntityTypeUpAndDownMonthsResult
+	public partial class SP_Q5_StockEntityTypeUpAndDownMonthsResult
 	{
 		
 		private int _StockEntityTypeID;
@@ -950,7 +1272,7 @@ namespace FinTech101.Models
 		
 		private System.Nullable<decimal> @__12;
 		
-		public SP_StockEntityTypeUpAndDownMonthsResult()
+		public SP_Q5_StockEntityTypeUpAndDownMonthsResult()
 		{
 		}
 		
@@ -1190,328 +1512,6 @@ namespace FinTech101.Models
 				if ((this.@__12 != value))
 				{
 					this.@__12 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SP_StockEntityUpDownMonthsResult
-	{
-		
-		private System.Nullable<int> _Year;
-		
-		private System.Nullable<decimal> @__1;
-		
-		private System.Nullable<decimal> @__2;
-		
-		private System.Nullable<decimal> @__3;
-		
-		private System.Nullable<decimal> @__4;
-		
-		private System.Nullable<decimal> @__5;
-		
-		private System.Nullable<decimal> @__6;
-		
-		private System.Nullable<decimal> @__7;
-		
-		private System.Nullable<decimal> @__8;
-		
-		private System.Nullable<decimal> @__9;
-		
-		private System.Nullable<decimal> @__10;
-		
-		private System.Nullable<decimal> @__11;
-		
-		private System.Nullable<decimal> @__12;
-		
-		public SP_StockEntityUpDownMonthsResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int")]
-		public System.Nullable<int> Year
-		{
-			get
-			{
-				return this._Year;
-			}
-			set
-			{
-				if ((this._Year != value))
-				{
-					this._Year = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[1]", Storage="__1", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _1
-		{
-			get
-			{
-				return this.@__1;
-			}
-			set
-			{
-				if ((this.@__1 != value))
-				{
-					this.@__1 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[2]", Storage="__2", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _2
-		{
-			get
-			{
-				return this.@__2;
-			}
-			set
-			{
-				if ((this.@__2 != value))
-				{
-					this.@__2 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[3]", Storage="__3", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _3
-		{
-			get
-			{
-				return this.@__3;
-			}
-			set
-			{
-				if ((this.@__3 != value))
-				{
-					this.@__3 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[4]", Storage="__4", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _4
-		{
-			get
-			{
-				return this.@__4;
-			}
-			set
-			{
-				if ((this.@__4 != value))
-				{
-					this.@__4 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[5]", Storage="__5", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _5
-		{
-			get
-			{
-				return this.@__5;
-			}
-			set
-			{
-				if ((this.@__5 != value))
-				{
-					this.@__5 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[6]", Storage="__6", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _6
-		{
-			get
-			{
-				return this.@__6;
-			}
-			set
-			{
-				if ((this.@__6 != value))
-				{
-					this.@__6 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[7]", Storage="__7", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _7
-		{
-			get
-			{
-				return this.@__7;
-			}
-			set
-			{
-				if ((this.@__7 != value))
-				{
-					this.@__7 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[8]", Storage="__8", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _8
-		{
-			get
-			{
-				return this.@__8;
-			}
-			set
-			{
-				if ((this.@__8 != value))
-				{
-					this.@__8 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[9]", Storage="__9", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _9
-		{
-			get
-			{
-				return this.@__9;
-			}
-			set
-			{
-				if ((this.@__9 != value))
-				{
-					this.@__9 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[10]", Storage="__10", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _10
-		{
-			get
-			{
-				return this.@__10;
-			}
-			set
-			{
-				if ((this.@__10 != value))
-				{
-					this.@__10 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[11]", Storage="__11", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _11
-		{
-			get
-			{
-				return this.@__11;
-			}
-			set
-			{
-				if ((this.@__11 != value))
-				{
-					this.@__11 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[12]", Storage="__12", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> _12
-		{
-			get
-			{
-				return this.@__12;
-			}
-			set
-			{
-				if ((this.@__12 != value))
-				{
-					this.@__12 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class SP_StockEntityWasUpOrDownByPercentResult
-	{
-		
-		private System.Nullable<int> _year;
-		
-		private System.Nullable<int> _month;
-		
-		private System.Nullable<int> _day;
-		
-		private string _theDate;
-		
-		public SP_StockEntityWasUpOrDownByPercentResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_year", DbType="Int")]
-		public System.Nullable<int> year
-		{
-			get
-			{
-				return this._year;
-			}
-			set
-			{
-				if ((this._year != value))
-				{
-					this._year = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_month", DbType="Int")]
-		public System.Nullable<int> month
-		{
-			get
-			{
-				return this._month;
-			}
-			set
-			{
-				if ((this._month != value))
-				{
-					this._month = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_day", DbType="Int")]
-		public System.Nullable<int> day
-		{
-			get
-			{
-				return this._day;
-			}
-			set
-			{
-				if ((this._day != value))
-				{
-					this._day = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_theDate", DbType="NVarChar(33)")]
-		public string theDate
-		{
-			get
-			{
-				return this._theDate;
-			}
-			set
-			{
-				if ((this._theDate != value))
-				{
-					this._theDate = value;
 				}
 			}
 		}

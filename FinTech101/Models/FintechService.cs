@@ -8,23 +8,23 @@ namespace FinTech101.Models
 {
     public class FintechService
     {
-        public static List<SP_StockEntityWasUpOrDownByPercentResult> StockEntityWasUpOrDownByPercent(int setID, int seID, string upOrDown, decimal percent, int fromYear, int toYear)
+        public static List<SP_Q1_StockEntityWasUpOrDownByPercentResult> StockEntityWasUpOrDownByPercent(int setID, int seID, string upOrDown, decimal percent, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_StockEntityWasUpOrDownByPercent(seID, setID, upOrDown, percent, fromYear, toYear);
+                var result = aadc.SP_Q1_StockEntityWasUpOrDownByPercent(seID, setID, upOrDown, percent, fromYear, toYear);
 
                 return result.ToList();
             }
         }
 
-        public static List<SP_StockEntityUpDownMonthsResult> MonthsCompanyWasUpOrDown(int setID, int seID, int fromYear, int toYear)
+        public static List<SP_Q3_StockEntityUpDownMonthsResult> StockEntityWasUpOrDownMonths(int setID, int seID, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_StockEntityUpDownMonths(fromYear, toYear, seID, setID).ToList();
+                var result = aadc.SP_Q3_StockEntityUpDownMonths(fromYear, toYear, seID, setID).ToList();
 
-                SP_StockEntityUpDownMonthsResult summaryRow = new SP_StockEntityUpDownMonthsResult();
+                SP_Q3_StockEntityUpDownMonthsResult summaryRow = new SP_Q3_StockEntityUpDownMonthsResult();
                 summaryRow.Year = 0;
 
                 decimal[] positiveItems = new decimal[12]; // Enumerable.Repeat(0, 12).ToArray();
@@ -71,15 +71,15 @@ namespace FinTech101.Models
             }
         }
 
-        public static List<SP_StockEntityTypeUpAndDownMonthsResult> StockEntityTypesWhichWereUpMoreThanEnnPercentOfTheTime(int setID, int fromYear, int toYear, decimal percent)
+        public static List<SP_Q5_StockEntityTypeUpAndDownMonthsResult> StockEntityTypesWhichWereUpMoreThanEnnPercentOfTheTime(int setID, int fromYear, int toYear, decimal percent)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 var stockEntities = FintechService.GetStockEntities(setID);
 
-                var result = aadc.SP_StockEntityTypeUpAndDownMonths(fromYear, toYear, setID).ToList();
+                var result = aadc.SP_Q5_StockEntityTypeUpAndDownMonths(fromYear, toYear, setID).ToList();
 
-                List<SP_StockEntityTypeUpAndDownMonthsResult> retVal = new List<SP_StockEntityTypeUpAndDownMonthsResult>();
+                List<SP_Q5_StockEntityTypeUpAndDownMonthsResult> retVal = new List<SP_Q5_StockEntityTypeUpAndDownMonthsResult>();
                 var distinctSeIDs = (from r in result
                                           select r.StockEntityID).Distinct().ToList();
 
@@ -89,7 +89,7 @@ namespace FinTech101.Models
                                           where r.StockEntityID == seID
                                           select r).ToList();
 
-                    SP_StockEntityTypeUpAndDownMonthsResult summaryRow = new SP_StockEntityTypeUpAndDownMonthsResult();
+                    SP_Q5_StockEntityTypeUpAndDownMonthsResult summaryRow = new SP_Q5_StockEntityTypeUpAndDownMonthsResult();
                     summaryRow.StockEntityName = FintechService.GetStockEntity(setID, seID).NameEn;
                     summaryRow.StockEntityID = seID;
                     summaryRow.Year = 0;

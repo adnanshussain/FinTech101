@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FinTech101.Models
 {
-    public partial class SP_StockEntityTypeUpAndDownMonthsResult
+    public partial class SP_Q5_StockEntityTypeUpAndDownMonthsResult
     {
         public String StockEntityName { get; set; }
         public int StartYear { get; set; }

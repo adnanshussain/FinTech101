@@ -84,7 +84,7 @@ namespace FinTech101.Controllers
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_StockEntityGoodAndBadDays(seID, setID, year);
+                var result = aadc.SP_Q2_StockEntityGoodAndBadDays(seID, setID, year);
 
                 ViewBag.result = result.ToList();
             }
@@ -95,7 +95,7 @@ namespace FinTech101.Controllers
         // Months in which a Stock entity was up or down in a date range
         public ActionResult q3(int setID, int seID, int from_year, int to_year, bool isPartial)
         {
-            ViewData["RESULT"] = FintechService.MonthsCompanyWasUpOrDown(setID, seID, from_year, to_year);
+            ViewData["RESULT"] = FintechService.StockEntityWasUpOrDownMonths(setID, seID, from_year, to_year);
             ViewData["SE"] = FintechService.GetStockEntity(setID, seID);
 
             ViewBag.isPartial = isPartial;
@@ -160,7 +160,7 @@ namespace FinTech101.Controllers
                                      EndDate = p.EndsOn
                                  }).FirstOrDefault();
 
-                var result = new List<SP_PricesAroundEventDateResult>();// (aadc.SP_PricesAroundEvents(eventDate.StartDate, eventDate.EndDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
+                var result = new List<SP_Q4_PricesAroundEventDateResult>();// (aadc.SP_PricesAroundEvents(eventDate.StartDate, eventDate.EndDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
 
                 ViewBag.eventDate = eventDate;
 
