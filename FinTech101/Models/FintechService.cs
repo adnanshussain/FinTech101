@@ -18,11 +18,11 @@ namespace FinTech101.Models
             }
         }
 
-        public static List<SP_StockEntityUpDownMonthsResult> MonthsCompanyWasUpOrDown(int companyID, int fromYear, int toYear)
+        public static List<SP_StockEntityUpDownMonthsResult> MonthsCompanyWasUpOrDown(int setID, int seID, int fromYear, int toYear)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var result = aadc.SP_StockEntityUpDownMonths(fromYear, toYear, companyID, 1).ToList();
+                var result = aadc.SP_StockEntityUpDownMonths(fromYear, toYear, seID, setID).ToList();
 
                 SP_StockEntityUpDownMonthsResult summaryRow = new SP_StockEntityUpDownMonthsResult();
                 summaryRow.Year = 0;
@@ -417,5 +417,17 @@ namespace FinTech101.Models
             return (result);
         }
         */
+
+        public static StockEntity GetStockEntity(int setID, int seID)
+        {
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                StockEntity result = (from p in aadc.StockEntities
+                                      where p.StockEntityTypeID == setID && p.StockEntityID == seID
+                                      select p).First();
+
+                return (result);
+            }
+        }
     }
 }

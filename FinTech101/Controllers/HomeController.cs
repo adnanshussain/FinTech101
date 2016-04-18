@@ -60,7 +60,8 @@ namespace FinTech101.Controllers
             return View(model);
         }
 
-        public ActionResult q1(int setID, int seID, string upOrDown, decimal percent, int fromYear, int toYear)
+        // On what dates was the Stock of an entity up and or down by 'n' percent in a Date Range
+        public ActionResult q1(int setID /* StockEntityTypeID */, int seID /* StockEntityID */, string upOrDown, decimal percent, int fromYear, int toYear)
         {
             var result = FintechService.StockEntityWasUpOrDownByPercent(setID, seID, upOrDown, percent, fromYear, toYear);
 
@@ -90,11 +91,10 @@ namespace FinTech101.Controllers
         }
 
         // Months company was up or down
-        public ActionResult q3(int companyID, int from_year, int to_year, bool isPartial)
+        public ActionResult q3(int setID, int seID, int from_year, int to_year, bool isPartial)
         {
-            ViewBag.result = FintechService.MonthsCompanyWasUpOrDown(companyID, from_year, to_year);
-
-            //ViewBag.CompanyName = FintechService.GetCompany(companyID).CompanyNameEn;
+            ViewData["RESULT"] = FintechService.MonthsCompanyWasUpOrDown(setID, seID, from_year, to_year);
+            ViewData["SE"] = FintechService.GetStockEntity(setID, seID);
 
             ViewBag.isPartial = isPartial;
 

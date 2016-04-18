@@ -56,7 +56,8 @@ $(function () {
 
         $.ajax('/home/q3', {
             data: {
-                companyID: $('#q3_company').val(),
+                setID: $('#set_selection').val(),
+                seID: $('#q3_se').val(),
                 from_year: $('#q3_from_year').val(),
                 to_year: $('#q3_to_year').val(),
                 isPartial: true

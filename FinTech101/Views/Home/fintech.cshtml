@@ -5,7 +5,7 @@
 }
 
 <br />
-<p class="well well-sm" style="width:16%">
+<p class="well well-sm" style="width:20%">
     <span style="font-weight:bold">Select Stock Type: </span> @Html.DropDownList("set_selection", Model.StockEntityTypes)
 </p>
 <p class="well well-sm" style="width:65%">
@@ -15,10 +15,10 @@
 <p class="well well-sm" style="width:65%">
     <span style="font-weight:bold">Q2:</span> What have been the best and worst days for @Html.DropDownList("q2_se", Model.StockEntities) in @Html.DropDownList("q2_year", Model.SetActiveYears_To) <button id="q2_go">Go</button>
 </p>
-@*<p class="well well-sm" style="width:65%">
-        <span style="font-weight:bold">Q3:</span> Which months was @Html.DropDownList("q3_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) Up / Down from @Html.DropDownList("q3_from_year", (SelectList)ViewBag.AllYearsSL) to @Html.DropDownList("q3_to_year", (SelectList)ViewBag.AllYearsSL) <button id="q3_go">Go</button>
-    </p>
-    <p class="well well-sm" style="width:65%">
+<p class="well well-sm" style="width:65%">
+    <span style="font-weight:bold">Q3:</span> Which months was @Html.DropDownList("q3_se", Model.StockEntities) Up / Down from @Html.DropDownList("q3_from_year", Model.SetActiveYears_From) to @Html.DropDownList("q3_to_year", Model.SetActiveYears_To) <button id="q3_go">Go</button>
+</p>
+@*    <p class="well well-sm" style="width:65%">
         <span style="font-weight:bold">Q4:</span> Show the prices of @Html.DropDownList("q4_company", new SelectList(ViewBag.AllCompanies, "Value", "Text")) @Html.TextBox("q4_weeks_before", 1, new { size = 3 }) week(s) before and @Html.TextBox("q4_weeks_after", 1, new { size = 3 }) week(s) after @Html.DropDownList("q4_event", new SelectList(ViewBag.AllEvents, "Value", "Text")) <button id="q4_go">Go</button>
     </p>
     <p class="well well-sm" style="width:65%">

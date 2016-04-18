@@ -1,14 +1,15 @@
-﻿@{
+﻿@using FinTech101.Models
+@{
     if (!ViewBag.isPartial) {
         Layout = "~/Views/Shared/_Layout2.cshtml";
     }
+
+    List<SP_StockEntityUpDownMonthsResult> result = (List<SP_StockEntityUpDownMonthsResult>) ViewData["RESULT"];
+    StockEntity se = (StockEntity) ViewData["SE"];
 }
 @{
-    if (ViewBag.CompanyName != null)
-    {
-        <p style="font-weight:bold">@ViewBag.CompanyName</p>
-        <br/>
-    }
+    <p style="font-weight:bold">@se.NameEn</p>
+    <br/>
 }
 <table border="1" style="width:75%">
     <thead>
@@ -30,29 +31,30 @@
     </thead>
     <tbody>
         @{
-            foreach (var item in ViewBag.result)
+            foreach (var item in result)
             {
                 if (item.Year > 0)
                 {
                     <tr>
                         <td style="text-align:center">@item.Year</td>
                         @for (var i = 1; i <= 12; i++)
-                       {
-                        var pName = "_" + i.ToString();
-                        var value = item.GetType().GetProperty(pName).GetValue(item, null);
-                            <td style="text-align:center; background-color:@(value > 0 ? "lightgreen" : "white")">@value</td>
+                        {
+                            var pName = "_" + i.ToString();
+                            decimal? monthVal = (decimal?) item.GetType().GetProperty(pName).GetValue(item, null);
+                            <td style="text-align:center; background-color:@(monthVal.HasValue && monthVal.Value > 0 ? "lightgreen" : "white")">@(monthVal.HasValue ? monthVal.Value : 0)</td>
                         }
                     </tr>
                 }
-                else
+                else // This case is for the Aggregate at the bottom
                 {
                     <tr>
                         <td style="text-align:center"></td>
                         @for (var i = 1; i <= 12; i++)
                         {
                             var pName = "_" + i.ToString();
-                            var value = item.GetType().GetProperty(pName).GetValue(item, null);
-                            <td style="text-align:center; background-color:lightblue;font-weight:bold">@value.ToString("0.00")&nbsp;%</td>
+                            decimal? monthVal = (decimal?)item.GetType().GetProperty(pName).GetValue(item, null);
+                            @*<td style="text-align:center; background-color:lightblue;font-weight:bold">@value.ToString("0.00")&nbsp;%</td>*@
+                            <td style="text-align:center; background-color:@(monthVal.HasValue && monthVal.Value > 0 ? "lightgreen" : "white")">@(monthVal.HasValue ? monthVal.Value.ToString("0.00") : "0")</td>
                         }
                     </tr>
                 }
