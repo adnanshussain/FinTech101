@@ -2,29 +2,38 @@
 
 <h2>Q4</h2>
 
-<table border="1">
-    <thead>
-        @{
-            <tr>
-                @foreach (var cell in Model[0].TableCells)
-                {
-                    <th style="text-align:center;background-color:@cell.BackgroundColor">@cell.Text</th>
+@{
+    if (Model != null)
+    {
+        <table border="1">
+            <thead>
+                @{
+                    <tr>
+                        @foreach (var cell in Model[0].TableCells)
+                        {
+                            <th style="text-align:center;background-color:@cell.BackgroundColor">@cell.Text</th>
+                        }
+                    </tr>
                 }
-            </tr>
-        }
-    </thead>
-    <tbody>
-        @{
-            for (int i = 1; i < Model.Count; i++)
-            {
-                var row = Model[i];
-                <tr>
-                    @foreach (var cell in row.TableCells)
-                {
-                        <td @(cell.ColSpan > 0 ? "colspan=" + cell.ColSpan  : "") style="text-align:center;background-color:@cell.BackgroundColor">@cell.Text</td>
+            </thead>
+            <tbody>
+                @{
+                    for (int i = 1; i < Model.Count; i++)
+                    {
+                        var row = Model[i];
+                        <tr>
+                            @foreach (var cell in row.TableCells)
+                            {
+                                <td @(cell.ColSpan > 0 ? "colspan=" + cell.ColSpan : "") style="text-align:center;background-color:@(cell.BackgroundColor);color:@(cell.FontColor)">@cell.Text</td>
+                            }
+                        </tr>
                     }
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No data found for these dates</p>
+    }
+}

@@ -129,18 +129,18 @@ namespace FinTech101.Models
 			return ((ISingleResult<SP_Q3_StockEntityUpDownMonthsResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q4_PricesAroundEventDate")]
-		public ISingleResult<SP_Q4_PricesAroundEventDateResult> SP_Q4_PricesAroundEventDate([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_end_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_after, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_week_before, p_week_after, p_se_id, p_se_type_id);
-			return ((ISingleResult<SP_Q4_PricesAroundEventDateResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q5_StockEntityTypeUpAndDownMonths")]
 		public ISingleResult<SP_Q5_StockEntityTypeUpAndDownMonthsResult> SP_Q5_StockEntityTypeUpAndDownMonths([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_from_year, p_to_year, p_se_type_id);
 			return ((ISingleResult<SP_Q5_StockEntityTypeUpAndDownMonthsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q4_PricesAroundEventDate")]
+		public ISingleResult<SP_Q4_PricesAroundEventDateResult> SP_Q4_PricesAroundEventDate([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> p_event_end_date, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_week_after, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_type_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_week_before, p_week_after, p_se_id, p_se_type_id);
+			return ((ISingleResult<SP_Q4_PricesAroundEventDateResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -1141,104 +1141,6 @@ namespace FinTech101.Models
 		}
 	}
 	
-	public partial class SP_Q4_PricesAroundEventDateResult
-	{
-		
-		private System.Nullable<System.DateTime> _ForDate;
-		
-		private string _DoW;
-		
-		private System.Nullable<int> _CID;
-		
-		private int _SET_ID;
-		
-		private System.Nullable<decimal> _Close;
-		
-		public SP_Q4_PricesAroundEventDateResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForDate", DbType="Date")]
-		public System.Nullable<System.DateTime> ForDate
-		{
-			get
-			{
-				return this._ForDate;
-			}
-			set
-			{
-				if ((this._ForDate != value))
-				{
-					this._ForDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoW", DbType="NVarChar(30)")]
-		public string DoW
-		{
-			get
-			{
-				return this._DoW;
-			}
-			set
-			{
-				if ((this._DoW != value))
-				{
-					this._DoW = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CID", DbType="Int")]
-		public System.Nullable<int> CID
-		{
-			get
-			{
-				return this._CID;
-			}
-			set
-			{
-				if ((this._CID != value))
-				{
-					this._CID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SET_ID", DbType="Int NOT NULL")]
-		public int SET_ID
-		{
-			get
-			{
-				return this._SET_ID;
-			}
-			set
-			{
-				if ((this._SET_ID != value))
-				{
-					this._SET_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Close]", Storage="_Close", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Close
-		{
-			get
-			{
-				return this._Close;
-			}
-			set
-			{
-				if ((this._Close != value))
-				{
-					this._Close = value;
-				}
-			}
-		}
-	}
-	
 	public partial class SP_Q5_StockEntityTypeUpAndDownMonthsResult
 	{
 		
@@ -1512,6 +1414,104 @@ namespace FinTech101.Models
 				if ((this.@__12 != value))
 				{
 					this.@__12 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_Q4_PricesAroundEventDateResult
+	{
+		
+		private System.Nullable<System.DateTime> _ForDate;
+		
+		private string _DoW;
+		
+		private System.Nullable<int> _seID;
+		
+		private int _setID;
+		
+		private System.Nullable<decimal> _Close;
+		
+		public SP_Q4_PricesAroundEventDateResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForDate", DbType="Date")]
+		public System.Nullable<System.DateTime> ForDate
+		{
+			get
+			{
+				return this._ForDate;
+			}
+			set
+			{
+				if ((this._ForDate != value))
+				{
+					this._ForDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoW", DbType="NVarChar(30)")]
+		public string DoW
+		{
+			get
+			{
+				return this._DoW;
+			}
+			set
+			{
+				if ((this._DoW != value))
+				{
+					this._DoW = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_seID", DbType="Int")]
+		public System.Nullable<int> seID
+		{
+			get
+			{
+				return this._seID;
+			}
+			set
+			{
+				if ((this._seID != value))
+				{
+					this._seID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_setID", DbType="Int NOT NULL")]
+		public int setID
+		{
+			get
+			{
+				return this._setID;
+			}
+			set
+			{
+				if ((this._setID != value))
+				{
+					this._setID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Close]", Storage="_Close", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Close
+		{
+			get
+			{
+				return this._Close;
+			}
+			set
+			{
+				if ((this._Close != value))
+				{
+					this._Close = value;
 				}
 			}
 		}

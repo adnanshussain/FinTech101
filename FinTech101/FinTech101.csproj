@@ -186,6 +186,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PartialClasses.cs" />
+    <Compile Include="Models\StockEntityAndType.cs" />
     <Compile Include="Models\TableCellViewModel.cs" />
     <Compile Include="Models\ValueTextModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

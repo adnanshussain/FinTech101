@@ -1,8 +1,12 @@
-﻿<table border="1" style="width:100%">
+﻿@using FinTech101.Models
+@{ 
+    StockEntityType selectedSet = (StockEntityType) ViewData["SELECTED_SET"];
+}
+<table border="1" style="width:100%">
     <thead>
         <tr>
-            <th style="text-align:center">Company ID</th>
-            <th style="text-align:center">Company</th>
+            <th style="text-align:center">@selectedSet.StockEntityTypeName ID</th>
+            <th style="text-align:center">@selectedSet.StockEntityTypeName</th>
             <th style="text-align:center">Jan</th>
             <th style="text-align:center">Feb</th>
             <th style="text-align:center">Mar</th>

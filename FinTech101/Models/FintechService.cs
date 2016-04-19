@@ -167,8 +167,7 @@ namespace FinTech101.Models
             }
         }
 
-        /*
-        public static List<TableRowViewModel> GetCompanyPriceAroundDates_UI(DateTime startsOn, DateTime? endsOn, int weeksBefore, int weeksAfter, int companyID)
+        public static List<TableRowViewModel> GetStockEntityPricesAroundDates_UI(int setID, int seID, DateTime startsOn, DateTime? endsOn, int weeksBefore, int weeksAfter)
         {
             var result = new List<TableRowViewModel>();
             var isRange = endsOn != null;
@@ -177,7 +176,7 @@ namespace FinTech101.Models
 
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var spResult = (aadc.SP_PricesAroundEvents(startsOn, endsOn, weeksBefore * -1, weeksAfter, companyID)).ToList();
+                var spResult = (aadc.SP_Q4_PricesAroundEventDate(startsOn, endsOn, weeksBefore * -1, weeksAfter, seID, setID)).ToList();
 
                 var resultDates = (from r in spResult
                                    group r by new { r.ForDate, r.DoW }
@@ -188,14 +187,12 @@ namespace FinTech101.Models
                                        DoW = grp.Key.DoW
                                    }).ToList();
 
-                var companyName = (from p in aadc.Companies
-                                   where p.CompanyID == companyID
-                                   select p.CompanyNameEn).First();
+                var seName = FintechService.GetStockEntity(setID, seID).NameEn;
 
                 #region Compute EventDate Price or Last Valid price; Compute Fist and Last Valid Closing prices
                 bool eventDateClosingPriceWasZero = false;
                 decimal? eventDateClosingPrice = (from r in spResult
-                                                  where r.CID == companyID
+                                                  where r.seID == seID && r.setID == setID
                                                   select r.Close).Skip(weeksBefore * 7).Take(1).First();
                 DateTime closingPriceAltDate;
                 decimal? firstValidClosingPrice = 0.0M;
@@ -210,7 +207,7 @@ namespace FinTech101.Models
                     // Pick up the last closing value that was not 0
                     eventDateClosingPriceWasZero = true;
                     var a = (from r in spResult
-                             where r.CID == companyID
+                             where r.seID == seID && r.setID == setID
                              && r.ForDate < startsOn
                              && r.Close != 0
                              orderby r.ForDate descending
@@ -226,7 +223,7 @@ namespace FinTech101.Models
 
 
                 var b = (from r in spResult
-                         where r.CID == companyID
+                         where r.seID == seID && r.setID == setID
                          && r.Close != 0
                          orderby r.ForDate
                          select new
@@ -238,7 +235,7 @@ namespace FinTech101.Models
                 firstValidClosingPriceDate = b.ForDate.Value;
 
                 var c = (from r in spResult
-                         where r.CID == companyID
+                         where r.seID == seID && r.setID == setID
                          && r.Close != 0
                          orderby r.ForDate descending
                          select new
@@ -288,26 +285,30 @@ namespace FinTech101.Models
                 result.Add(row1);
                 #endregion
 
-                List<int> commodityIDArray = new List<int>() { 1, 3 };
-                commodityIDArray.Add(companyID);
+                List<StockEntityAndType> seArray = new List<StockEntityAndType>()
+                {
+                    new StockEntityAndType() { StockEntityTypeID = 5, StockEntityID = 1 },
+                    new StockEntityAndType() { StockEntityTypeID = 5, StockEntityID = 3 }
+                };
+                seArray.Add(new StockEntityAndType() { StockEntityTypeID = setID, StockEntityID = seID });
                 decimal beforeEventChange = 0.0M, afteEventChange = 0.0M;
 
                 #region Row 2 & 3 Brent & Crude
-                foreach (var commodityID in commodityIDArray)
+                foreach (var se in seArray)
                 {
                     bool isCompany = false;
 
                     TableRowViewModel row = new TableRowViewModel();
-                    if (commodityID == 1)
+                    if (se.StockEntityTypeID == 5 && se.StockEntityID == 1)
                         row.TableCells.Add(new TableCellViewModel() { Text = "BRENT" });
-                    else if (commodityID == 3)
+                    else if (se.StockEntityTypeID == 5 && se.StockEntityID == 3)
                         row.TableCells.Add(new TableCellViewModel() { Text = "CRUDE" });
                     else {
-                        row.TableCells.Add(new TableCellViewModel() { Text = companyName });
+                        row.TableCells.Add(new TableCellViewModel() { Text = seName });
                         isCompany = true;
                     }
 
-                    var filteredResults = spResult.Where(r => r.CID == commodityID).ToList();
+                    var filteredResults = spResult.Where(r => r.setID == se.StockEntityTypeID && r.seID == se.StockEntityID).ToList();
                     for (int i = 0; i < filteredResults.Count; i++)
                     {
                         var item = filteredResults[i];
@@ -376,6 +377,7 @@ namespace FinTech101.Models
                         var firstClosingPriceChangePercent = (((eventDateClosingPrice - firstValidClosingPrice) / firstValidClosingPrice) * 100);
                         cell.Text = firstClosingPriceChangePercent.Value.ToString("0.00") + "%";
                         cell.BackgroundColor = firstClosingPriceChangePercent >= 0 ? "lightgreen" : "red";
+                        cell.FontColor = firstClosingPriceChangePercent >= 0 ? "" : "white";
                         cell.ColSpan = startsOnIndex - firstValidPriceIndex;
                     }
                     else if((i > firstValidPriceIndex && i < startsOnIndex) ||
@@ -401,6 +403,7 @@ namespace FinTech101.Models
                         var lastClosingPriceChangePercent = (((lastValidClosingPrice - eventDateClosingPrice) / eventDateClosingPrice) * 100);
                         cell.Text = lastClosingPriceChangePercent.Value.ToString("0.00") + "%";
                         cell.BackgroundColor = lastClosingPriceChangePercent >= 0 ? "lightgreen" : "red";
+                        cell.FontColor = lastClosingPriceChangePercent >= 0 ? "" : "white";
                         cell.ColSpan = lastValidPriceIndex - ((isRange) ? endsOnIndex : startsOnIndex);
                     }
 
@@ -412,7 +415,6 @@ namespace FinTech101.Models
 
             return (result);
         }
-        */
 
         public static List<StockEntity> GetStockEntities(int setID)
         {

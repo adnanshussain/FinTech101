@@ -124,10 +124,14 @@ namespace FinTech101.Controllers
             ViewBag.toYear = to_year;
             ViewBag.setID = setID;
 
+            using(ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext()) { 
+                ViewData["SELECTED_SET"] = (from p in aadc.StockEntityTypes where p.StockEntityTypeID == setID select p).First();
+            }
+
             return PartialView();
         }
 
-        public ActionResult q4(int eventID, int weeksBefore, int weeksAfter, int companyID)
+        public ActionResult q4(int setID, int seID, int eventID, int weeksBefore, int weeksAfter)
         {
             List<TableRowViewModel> model = null;
 
@@ -140,109 +144,20 @@ namespace FinTech101.Controllers
                                      StartDate = p.StartsOn,
                                      EndDate = p.EndsOn
                                  }).FirstOrDefault();
+                try
+                {
+                    model = FintechService.GetStockEntityPricesAroundDates_UI(setID, seID, eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, weeksBefore, weeksAfter);
+                }
+                catch(Exception ex)
+                {
 
-                //model = FintechService.GetCompanyPriceAroundDates_UI(eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, weeksBefore, weeksAfter, companyID);
+                }
             }
 
             return (View("q4_with_range", model));
         }
 
-        [NonAction]
-        public ActionResult q4_old(int eventID, int weeksBefore, int weeksAfter, int companyID)
-        {
-            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
-            {
-                var eventDate = (from p in aadc.GlobalEvents
-                                 where p.GlobalEventID == eventID
-                                 select new
-                                 {
-                                     StartDate = p.StartsOn,
-                                     EndDate = p.EndsOn
-                                 }).FirstOrDefault();
-
-                var result = new List<SP_Q4_PricesAroundEventDateResult>();// (aadc.SP_PricesAroundEvents(eventDate.StartDate, eventDate.EndDate, weeksBefore * -1, weeksAfter, companyID)).ToList();
-
-                ViewBag.eventDate = eventDate;
-
-                ViewBag.result = result;
-
-                ViewBag.resultDates = (from r in result
-                                       group r by new { r.ForDate, r.DoW }
-                                      into grp
-                                       select new DateWithDoW
-                                       {
-                                           ForDate = grp.Key.ForDate.Value,
-                                           DoW = grp.Key.DoW
-                                       }).ToList();
-
-                ViewBag.CompanyID = companyID;
-                /*ViewBag.CompanyName = (from p in aadc.Companies
-                                       where p.CompanyID == companyID
-                                       select p.CompanyNameEn).FirstOrDefault();*/
-
-                ViewBag.eventDateClosingPriceWasZero = false;
-                ViewBag.eventDateClosingPrice = (from r in result
-                                                 where r.CID == companyID
-                                                 select r.Close).Skip(weeksBefore * 7).Take(1).First();
-                if (ViewBag.eventDateClosingPrice == 0)
-                {
-                    // Pick up the last closing value that was not 0
-                    ViewBag.eventDateClosingPriceWasZero = true;
-                    var a = (from r in result
-                             where r.CID == companyID
-                             && r.ForDate < eventDate.StartDate
-                             && r.Close != 0
-                             orderby r.ForDate descending
-                             select new
-                             {
-                                 r.ForDate,
-                                 r.Close
-                             }).Take(1).First();
-
-                    ViewBag.eventDateClosingPrice = a.Close;
-                    ViewBag.eventDateClosingPriceAltDate = a.ForDate;
-                }
-
-                var b = (from r in result
-                         where r.CID == companyID
-                         && r.Close != 0
-                         orderby r.ForDate
-                         select new
-                         {
-                             r.ForDate,
-                             r.Close
-                         }).Take(1).First();
-                ViewBag.firstValidClosingPrice = b.Close;
-                ViewBag.firstValidClosingPriceDate = b.ForDate;
-
-                var c = (from r in result
-                         where r.CID == companyID
-                         && r.Close != 0
-                         orderby r.ForDate descending
-                         select new
-                         {
-                             r.ForDate,
-                             r.Close
-                         }).Take(1).First();
-                ViewBag.lastValidClosingPrice = c.Close;
-                ViewBag.lastValidClosingPriceDate = c.ForDate;
-
-                ViewBag.minClose = (from r in result
-                                    where r.CID == companyID
-                                    && r.Close > 0
-                                    select r.Close).Min().Value;
-                ViewBag.maxClose = (from r in result
-                                    where r.CID == companyID
-                                    select r.Close).Max().Value;
-
-                ViewBag.weeksBefore = weeksBefore;
-                ViewBag.weeksAfter = weeksAfter;
-
-            }
-
-            return (PartialView());
-        }
-
+        
         public ActionResult ListEvents()
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
