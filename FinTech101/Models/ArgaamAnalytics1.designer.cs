@@ -30,12 +30,6 @@ namespace FinTech101.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertGlobalEventCategory(GlobalEventCategory instance);
-    partial void UpdateGlobalEventCategory(GlobalEventCategory instance);
-    partial void DeleteGlobalEventCategory(GlobalEventCategory instance);
-    partial void InsertGlobalEvent(GlobalEvent instance);
-    partial void UpdateGlobalEvent(GlobalEvent instance);
-    partial void DeleteGlobalEvent(GlobalEvent instance);
     #endregion
 		
 		public ArgaamAnalyticsDataContext() : 
@@ -68,30 +62,6 @@ namespace FinTech101.Models
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<GlobalEventCategory> GlobalEventCategories
-		{
-			get
-			{
-				return this.GetTable<GlobalEventCategory>();
-			}
-		}
-		
-		public System.Data.Linq.Table<GlobalEvent> GlobalEvents
-		{
-			get
-			{
-				return this.GetTable<GlobalEvent>();
-			}
-		}
-		
-		public System.Data.Linq.Table<StockEntity> StockEntities
-		{
-			get
-			{
-				return this.GetTable<StockEntity>();
-			}
-		}
-		
 		public System.Data.Linq.Table<StockEntityType> StockEntityTypes
 		{
 			get
@@ -105,6 +75,30 @@ namespace FinTech101.Models
 			get
 			{
 				return this.GetTable<StockEntityPrice>();
+			}
+		}
+		
+		public System.Data.Linq.Table<EventCategory> EventCategories
+		{
+			get
+			{
+				return this.GetTable<EventCategory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Event> Events
+		{
+			get
+			{
+				return this.GetTable<Event>();
+			}
+		}
+		
+		public System.Data.Linq.Table<StockEntity> StockEntities
+		{
+			get
+			{
+				return this.GetTable<StockEntity>();
 			}
 		}
 		
@@ -142,384 +136,12 @@ namespace FinTech101.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_week_before, p_week_after, p_se_id, p_se_type_id);
 			return ((ISingleResult<SP_Q4_PricesAroundEventDateResult>)(result.ReturnValue));
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GlobalEventCategories")]
-	public partial class GlobalEventCategory : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _EventCategoryID;
-		
-		private string _EventCategoryName;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnEventCategoryIDChanging(int value);
-    partial void OnEventCategoryIDChanged();
-    partial void OnEventCategoryNameChanging(string value);
-    partial void OnEventCategoryNameChanged();
-    #endregion
-		
-		public GlobalEventCategory()
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntity")]
+		public ISingleResult<SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntityResult> SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_anchor_set_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_anchor_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_target_set_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_target_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Decimal(18,2)")] System.Nullable<decimal> p_anchor_percent, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_target_days, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_from_year, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_to_year)
 		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int EventCategoryID
-		{
-			get
-			{
-				return this._EventCategoryID;
-			}
-			set
-			{
-				if ((this._EventCategoryID != value))
-				{
-					this.OnEventCategoryIDChanging(value);
-					this.SendPropertyChanging();
-					this._EventCategoryID = value;
-					this.SendPropertyChanged("EventCategoryID");
-					this.OnEventCategoryIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string EventCategoryName
-		{
-			get
-			{
-				return this._EventCategoryName;
-			}
-			set
-			{
-				if ((this._EventCategoryName != value))
-				{
-					this.OnEventCategoryNameChanging(value);
-					this.SendPropertyChanging();
-					this._EventCategoryName = value;
-					this.SendPropertyChanged("EventCategoryName");
-					this.OnEventCategoryNameChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GlobalEvents")]
-	public partial class GlobalEvent : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _GlobalEventID;
-		
-		private int _EventCategoryID;
-		
-		private string _EventDesc;
-		
-		private System.DateTime _StartsOn;
-		
-		private System.Nullable<System.DateTime> _EndsOn;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnGlobalEventIDChanging(int value);
-    partial void OnGlobalEventIDChanged();
-    partial void OnEventCategoryIDChanging(int value);
-    partial void OnEventCategoryIDChanged();
-    partial void OnEventDescChanging(string value);
-    partial void OnEventDescChanged();
-    partial void OnStartsOnChanging(System.DateTime value);
-    partial void OnStartsOnChanged();
-    partial void OnEndsOnChanging(System.Nullable<System.DateTime> value);
-    partial void OnEndsOnChanged();
-    #endregion
-		
-		public GlobalEvent()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GlobalEventID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int GlobalEventID
-		{
-			get
-			{
-				return this._GlobalEventID;
-			}
-			set
-			{
-				if ((this._GlobalEventID != value))
-				{
-					this.OnGlobalEventIDChanging(value);
-					this.SendPropertyChanging();
-					this._GlobalEventID = value;
-					this.SendPropertyChanged("GlobalEventID");
-					this.OnGlobalEventIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public int EventCategoryID
-		{
-			get
-			{
-				return this._EventCategoryID;
-			}
-			set
-			{
-				if ((this._EventCategoryID != value))
-				{
-					this.OnEventCategoryIDChanging(value);
-					this.SendPropertyChanging();
-					this._EventCategoryID = value;
-					this.SendPropertyChanged("EventCategoryID");
-					this.OnEventCategoryIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDesc", DbType="NVarChar(128) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string EventDesc
-		{
-			get
-			{
-				return this._EventDesc;
-			}
-			set
-			{
-				if ((this._EventDesc != value))
-				{
-					this.OnEventDescChanging(value);
-					this.SendPropertyChanging();
-					this._EventDesc = value;
-					this.SendPropertyChanged("EventDesc");
-					this.OnEventDescChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartsOn", DbType="Date NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public System.DateTime StartsOn
-		{
-			get
-			{
-				return this._StartsOn;
-			}
-			set
-			{
-				if ((this._StartsOn != value))
-				{
-					this.OnStartsOnChanging(value);
-					this.SendPropertyChanging();
-					this._StartsOn = value;
-					this.SendPropertyChanged("StartsOn");
-					this.OnStartsOnChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndsOn", DbType="Date", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTime> EndsOn
-		{
-			get
-			{
-				return this._EndsOn;
-			}
-			set
-			{
-				if ((this._EndsOn != value))
-				{
-					this.OnEndsOnChanging(value);
-					this.SendPropertyChanging();
-					this._EndsOn = value;
-					this.SendPropertyChanged("EndsOn");
-					this.OnEndsOnChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StockEntities")]
-	public partial class StockEntity
-	{
-		
-		private int _StockEntityID;
-		
-		private int _StockEntityTypeID;
-		
-		private string _NameEn;
-		
-		private string _NameAr;
-		
-		private string _ShortNameEn;
-		
-		private string _ShortNameAr;
-		
-		private string _Symbol;
-		
-		public StockEntity()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StockEntityID", DbType="Int NOT NULL")]
-		public int StockEntityID
-		{
-			get
-			{
-				return this._StockEntityID;
-			}
-			set
-			{
-				if ((this._StockEntityID != value))
-				{
-					this._StockEntityID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StockEntityTypeID", DbType="Int NOT NULL")]
-		public int StockEntityTypeID
-		{
-			get
-			{
-				return this._StockEntityTypeID;
-			}
-			set
-			{
-				if ((this._StockEntityTypeID != value))
-				{
-					this._StockEntityTypeID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameEn", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
-		public string NameEn
-		{
-			get
-			{
-				return this._NameEn;
-			}
-			set
-			{
-				if ((this._NameEn != value))
-				{
-					this._NameEn = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameAr", DbType="NVarChar(128)")]
-		public string NameAr
-		{
-			get
-			{
-				return this._NameAr;
-			}
-			set
-			{
-				if ((this._NameAr != value))
-				{
-					this._NameAr = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortNameEn", DbType="VarChar(50)")]
-		public string ShortNameEn
-		{
-			get
-			{
-				return this._ShortNameEn;
-			}
-			set
-			{
-				if ((this._ShortNameEn != value))
-				{
-					this._ShortNameEn = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortNameAr", DbType="NVarChar(50)")]
-		public string ShortNameAr
-		{
-			get
-			{
-				return this._ShortNameAr;
-			}
-			set
-			{
-				if ((this._ShortNameAr != value))
-				{
-					this._ShortNameAr = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Symbol", DbType="VarChar(50)")]
-		public string Symbol
-		{
-			get
-			{
-				return this._Symbol;
-			}
-			set
-			{
-				if ((this._Symbol != value))
-				{
-					this._Symbol = value;
-				}
-			}
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_anchor_set_id, p_anchor_se_id, p_target_set_id, p_target_se_id, p_anchor_percent, p_target_days, p_from_year, p_to_year);
+			return ((ISingleResult<SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntityResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -734,6 +356,411 @@ namespace FinTech101.Models
 				if ((this._Amount != value))
 				{
 					this._Amount = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventCategories")]
+	public partial class EventCategory
+	{
+		
+		private int _EventCategoryID;
+		
+		private string _EventCategoryName;
+		
+		private bool _IsSubcategory;
+		
+		private System.Nullable<int> _ParentCategoryID;
+		
+		public EventCategory()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL")]
+		public int EventCategoryID
+		{
+			get
+			{
+				return this._EventCategoryID;
+			}
+			set
+			{
+				if ((this._EventCategoryID != value))
+				{
+					this._EventCategoryID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryName", DbType="VarChar(50) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string EventCategoryName
+		{
+			get
+			{
+				return this._EventCategoryName;
+			}
+			set
+			{
+				if ((this._EventCategoryName != value))
+				{
+					this._EventCategoryName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSubcategory", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public bool IsSubcategory
+		{
+			get
+			{
+				return this._IsSubcategory;
+			}
+			set
+			{
+				if ((this._IsSubcategory != value))
+				{
+					this._IsSubcategory = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentCategoryID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> ParentCategoryID
+		{
+			get
+			{
+				return this._ParentCategoryID;
+			}
+			set
+			{
+				if ((this._ParentCategoryID != value))
+				{
+					this._ParentCategoryID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Events")]
+	public partial class Event
+	{
+		
+		private int _GlobalEventID;
+		
+		private int _EventClassification;
+		
+		private System.Nullable<int> _CompanyEventType;
+		
+		private int _EventCategoryID;
+		
+		private string _EventDesc;
+		
+		private System.DateTime _StartsOn;
+		
+		private System.Nullable<System.DateTime> _EndsOn;
+		
+		private System.Nullable<int> _CompanyID;
+		
+		private System.Nullable<int> _MarketID;
+		
+		public Event()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GlobalEventID", DbType="Int NOT NULL")]
+		public int GlobalEventID
+		{
+			get
+			{
+				return this._GlobalEventID;
+			}
+			set
+			{
+				if ((this._GlobalEventID != value))
+				{
+					this._GlobalEventID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventClassification", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int EventClassification
+		{
+			get
+			{
+				return this._EventClassification;
+			}
+			set
+			{
+				if ((this._EventClassification != value))
+				{
+					this._EventClassification = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyEventType", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> CompanyEventType
+		{
+			get
+			{
+				return this._CompanyEventType;
+			}
+			set
+			{
+				if ((this._CompanyEventType != value))
+				{
+					this._CompanyEventType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int EventCategoryID
+		{
+			get
+			{
+				return this._EventCategoryID;
+			}
+			set
+			{
+				if ((this._EventCategoryID != value))
+				{
+					this._EventCategoryID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDesc", DbType="NVarChar(128) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string EventDesc
+		{
+			get
+			{
+				return this._EventDesc;
+			}
+			set
+			{
+				if ((this._EventDesc != value))
+				{
+					this._EventDesc = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartsOn", DbType="Date NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public System.DateTime StartsOn
+		{
+			get
+			{
+				return this._StartsOn;
+			}
+			set
+			{
+				if ((this._StartsOn != value))
+				{
+					this._StartsOn = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndsOn", DbType="Date", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<System.DateTime> EndsOn
+		{
+			get
+			{
+				return this._EndsOn;
+			}
+			set
+			{
+				if ((this._EndsOn != value))
+				{
+					this._EndsOn = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> CompanyID
+		{
+			get
+			{
+				return this._CompanyID;
+			}
+			set
+			{
+				if ((this._CompanyID != value))
+				{
+					this._CompanyID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarketID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> MarketID
+		{
+			get
+			{
+				return this._MarketID;
+			}
+			set
+			{
+				if ((this._MarketID != value))
+				{
+					this._MarketID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StockEntities")]
+	public partial class StockEntity
+	{
+		
+		private int _StockEntityID;
+		
+		private int _StockEntityTypeID;
+		
+		private string _NameEn;
+		
+		private string _NameAr;
+		
+		private string _ShortNameEn;
+		
+		private string _ShortNameAr;
+		
+		private string _Symbol;
+		
+		private System.Nullable<int> _MarketID;
+		
+		public StockEntity()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StockEntityID", DbType="Int NOT NULL")]
+		public int StockEntityID
+		{
+			get
+			{
+				return this._StockEntityID;
+			}
+			set
+			{
+				if ((this._StockEntityID != value))
+				{
+					this._StockEntityID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StockEntityTypeID", DbType="Int NOT NULL")]
+		public int StockEntityTypeID
+		{
+			get
+			{
+				return this._StockEntityTypeID;
+			}
+			set
+			{
+				if ((this._StockEntityTypeID != value))
+				{
+					this._StockEntityTypeID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameEn", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string NameEn
+		{
+			get
+			{
+				return this._NameEn;
+			}
+			set
+			{
+				if ((this._NameEn != value))
+				{
+					this._NameEn = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameAr", DbType="NVarChar(128)")]
+		public string NameAr
+		{
+			get
+			{
+				return this._NameAr;
+			}
+			set
+			{
+				if ((this._NameAr != value))
+				{
+					this._NameAr = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortNameEn", DbType="VarChar(50)")]
+		public string ShortNameEn
+		{
+			get
+			{
+				return this._ShortNameEn;
+			}
+			set
+			{
+				if ((this._ShortNameEn != value))
+				{
+					this._ShortNameEn = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortNameAr", DbType="NVarChar(50)")]
+		public string ShortNameAr
+		{
+			get
+			{
+				return this._ShortNameAr;
+			}
+			set
+			{
+				if ((this._ShortNameAr != value))
+				{
+					this._ShortNameAr = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Symbol", DbType="VarChar(50)")]
+		public string Symbol
+		{
+			get
+			{
+				return this._Symbol;
+			}
+			set
+			{
+				if ((this._Symbol != value))
+				{
+					this._Symbol = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarketID", DbType="Int")]
+		public System.Nullable<int> MarketID
+		{
+			get
+			{
+				return this._MarketID;
+			}
+			set
+			{
+				if ((this._MarketID != value))
+				{
+					this._MarketID = value;
 				}
 			}
 		}
@@ -1512,6 +1539,122 @@ namespace FinTech101.Models
 				if ((this._Close != value))
 				{
 					this._Close = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntityResult
+	{
+		
+		private System.Nullable<System.DateTime> _AnchorForDate;
+		
+		private System.Nullable<decimal> _AnchorChange;
+		
+		private System.Nullable<decimal> _AnchorChangePercent;
+		
+		private System.Nullable<System.DateTime> _TargetForDate;
+		
+		private System.Nullable<decimal> _TargetChange;
+		
+		private System.Nullable<decimal> _TargetChangePercent;
+		
+		public SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntityResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnchorForDate", DbType="Date")]
+		public System.Nullable<System.DateTime> AnchorForDate
+		{
+			get
+			{
+				return this._AnchorForDate;
+			}
+			set
+			{
+				if ((this._AnchorForDate != value))
+				{
+					this._AnchorForDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnchorChange", DbType="Decimal(19,2)")]
+		public System.Nullable<decimal> AnchorChange
+		{
+			get
+			{
+				return this._AnchorChange;
+			}
+			set
+			{
+				if ((this._AnchorChange != value))
+				{
+					this._AnchorChange = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnchorChangePercent", DbType="Decimal(38,15)")]
+		public System.Nullable<decimal> AnchorChangePercent
+		{
+			get
+			{
+				return this._AnchorChangePercent;
+			}
+			set
+			{
+				if ((this._AnchorChangePercent != value))
+				{
+					this._AnchorChangePercent = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TargetForDate", DbType="Date")]
+		public System.Nullable<System.DateTime> TargetForDate
+		{
+			get
+			{
+				return this._TargetForDate;
+			}
+			set
+			{
+				if ((this._TargetForDate != value))
+				{
+					this._TargetForDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TargetChange", DbType="Decimal(19,2)")]
+		public System.Nullable<decimal> TargetChange
+		{
+			get
+			{
+				return this._TargetChange;
+			}
+			set
+			{
+				if ((this._TargetChange != value))
+				{
+					this._TargetChange = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TargetChangePercent", DbType="Decimal(38,15)")]
+		public System.Nullable<decimal> TargetChangePercent
+		{
+			get
+			{
+				return this._TargetChangePercent;
+			}
+			set
+			{
+				if ((this._TargetChangePercent != value))
+				{
+					this._TargetChangePercent = value;
 				}
 			}
 		}

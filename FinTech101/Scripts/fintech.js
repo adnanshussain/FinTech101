@@ -113,6 +113,29 @@ $(function () {
         })
     });
 
+    $("#q7_go").on("click", function () {
+        initResults();
+
+        $.ajax('/home/q7', {
+            data: {
+                targetSetID: $('#set_selection').val(),
+                targetSeID: $('#q7_target_se').val(),
+                anchorSeID: $('#q7_anchor_se').val(),
+                targetAfterDays: $('#q7_target_after_days').val(),
+                anchorPercent: $('#q7_anchor_percent').val(),
+                fromYear: $('#q7_from_year').val(),
+                toYear: $('#q7_to_year').val()
+            },
+            success: function (data, status, xhrObj) {
+                console.log("ajax success");
+                $('#result').html(data);
+            },
+            error: function (xhrObj, status, errorThrown) {
+                resultWasError();
+            }
+        })
+    });
+
     $("#event_categories").on("change", function () {
         $.ajax('/home/eventslist', {
             data: {

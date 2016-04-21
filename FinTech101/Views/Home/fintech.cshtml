@@ -24,6 +24,9 @@
 <p class="well well-sm" style="width:65%">
     <span style="font-weight:bold">Q5:</span> Which @Model.SelectedSET.Text was up more than @Html.TextBox("q5_percent", 70, new { size = 3 }) % from @Html.DropDownList("q5_from_year", Model.SetActiveYears_From) to @Html.DropDownList("q5_to_year", Model.SetActiveYears_To) <button id="q5_go">Go</button>
 </p>
+<p class="well well-sm" style="width:70%">
+    <span style="font-weight:bold">Q7:</span> What was the effect on @Html.DropDownList("q7_target_se", Model.StockEntities) after @Html.TextBox("q7_target_after_days", 10, new { size = 3 }) days, when the price of @Html.DropDownList("q7_anchor_se", Model.CommodityStockEntities) was up by @Html.TextBox("q7_anchor_percent", 5, new { size = 3 }) % from @Html.DropDownList("q7_from_year", Model.SetActiveYears_From) to @Html.DropDownList("q7_to_year", Model.SetActiveYears_To) <button id="q7_go">Go</button>
+</p>
 
 <h2>Fintech Results</h2>
 <div id="result">

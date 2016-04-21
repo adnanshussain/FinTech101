@@ -1,31 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Argaam_Analytics" Class="ArgaamAnalyticsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=172.16.3.51;Initial Catalog=Argaam_Analytics;User ID=argplus_user" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Argaam_AnalyticsConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.GlobalEventCategories" Member="GlobalEventCategories">
-    <Type Name="GlobalEventCategory">
-      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EventCategoryName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.GlobalEvents" Member="GlobalEvents">
-    <Type Name="GlobalEvent">
-      <Column Name="GlobalEventID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="StartsOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="EndsOn" Type="System.DateTime" DbType="Date" CanBeNull="true" UpdateCheck="Never" />
-    </Type>
-  </Table>
-  <Table Name="dbo.StockEntities" Member="StockEntities">
-    <Type Name="StockEntity">
-      <Column Name="StockEntityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NameEn" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="NameAr" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
-      <Column Name="ShortNameEn" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ShortNameAr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Symbol" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.StockEntityTypes" Member="StockEntityTypes">
     <Type Name="StockEntityType">
       <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -43,6 +17,39 @@
       <Column Name="Max" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
       <Column Name="Volume" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
       <Column Name="Amount" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EventCategories" Member="EventCategories">
+    <Type Name="EventCategory">
+      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EventCategoryName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="IsSubcategory" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="ParentCategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Events" Member="Events">
+    <Type Name="Event">
+      <Column Name="GlobalEventID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EventClassification" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="CompanyEventType" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="StartsOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="EndsOn" Type="System.DateTime" DbType="Date" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="MarketID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StockEntities" Member="StockEntities">
+    <Type Name="StockEntity">
+      <Column Name="StockEntityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StockEntityTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NameEn" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="NameAr" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ShortNameEn" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ShortNameAr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Symbol" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MarketID" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="dbo.SP_Q1_StockEntityWasUpOrDownByPercent" Method="SP_Q1_StockEntityWasUpOrDownByPercent">
@@ -126,6 +133,24 @@
       <Column Name="seID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="setID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntity" Method="SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntity">
+    <Parameter Name="p_anchor_set_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_anchor_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_target_set_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_target_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_anchor_percent" Type="System.Decimal" DbType="Decimal(18,2)" />
+    <Parameter Name="p_target_days" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_from_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_to_year" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntityResult">
+      <Column Name="AnchorForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="AnchorChange" Type="System.Decimal" DbType="Decimal(19,2)" CanBeNull="true" />
+      <Column Name="AnchorChangePercent" Type="System.Decimal" DbType="Decimal(38,15)" CanBeNull="true" />
+      <Column Name="TargetForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TargetChange" Type="System.Decimal" DbType="Decimal(19,2)" CanBeNull="true" />
+      <Column Name="TargetChangePercent" Type="System.Decimal" DbType="Decimal(38,15)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

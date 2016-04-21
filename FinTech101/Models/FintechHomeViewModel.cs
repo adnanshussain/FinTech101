@@ -10,6 +10,7 @@ namespace FinTech101.Models
     {
         public SelectList StockEntityTypes;
         public SelectList StockEntities;
+        public SelectList CommodityStockEntities;
         public SelectList SetActiveYears_From;
         public SelectList SetActiveYears_To;
         public int SetMinYear;

@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.875" name="ArgaamAnalytics">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="ArgaamAnalytics">
   <DataContextMoniker Name="/ArgaamAnalyticsDataContext" />
   <nestedChildShapes>
-    <classShape Id="c16c415d-35c0-4aaa-b6c1-c6b54ef03780" absoluteBounds="3.375, 3.75, 2, 1.193992513020834">
-      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/GlobalEventCategory" />
-      <nestedChildShapes>
-        <elementListCompartment Id="dfc0e8e5-5262-426e-8928-f7d216abd8dc" absoluteBounds="3.39, 4.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="ce9c9480-4914-4333-ad41-d6e75fbd8836" absoluteBounds="4.875, 0.875, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/GlobalEvent" />
-      <nestedChildShapes>
-        <elementListCompartment Id="0a48427a-cef9-46f2-bf1b-843f03dd2777" absoluteBounds="4.89, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="9879e173-9e40-47d2-a220-c97c0cabd8c0" absoluteBounds="0.75, 1.625, 2, 2.1554996744791666">
-      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/StockEntity" />
-      <nestedChildShapes>
-        <elementListCompartment Id="27fdf92c-c336-49f1-8b82-c6872f33e0a8" absoluteBounds="0.765, 2.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="4f8915f4-f220-4844-baf2-a5464b63d491" absoluteBounds="8.5, 4, 2, 1.1939925130208333">
+    <classShape Id="4f8915f4-f220-4844-baf2-a5464b63d491" absoluteBounds="0.75, 0.75, 2, 1.1939925130208331">
       <DataClassMoniker Name="/ArgaamAnalyticsDataContext/StockEntityType" />
       <nestedChildShapes>
-        <elementListCompartment Id="9357c742-5222-46ef-8baa-a4b4dc87a977" absoluteBounds="8.515, 4.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="9357c742-5222-46ef-8baa-a4b4dc87a977" absoluteBounds="0.76500000000000057, 1.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b8652064-1ee9-4f23-8efb-a7fd34682799" absoluteBounds="2.25, 6.125, 2, 2.5401025390625">
+    <classShape Id="b8652064-1ee9-4f23-8efb-a7fd34682799" absoluteBounds="0.75, 2.75, 2, 2.5401025390625005">
       <DataClassMoniker Name="/ArgaamAnalyticsDataContext/StockEntityPrice" />
       <nestedChildShapes>
-        <elementListCompartment Id="740991b0-dc40-44d0-b4ef-6e6b47a5b194" absoluteBounds="2.265, 6.585, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="740991b0-dc40-44d0-b4ef-6e6b47a5b194" absoluteBounds="0.76500000000000012, 3.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="57f4de40-0953-4a3d-b1b1-317101f4770a" absoluteBounds="3.75, 0.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/EventCategory" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cc719754-a8aa-4d56-8ed3-c0fa93746f28" absoluteBounds="3.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="131b010b-f705-486d-b7c3-cd4291ead23b" absoluteBounds="3.75, 3.75, 2, 2.5401025390625005">
+      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/Event" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b25cb2e0-9bd0-44ce-a9d4-1a83cc7293db" absoluteBounds="3.765, 4.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7ef0c6ac-85d9-41ad-96aa-8b60da5b2b92" absoluteBounds="6.75, 0.75, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/ArgaamAnalyticsDataContext/StockEntity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2edf59a8-680a-4983-892b-0e1771ab89aa" absoluteBounds="6.765, 1.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>
