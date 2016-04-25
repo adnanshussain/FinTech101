@@ -9,39 +9,72 @@ namespace FinTech101.Controllers
 {
     public class EventController : Controller
     {
+        public ActionResult ListEventCategories()
+        {
+            ViewData["result"] = EventsService.GetAllEventCategories();
+
+            return (View());
+        }
+
+        public ActionResult AddEventCategory()
+        {
+            var parentCategories = EventsService.GetAllParentEventCategories();
+            ViewData["ParentCategories_SL"] = new SelectList(parentCategories.AsEnumerable().Select((item, index) => new SelectListItem() { Text = item.EventCategoryName, Value = item.EventCategoryID.ToString() }).ToList<SelectListItem>(), "Value", "Text");
+
+            return (View());
+        }
+
+        [HttpPost]
+        public JsonResult AddEventCategory(EventCategory postedData)
+        {
+            EventsService.AddEventCategory(postedData);
+
+            return (Json("success"));
+        }
+
         public ActionResult ListEvents()
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var events = (from p in aadc.Events
-                                  //where (eventCategoryID > 0 && p.EventCategoryID == eventCategoryID) || true
-                              orderby p.StartsOn
-                              select p).ToList();
+                ViewData["filteredEvents"] = EventsService.GetAllEvents();
 
-                ViewBag.allEvents = events;
-
-                var eventCategories = (from p in aadc.EventCategories
-                                       select p).ToList();
-
-                var allEventCategories = eventCategories.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList<SelectListItem>();
-                allEventCategories.Insert(0, new SelectListItem() { Value = "0", Text = "SHOW ALL" });
-
-                ViewBag.allEventCategories = allEventCategories;
+                ViewData["companies_SL"] = new SelectList(FintechService.GetStockEntities(1).AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.StockEntityID.ToString(), Text = item.NameEn }), "Value", "Text");
+                var eventCatSLI = EventsService.GetAllParentEventCategories().AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList();
+                eventCatSLI.Insert(0, new SelectListItem() { Text = "ANY", Value = "0" });
+                ViewData["parentEventCategories_SL"] = new SelectList(eventCatSLI, "Value", "Text");
             }
 
             return (View());
         }
 
-        public ActionResult EventsList(int eventCategoryID = 0)
+        public ActionResult EventSubCategoryDropDown(int? parentEventCategoryID)
+        {
+
+            if (parentEventCategoryID.HasValue && parentEventCategoryID.Value != 0)
+            {
+                var sli = EventsService.GetAllEventSubCategories(parentEventCategoryID.Value).AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList();
+                if(sli.Count > 0)
+                {
+                    ViewData["result"] = new SelectList(sli, "Value", "Text");
+                }
+            }                
+
+            return (View());
+        }
+
+        public ActionResult ListEventsFiltered(int eventClass, int companyEventType, int companyID, int eventCategoryID, int? eventSubCategoryID)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 var events = (from p in aadc.Events
-                              where (eventCategoryID > 0 && p.EventCategoryID == eventCategoryID) || (eventCategoryID == 0)
+                              where 
+                                (eventClass == 1 && p.EventClassification == eventClass && (companyEventType == 0 || (p.CompanyEventType == companyEventType)) && (companyID == p.CompanyID) && (eventCategoryID == 0 || p.EventCategoryID == eventCategoryID || (eventSubCategoryID.HasValue && p.EventCategoryID == eventSubCategoryID)))
+                                || 
+                                (eventClass == 2 && p.EventClassification == eventClass && (eventCategoryID == 0 || p.EventCategoryID == eventCategoryID || (eventSubCategoryID.HasValue && p.EventCategoryID == eventSubCategoryID)))
                               orderby p.StartsOn
                               select p).ToList();
 
-                ViewBag.allEvents = events;
+                ViewData["filteredEvents"] = events;
             }
 
             return (PartialView("_eventsList"));
@@ -82,7 +115,7 @@ namespace FinTech101.Controllers
                 //          where rec.GlobalEventID == eventID
                 //          select rec).Single();
 
-                var ge = new Event() { GlobalEventID = eventID };
+                var ge = new Event() { EventID = eventID };
 
                 aadc.Events.Attach(ge);
                 aadc.Events.DeleteOnSubmit(ge);

@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "ListEventCategories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<FinTech101.Models.EventCategory> result = (List<FinTech101.Models.EventCategory>)ViewData["result"];
+}
+
+<h2>Event Categories List</h2>
+
+<table border="1" width="30%">
+    <thead>
+        <tr>
+            <th width="25%">Categories</th>
+            <th>Sub-Categories</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var pec in result)
+            {
+                if (!pec.IsSubcategory)
+                {
+                    <tr>
+                        <td>@pec.EventCategoryName</td>
+                        <td>
+                            <ul>
+                                @foreach (var sec in result.Where(i => i.IsSubcategory && i.ParentCategoryID == pec.EventCategoryID))
+                                {
+                                    <li>@sec.EventCategoryName</li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+<br />
+@Html.ActionLink("Add New Category", "AddEventCategory", "Event", null, new { @class = "btn btn-primary" })

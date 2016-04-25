@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "AddNewCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    SelectList parentCategories_SL = (SelectList)ViewData["ParentCategories_SL"];
+}
+
+<div class="bs-example" onsubmit="return false">
+    <span class="bs-example-heading">Add New Event Category</span>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-lg-2">Event Category Name:</label>
+            <div class="col-lg-8">
+                <input type="text" class="form-control" id="event-category-name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="is-sub-category"> Is a Sub-Category
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" hidden="hidden" id="parent-event-category-container">
+            <label class="col-lg-2">Parent Event Category:</label>
+            <div class="col-lg-8">
+                @Html.DropDownList("parent-category", parentCategories_SL, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-8">
+                <button type="submit" class="btn btn-default" id="btn-save">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/fintech")
+
+    <script type="text/javascript">
+        $(function () {
+            $("#is-sub-category").click(function () {
+                if ($(this).is(':checked')) {
+                    $("#parent-event-category-container").show();
+                } else {
+                    $("#parent-event-category-container").hide();
+                }
+            });
+
+            $("#btn-save").click(function () {
+                var isSubCat = $("#is-sub-category").is(':checked');
+
+                postData("/event/addeventcategory", {
+                    EventCategoryName: $("#event-category-name").val(),
+                        IsSubcategory: isSubCat,
+                    ParentCategoryID: isSubCat ? $("#parent-category").val() : null
+                }, function () {
+                    window.location = "/event/listeventcategories";
+                })
+            });
+        });
+    </script>
+}

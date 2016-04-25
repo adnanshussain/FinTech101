@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+    List<FinTech101.Models.Event> events = (List<FinTech101.Models.Event>)ViewData["filteredEvents"];
+}
+@{
+    <div class="row">
+        @for (int i = 0; i < 3; i++)
+        {
+            <div class="col-lg-4">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Event Description</th>
+                            <th style="text-align:center">Event Start Date</th>
+                            <th style="text-align:center">Event End Date</th>
+                            <th style="text-align:center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                                int from = i * (events.Count / 3);
+                                int to = i * (events.Count / 3) + (events.Count / 3);
+                                to = (i == 2 && events.Count - to == 1) ? to + 1 : to;
+
+                                for (int j = from; j < to; j++)
+                                {
+                                    FinTech101.Models.Event eventItem = events[j];
+                                <tr>
+                                    <td>@eventItem.EventDesc</td>
+                                    <td align="center">@eventItem.StartsOn.ToString("dd-MM-yyyy")</td>
+                                    <td align="center">@(eventItem.EndsOn != null ? eventItem.EndsOn.Value.ToString("dd-MM-yyyy") : "")</td>
+                                    <td align="center"><span style="font-weight:bold"><a href="javascript:void(0)" class="deleteEvent" id="@eventItem.EventID">X</a></span></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}

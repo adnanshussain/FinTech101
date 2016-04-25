@@ -30,6 +30,12 @@ namespace FinTech101.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertEventCategory(EventCategory instance);
+    partial void UpdateEventCategory(EventCategory instance);
+    partial void DeleteEventCategory(EventCategory instance);
+    partial void InsertEvent(Event instance);
+    partial void UpdateEvent(Event instance);
+    partial void DeleteEvent(Event instance);
     #endregion
 		
 		public ArgaamAnalyticsDataContext() : 
@@ -78,6 +84,14 @@ namespace FinTech101.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<StockEntity> StockEntities
+		{
+			get
+			{
+				return this.GetTable<StockEntity>();
+			}
+		}
+		
 		public System.Data.Linq.Table<EventCategory> EventCategories
 		{
 			get
@@ -91,14 +105,6 @@ namespace FinTech101.Models
 			get
 			{
 				return this.GetTable<Event>();
-			}
-		}
-		
-		public System.Data.Linq.Table<StockEntity> StockEntities
-		{
-			get
-			{
-				return this.GetTable<StockEntity>();
 			}
 		}
 		
@@ -361,258 +367,6 @@ namespace FinTech101.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventCategories")]
-	public partial class EventCategory
-	{
-		
-		private int _EventCategoryID;
-		
-		private string _EventCategoryName;
-		
-		private bool _IsSubcategory;
-		
-		private System.Nullable<int> _ParentCategoryID;
-		
-		public EventCategory()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL")]
-		public int EventCategoryID
-		{
-			get
-			{
-				return this._EventCategoryID;
-			}
-			set
-			{
-				if ((this._EventCategoryID != value))
-				{
-					this._EventCategoryID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryName", DbType="VarChar(50) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string EventCategoryName
-		{
-			get
-			{
-				return this._EventCategoryName;
-			}
-			set
-			{
-				if ((this._EventCategoryName != value))
-				{
-					this._EventCategoryName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSubcategory", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public bool IsSubcategory
-		{
-			get
-			{
-				return this._IsSubcategory;
-			}
-			set
-			{
-				if ((this._IsSubcategory != value))
-				{
-					this._IsSubcategory = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentCategoryID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<int> ParentCategoryID
-		{
-			get
-			{
-				return this._ParentCategoryID;
-			}
-			set
-			{
-				if ((this._ParentCategoryID != value))
-				{
-					this._ParentCategoryID = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Events")]
-	public partial class Event
-	{
-		
-		private int _GlobalEventID;
-		
-		private int _EventClassification;
-		
-		private System.Nullable<int> _CompanyEventType;
-		
-		private int _EventCategoryID;
-		
-		private string _EventDesc;
-		
-		private System.DateTime _StartsOn;
-		
-		private System.Nullable<System.DateTime> _EndsOn;
-		
-		private System.Nullable<int> _CompanyID;
-		
-		private System.Nullable<int> _MarketID;
-		
-		public Event()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GlobalEventID", DbType="Int NOT NULL")]
-		public int GlobalEventID
-		{
-			get
-			{
-				return this._GlobalEventID;
-			}
-			set
-			{
-				if ((this._GlobalEventID != value))
-				{
-					this._GlobalEventID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventClassification", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public int EventClassification
-		{
-			get
-			{
-				return this._EventClassification;
-			}
-			set
-			{
-				if ((this._EventClassification != value))
-				{
-					this._EventClassification = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyEventType", DbType="Int", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<int> CompanyEventType
-		{
-			get
-			{
-				return this._CompanyEventType;
-			}
-			set
-			{
-				if ((this._CompanyEventType != value))
-				{
-					this._CompanyEventType = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public int EventCategoryID
-		{
-			get
-			{
-				return this._EventCategoryID;
-			}
-			set
-			{
-				if ((this._EventCategoryID != value))
-				{
-					this._EventCategoryID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDesc", DbType="NVarChar(128) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string EventDesc
-		{
-			get
-			{
-				return this._EventDesc;
-			}
-			set
-			{
-				if ((this._EventDesc != value))
-				{
-					this._EventDesc = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartsOn", DbType="Date NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public System.DateTime StartsOn
-		{
-			get
-			{
-				return this._StartsOn;
-			}
-			set
-			{
-				if ((this._StartsOn != value))
-				{
-					this._StartsOn = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndsOn", DbType="Date", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTime> EndsOn
-		{
-			get
-			{
-				return this._EndsOn;
-			}
-			set
-			{
-				if ((this._EndsOn != value))
-				{
-					this._EndsOn = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<int> CompanyID
-		{
-			get
-			{
-				return this._CompanyID;
-			}
-			set
-			{
-				if ((this._CompanyID != value))
-				{
-					this._CompanyID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarketID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<int> MarketID
-		{
-			get
-			{
-				return this._MarketID;
-			}
-			set
-			{
-				if ((this._MarketID != value))
-				{
-					this._MarketID = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StockEntities")]
 	public partial class StockEntity
 	{
@@ -762,6 +516,394 @@ namespace FinTech101.Models
 				{
 					this._MarketID = value;
 				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventCategories")]
+	public partial class EventCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _EventCategoryID;
+		
+		private string _EventCategoryName;
+		
+		private bool _IsSubcategory;
+		
+		private System.Nullable<int> _ParentCategoryID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEventCategoryIDChanging(int value);
+    partial void OnEventCategoryIDChanged();
+    partial void OnEventCategoryNameChanging(string value);
+    partial void OnEventCategoryNameChanged();
+    partial void OnIsSubcategoryChanging(bool value);
+    partial void OnIsSubcategoryChanged();
+    partial void OnParentCategoryIDChanging(System.Nullable<int> value);
+    partial void OnParentCategoryIDChanged();
+    #endregion
+		
+		public EventCategory()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int EventCategoryID
+		{
+			get
+			{
+				return this._EventCategoryID;
+			}
+			set
+			{
+				if ((this._EventCategoryID != value))
+				{
+					this.OnEventCategoryIDChanging(value);
+					this.SendPropertyChanging();
+					this._EventCategoryID = value;
+					this.SendPropertyChanged("EventCategoryID");
+					this.OnEventCategoryIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryName", DbType="VarChar(50) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string EventCategoryName
+		{
+			get
+			{
+				return this._EventCategoryName;
+			}
+			set
+			{
+				if ((this._EventCategoryName != value))
+				{
+					this.OnEventCategoryNameChanging(value);
+					this.SendPropertyChanging();
+					this._EventCategoryName = value;
+					this.SendPropertyChanged("EventCategoryName");
+					this.OnEventCategoryNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSubcategory", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public bool IsSubcategory
+		{
+			get
+			{
+				return this._IsSubcategory;
+			}
+			set
+			{
+				if ((this._IsSubcategory != value))
+				{
+					this.OnIsSubcategoryChanging(value);
+					this.SendPropertyChanging();
+					this._IsSubcategory = value;
+					this.SendPropertyChanged("IsSubcategory");
+					this.OnIsSubcategoryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentCategoryID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> ParentCategoryID
+		{
+			get
+			{
+				return this._ParentCategoryID;
+			}
+			set
+			{
+				if ((this._ParentCategoryID != value))
+				{
+					this.OnParentCategoryIDChanging(value);
+					this.SendPropertyChanging();
+					this._ParentCategoryID = value;
+					this.SendPropertyChanged("ParentCategoryID");
+					this.OnParentCategoryIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Events")]
+	public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _EventID;
+		
+		private int _EventClassification;
+		
+		private System.Nullable<int> _CompanyEventType;
+		
+		private int _EventCategoryID;
+		
+		private string _EventDesc;
+		
+		private System.DateTime _StartsOn;
+		
+		private System.Nullable<System.DateTime> _EndsOn;
+		
+		private System.Nullable<int> _CompanyID;
+		
+		private System.Nullable<int> _MarketID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEventIDChanging(int value);
+    partial void OnEventIDChanged();
+    partial void OnEventClassificationChanging(int value);
+    partial void OnEventClassificationChanged();
+    partial void OnCompanyEventTypeChanging(System.Nullable<int> value);
+    partial void OnCompanyEventTypeChanged();
+    partial void OnEventCategoryIDChanging(int value);
+    partial void OnEventCategoryIDChanged();
+    partial void OnEventDescChanging(string value);
+    partial void OnEventDescChanged();
+    partial void OnStartsOnChanging(System.DateTime value);
+    partial void OnStartsOnChanged();
+    partial void OnEndsOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnEndsOnChanged();
+    partial void OnCompanyIDChanging(System.Nullable<int> value);
+    partial void OnCompanyIDChanged();
+    partial void OnMarketIDChanging(System.Nullable<int> value);
+    partial void OnMarketIDChanged();
+    #endregion
+		
+		public Event()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int EventID
+		{
+			get
+			{
+				return this._EventID;
+			}
+			set
+			{
+				if ((this._EventID != value))
+				{
+					this.OnEventIDChanging(value);
+					this.SendPropertyChanging();
+					this._EventID = value;
+					this.SendPropertyChanged("EventID");
+					this.OnEventIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventClassification", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int EventClassification
+		{
+			get
+			{
+				return this._EventClassification;
+			}
+			set
+			{
+				if ((this._EventClassification != value))
+				{
+					this.OnEventClassificationChanging(value);
+					this.SendPropertyChanging();
+					this._EventClassification = value;
+					this.SendPropertyChanged("EventClassification");
+					this.OnEventClassificationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyEventType", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> CompanyEventType
+		{
+			get
+			{
+				return this._CompanyEventType;
+			}
+			set
+			{
+				if ((this._CompanyEventType != value))
+				{
+					this.OnCompanyEventTypeChanging(value);
+					this.SendPropertyChanging();
+					this._CompanyEventType = value;
+					this.SendPropertyChanged("CompanyEventType");
+					this.OnCompanyEventTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCategoryID", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int EventCategoryID
+		{
+			get
+			{
+				return this._EventCategoryID;
+			}
+			set
+			{
+				if ((this._EventCategoryID != value))
+				{
+					this.OnEventCategoryIDChanging(value);
+					this.SendPropertyChanging();
+					this._EventCategoryID = value;
+					this.SendPropertyChanged("EventCategoryID");
+					this.OnEventCategoryIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDesc", DbType="NVarChar(128) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string EventDesc
+		{
+			get
+			{
+				return this._EventDesc;
+			}
+			set
+			{
+				if ((this._EventDesc != value))
+				{
+					this.OnEventDescChanging(value);
+					this.SendPropertyChanging();
+					this._EventDesc = value;
+					this.SendPropertyChanged("EventDesc");
+					this.OnEventDescChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartsOn", DbType="Date NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public System.DateTime StartsOn
+		{
+			get
+			{
+				return this._StartsOn;
+			}
+			set
+			{
+				if ((this._StartsOn != value))
+				{
+					this.OnStartsOnChanging(value);
+					this.SendPropertyChanging();
+					this._StartsOn = value;
+					this.SendPropertyChanged("StartsOn");
+					this.OnStartsOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndsOn", DbType="Date", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<System.DateTime> EndsOn
+		{
+			get
+			{
+				return this._EndsOn;
+			}
+			set
+			{
+				if ((this._EndsOn != value))
+				{
+					this.OnEndsOnChanging(value);
+					this.SendPropertyChanging();
+					this._EndsOn = value;
+					this.SendPropertyChanged("EndsOn");
+					this.OnEndsOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> CompanyID
+		{
+			get
+			{
+				return this._CompanyID;
+			}
+			set
+			{
+				if ((this._CompanyID != value))
+				{
+					this.OnCompanyIDChanging(value);
+					this.SendPropertyChanging();
+					this._CompanyID = value;
+					this.SendPropertyChanged("CompanyID");
+					this.OnCompanyIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarketID", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> MarketID
+		{
+			get
+			{
+				return this._MarketID;
+			}
+			set
+			{
+				if ((this._MarketID != value))
+				{
+					this.OnMarketIDChanging(value);
+					this.SendPropertyChanging();
+					this._MarketID = value;
+					this.SendPropertyChanged("MarketID");
+					this.OnMarketIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

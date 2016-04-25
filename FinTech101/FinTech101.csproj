@@ -177,6 +177,7 @@
       <DependentUpon>ArgaamAnalytics.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\DateWithDoW.cs" />
+    <Compile Include="Models\EventsService.cs" />
     <Compile Include="Models\FintechHomeViewModel.cs" />
     <Compile Include="Models\FintechService.cs" />
     <Compile Include="Models\PartialClasses.cs" />
@@ -253,16 +254,18 @@
     <Content Include="Views\Home\q4.cshtml" />
     <Content Include="Views\Home\q5.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
-    <Content Include="Views\Home\AddGlobalEvent.cshtml" />
-    <Content Include="Views\Home\ListEvents.cshtml" />
-    <Content Include="Views\Home\_eventsList.cshtml" />
-    <Content Include="Views\Home\AddEvent.cshtml" />
+    <Content Include="Views\Event\AddGlobalEvent.cshtml" />
+    <Content Include="Views\Event\ListEvents.cshtml" />
+    <Content Include="Views\Event\_eventsList.cshtml" />
+    <Content Include="Views\Event\AddEvent.cshtml" />
     <Content Include="Views\Home\q4_with_range.cshtml" />
     <Content Include="Views\Home\q7.cshtml" />
+    <Content Include="Views\Event\ListEventCategories.cshtml" />
+    <Content Include="Views\Event\AddEventCategory.cshtml" />
+    <Content Include="Views\Event\EventSubCategoryDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Event\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

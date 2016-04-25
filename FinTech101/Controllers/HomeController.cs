@@ -56,7 +56,7 @@ namespace FinTech101.Controllers
                 var events = from p in aadc.Events
                              select new
                              {
-                                 Value = p.GlobalEventID,
+                                 Value = p.EventID,
                                  Desc = p.EventDesc,
                                  StartDate = p.StartsOn,
                                  EndDate = p.EndsOn
@@ -145,7 +145,7 @@ namespace FinTech101.Controllers
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 var eventDate = (from p in aadc.Events
-                                 where p.GlobalEventID == eventID
+                                 where p.EventID == eventID
                                  select new
                                  {
                                      StartDate = p.StartsOn,

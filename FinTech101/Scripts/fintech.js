@@ -23,6 +23,23 @@ function fetchResult(qno, data) {
     });
 }
 
+function postData(url, data, successFunc) {
+    $.ajax(url, {
+        type: "POST",
+        data: data,
+        complete: function(jqXHR, statusText) {
+            // Called right at the fookin end
+        },
+        success: function (data, status, xhrObj) {
+            console.log("ajax post success");
+            if (successFunc)
+                successFunc();
+        },
+        error: function (xhrObj, status, errorThrown) {
+        }
+    });
+}
+
 $(function () {
     console.log("fintech ready!");
 
@@ -132,45 +149,6 @@ $(function () {
             },
             error: function (xhrObj, status, errorThrown) {
                 resultWasError();
-            }
-        })
-    });
-
-    $("#event_categories").on("change", function () {
-        $.ajax('/home/eventslist', {
-            data: {
-                eventCategoryID: $('#event_categories').val()
-            },
-            success: function (data, status, xhrObj) {
-                $('#events_list_result').html(data);
-            },
-            error: function (xhrObj, status, errorThrown) {
-                $('#events_list_result').html("");
-                $('#events_list_result').html("There was an error processing the request.");
-            }
-        })
-    });
-
-    $(".deleteEvent").on("click", function () {
-        var eventID = $(this).attr("id");
-        console.log(eventID);
-
-        $.ajax("/home/deleteevent", {
-            data: {
-                eventID: eventID
-            }
-        });
-
-        $.ajax('/home/eventslist', {
-            data: {
-                eventCategoryID: $('#event_categories').val()
-            },
-            success: function (data, status, xhrObj) {
-                $('#events_list_result').html(data);
-            },
-            error: function (xhrObj, status, errorThrown) {
-                $('#events_list_result').html("");
-                $('#events_list_result').html("There was an error processing the request.");
             }
         })
     });

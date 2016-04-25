@@ -19,27 +19,6 @@
       <Column Name="Amount" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.EventCategories" Member="EventCategories">
-    <Type Name="EventCategory">
-      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EventCategoryName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="IsSubcategory" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="ParentCategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Events" Member="Events">
-    <Type Name="Event">
-      <Column Name="GlobalEventID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EventClassification" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="CompanyEventType" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="StartsOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="EndsOn" Type="System.DateTime" DbType="Date" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="MarketID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
-    </Type>
-  </Table>
   <Table Name="dbo.StockEntities" Member="StockEntities">
     <Type Name="StockEntity">
       <Column Name="StockEntityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -50,6 +29,27 @@
       <Column Name="ShortNameAr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Symbol" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="MarketID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EventCategories" Member="EventCategories">
+    <Type Name="EventCategory">
+      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EventCategoryName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="IsSubcategory" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="ParentCategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Events" Member="Events">
+    <Type Name="Event">
+      <Column Name="EventID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EventClassification" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="CompanyEventType" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EventCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="EventDesc" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="StartsOn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="EndsOn" Type="System.DateTime" DbType="Date" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="MarketID" Type="System.Int32" DbType="Int" CanBeNull="true" UpdateCheck="Never" />
     </Type>
   </Table>
   <Function Name="dbo.SP_Q1_StockEntityWasUpOrDownByPercent" Method="SP_Q1_StockEntityWasUpOrDownByPercent">
