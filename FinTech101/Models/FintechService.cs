@@ -167,7 +167,7 @@ namespace FinTech101.Models
             }
         }
 
-        public static List<TableRowViewModel> GetStockEntityPricesAroundDates_UI(int setID, int seID, DateTime startsOn, DateTime? endsOn, int weeksBefore, int weeksAfter)
+        public static List<TableRowViewModel> GetStockEntityPricesAroundDates_UI(int setID, int seID, DateTime startsOn, DateTime? endsOn, int daysBefore, int daysAfter)
         {
             var result = new List<TableRowViewModel>();
             var isRange = endsOn != null;
@@ -176,7 +176,7 @@ namespace FinTech101.Models
 
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var spResult = (aadc.SP_Q4_PricesAroundEventDate(startsOn, endsOn, weeksBefore * -1, weeksAfter, seID, setID)).ToList();
+                var spResult = (aadc.SP_Q4_PricesAroundEventDate(startsOn, endsOn, daysBefore * -1, daysAfter, seID, setID)).ToList();
 
                 var resultDates = (from r in spResult
                                    group r by new { r.ForDate, r.DoW }
@@ -193,7 +193,7 @@ namespace FinTech101.Models
                 bool eventDateClosingPriceWasZero = false;
                 decimal? eventDateClosingPrice = (from r in spResult
                                                   where r.seID == seID && r.setID == setID
-                                                  select r.Close).Skip(weeksBefore * 7).Take(1).First();
+                                                  select r.Close).Skip(daysBefore).Take(1).First();
                 DateTime closingPriceAltDate;
                 decimal? firstValidClosingPrice = 0.0M;
                 DateTime firstValidClosingPriceDate = DateTime.MinValue;
@@ -249,7 +249,7 @@ namespace FinTech101.Models
 
                 #region Row 1 Header
                 TableRowViewModel row1 = new TableRowViewModel();
-                row1.TableCells.Add(new TableCellViewModel() { Text = "Dates / Commodity" });
+                row1.TableCells.Add(new TableCellViewModel() { Text = "Dates / Entity" });
 
                 int startsOnIndex = -1, endsOnIndex = -1;
                 int actualEventDatePriceIndex = -1;
@@ -285,11 +285,11 @@ namespace FinTech101.Models
                 result.Add(row1);
                 #endregion
 
-                List<StockEntityAndType> seArray = new List<StockEntityAndType>()
+                List<StockEntityAndType> seArray = new List<StockEntityAndType>()/*
                 {
                     new StockEntityAndType() { StockEntityTypeID = 5, StockEntityID = 1 },
                     new StockEntityAndType() { StockEntityTypeID = 5, StockEntityID = 3 }
-                };
+                }*/;
                 seArray.Add(new StockEntityAndType() { StockEntityTypeID = setID, StockEntityID = seID });
                 decimal beforeEventChange = 0.0M, afteEventChange = 0.0M;
 

@@ -120,21 +120,6 @@
       <Column Name="[12]" Member="_12" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.SP_Q4_PricesAroundEventDate" Method="SP_Q4_PricesAroundEventDate">
-    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
-    <Parameter Name="p_event_end_date" Type="System.DateTime" DbType="Date" />
-    <Parameter Name="p_week_before" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_week_after" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_se_id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="p_se_type_id" Type="System.Int32" DbType="Int" />
-    <ElementType Name="SP_Q4_PricesAroundEventDateResult">
-      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
-      <Column Name="seID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="setID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntity" Method="SP_Q7_GetStockEntityPricesBasedOnSomeOtherStockEntity">
     <Parameter Name="p_anchor_set_id" Type="System.Int32" DbType="Int" />
     <Parameter Name="p_anchor_se_id" Type="System.Int32" DbType="Int" />
@@ -151,6 +136,21 @@
       <Column Name="TargetForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="TargetChange" Type="System.Decimal" DbType="Decimal(19,2)" CanBeNull="true" />
       <Column Name="TargetChangePercent" Type="System.Decimal" DbType="Decimal(38,15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SP_Q4_PricesAroundEventDate" Method="SP_Q4_PricesAroundEventDate">
+    <Parameter Name="p_event_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_event_end_date" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="p_days_before" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_days_after" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_se_type_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_Q4_PricesAroundEventDateResult">
+      <Column Name="ForDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DoW" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="seID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="setID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

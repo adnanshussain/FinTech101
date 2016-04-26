@@ -97,8 +97,8 @@ $(function () {
                 setID: $('#set_selection').val(),
                 seID: $('#q4_se').val(),
                 eventID: $('#q4_event').val(),
-                weeksBefore: $('#q4_weeks_before').val(),
-                weeksAfter: $('#q4_weeks_after').val()
+                daysBefore: $('#q4_days_before').val(),
+                daysAfter: $('#q4_days_after').val()
             },
             success: function (data, status, xhrObj) {
                 console.log("ajax success");

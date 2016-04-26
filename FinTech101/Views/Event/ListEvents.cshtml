@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "ListEvents";
+}
+<h2>Events</h2>
+<p>
+    <form class="form-inline">
+        Filter By:  
+        <select id="event-class" class="form-control">
+            <option value="1">Company Events</option>
+            <option value="2">Non-Company Events</option>
+        </select>
+        <select id="company-event-type" class="form-control">
+            <option value="0">ANY</option>
+            <option value="1">Earnings Announcements</option>
+            <option value="2">Dividends  Announcements</option>
+        </select>
+        @Html.DropDownList("company", (SelectList)ViewData["companies_SL"], new { @class = "form-control" })
+        @Html.DropDownList("event-category", (SelectList)ViewData["parentEventCategories_SL"], new { @class = "form-control" })
+        <span id="event-sub-cat-container">
+            @Html.Action("EventSubCategoryDropDown")
+        </span>
+        <btn id="go-filter" class="btn btn-default">Apply</btn>
+    </form>
+</p>
+<div id="events-list-result">
+    @Html.Partial("_eventsList")
+</div>
+<br />
+<p>
+    <a href="/event/addevent">Add Event</a>
+</p>
+@section scripts {
+    <script type="text/javascript">
+        var companyEventTypeDropDown = $("#company-event-type");
+        var companyDropDown = $("#company");
+
+        $(function () {
+            $("#event-class").on("change", function () {
+                if ($(this).val() == 2) {
+                    companyEventTypeDropDown.hide();
+                    companyDropDown.hide();
+                } else {
+                    companyEventTypeDropDown.show();
+                    companyDropDown.show();
+                }
+            });
+
+            $("#event-category").on("change", function () {
+                $.ajax('/event/EventSubCategoryDropDown', {
+                    data: {
+                        parentEventCategoryID: $("#event-category").val()
+                    },
+                    success: function (data, status, xhrObj) {
+                        $('#event-sub-cat-container').html(data);
+                    },
+                    error: function (xhrObj, status, errorThrown) {
+                        $('#event-sub-cat-container').html("There was an error processing the request.");
+                    }
+                });
+            });
+
+            $("#go-filter").on("click", function () {
+                $.ajax('/event/ListEventsFiltered', {
+                    data: {
+                        eventClass: $("#event-class").val(),
+                        companyEventType: $("#company-event-type").val(),
+                        companyID: $("#company").val(),
+                        eventCategoryID: $('#event-category').val(),
+                        eventSubCategoryID: $('#event-sub-category').val()
+                    },
+                    success: function (data, status, xhrObj) {
+                        $('#events-list-result').html(data);
+                    },
+                    error: function (xhrObj, status, errorThrown) {
+                        $('#events-list-result').html("There was an error processing the request.");
+                    }
+                });
+            });
+
+            $(".deleteEvent").on("click", function () {
+                var eventID = $(this).attr("id");
+                console.log(eventID);
+
+                $.ajax("/event/deleteevent", {
+                    data: {
+                        eventID: eventID
+                    }
+                });
+
+                $.ajax('/event/ListEventsFiltered', {
+                    data: {
+                        eventClass: $("#event-class").val(),
+                        companyEventType: $("#company-event-type").val(),
+                        companyID: $("#company").val(),
+                        eventCategoryID: $('#event-category').val(),
+                        eventSubCategoryID: $('#event-sub-category').val()
+                    },
+                    success: function (data, status, xhrObj) {
+                        $('#events-list-result').html(data);
+                    },
+                    error: function (xhrObj, status, errorThrown) {
+                        $('#events-list-result').html("There was an error processing the request.");
+                    }
+                });
+            });
+        });
+    </script>
+}

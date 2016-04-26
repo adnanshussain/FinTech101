@@ -138,7 +138,7 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
-        public ActionResult q4(int setID, int seID, int eventID, int weeksBefore, int weeksAfter)
+        public ActionResult q4(int setID, int seID, int eventID, int daysBefore, int daysAfter)
         {
             List<TableRowViewModel> model = null;
 
@@ -153,7 +153,7 @@ namespace FinTech101.Controllers
                                  }).FirstOrDefault();
                 try
                 {
-                    model = FintechService.GetStockEntityPricesAroundDates_UI(setID, seID, eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, weeksBefore, weeksAfter);
+                    model = FintechService.GetStockEntityPricesAroundDates_UI(setID, seID, eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, daysBefore, daysAfter);
                 }
                 catch (Exception ex)
                 {
