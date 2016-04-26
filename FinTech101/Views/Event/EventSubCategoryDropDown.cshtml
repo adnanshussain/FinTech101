@@ -4,6 +4,6 @@
 @{ 
     if (ViewData["result"] != null)
     {
-        @Html.DropDownList("event-sub-category", (SelectList)ViewData["result"])
+        @Html.DropDownList("event-sub-category", (SelectList)ViewData["result"], new { @class = "form-control" })
     }
 }

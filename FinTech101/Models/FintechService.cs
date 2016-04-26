@@ -422,6 +422,7 @@ namespace FinTech101.Models
             {
                 return (from p in aadc.StockEntities
                                       where p.StockEntityTypeID == setID
+                                      orderby p.NameEn
                                       select p).ToList();
             }
         }
