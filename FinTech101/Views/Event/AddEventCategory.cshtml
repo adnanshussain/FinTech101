@@ -55,11 +55,11 @@
 
                 postData("/event/addeventcategory", {
                     EventCategoryName: $("#event-category-name").val(),
-                        IsSubcategory: isSubCat,
+                    IsSubcategory: isSubCat,
                     ParentCategoryID: isSubCat ? $("#parent-category").val() : null
                 }, function () {
                     window.location = "/event/listeventcategories";
-                })
+                });
             });
         });
     </script>

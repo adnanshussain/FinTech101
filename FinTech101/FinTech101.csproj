@@ -257,12 +257,13 @@
     <Content Include="Views\Event\AddGlobalEvent.cshtml" />
     <Content Include="Views\Event\ListEvents.cshtml" />
     <Content Include="Views\Event\_eventsList.cshtml" />
-    <Content Include="Views\Event\AddEvent.cshtml" />
+    <Content Include="Views\Event\AddEvent_Old.cshtml" />
     <Content Include="Views\Home\q4_with_range.cshtml" />
     <Content Include="Views\Home\q7.cshtml" />
     <Content Include="Views\Event\ListEventCategories.cshtml" />
     <Content Include="Views\Event\AddEventCategory.cshtml" />
     <Content Include="Views\Event\EventSubCategoryDropDown.cshtml" />
+    <Content Include="Views\Event\AddEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

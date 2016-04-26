@@ -84,19 +84,16 @@ namespace FinTech101.Controllers
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var eventCategories = (from p in aadc.EventCategories
-                                       select p).ToList();
-
-                var allEventCategories = eventCategories.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList<SelectListItem>();
-
-                ViewBag.allEventCategories = allEventCategories;
+                var eventCatSLI = EventsService.GetAllParentEventCategories().AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.EventCategoryID.ToString(), Text = item.EventCategoryName }).ToList();
+                ViewData["parentEventCategories_SL"] = new SelectList(eventCatSLI, "Value", "Text");
+                ViewData["companies_SL"] = new SelectList(FintechService.GetStockEntities(1).AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.StockEntityID.ToString(), Text = item.NameEn }), "Value", "Text");
             }
 
             return (View());
         }
 
         [HttpPost]
-        public ActionResult AddEvent(Event globalEvent)
+        public JsonResult AddEvent(Event globalEvent)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
@@ -104,7 +101,7 @@ namespace FinTech101.Controllers
                 aadc.SubmitChanges();
             }
 
-            return (Redirect("/home/listevents"));
+            return (Json("SUCCESS"));
         }
 
         public JsonResult DeleteEvent(int eventID)
