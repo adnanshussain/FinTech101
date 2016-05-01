@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -81,7 +85,7 @@ namespace FinTech101.Models
 
                 List<SP_Q5_StockEntityTypeUpAndDownMonthsResult> retVal = new List<SP_Q5_StockEntityTypeUpAndDownMonthsResult>();
                 var distinctSeIDs = (from r in result
-                                          select r.StockEntityID).Distinct().ToList();
+                                     select r.StockEntityID).Distinct().ToList();
 
                 foreach (int seID in distinctSeIDs)
                 {
@@ -123,7 +127,7 @@ namespace FinTech101.Models
 
                         if (monthsActive < 12)
                         {
-                            yearsActive += (decimal) monthsActive / 12;
+                            yearsActive += (decimal)monthsActive / 12;
                         }
                         else
                         {
@@ -314,11 +318,11 @@ namespace FinTech101.Models
                         var item = filteredResults[i];
                         var cell = new TableCellViewModel() { Text = item.Close == 0 ? "" : item.Close.ToString() };
 
-                        if(isCompany && firstValidPriceIndex == -1 && item.Close != 0)
+                        if (isCompany && firstValidPriceIndex == -1 && item.Close != 0)
                         {
                             firstValidPriceIndex = i;
                         }
-                        if(isCompany && item.Close != 0)
+                        if (isCompany && item.Close != 0)
                         {
                             lastValidPriceIndex = i;
                         }
@@ -343,7 +347,7 @@ namespace FinTech101.Models
                                 for (int j = reverseIndex; j < i; j++)
                                 {
                                     // J+1 cos the first cell is an info cell
-                                    row.TableCells[j+1].BackgroundColor = "lightblue";
+                                    row.TableCells[j + 1].BackgroundColor = "lightblue";
                                 }
                             }
                         }
@@ -368,11 +372,11 @@ namespace FinTech101.Models
                 row4.TableCells.Add(new TableCellViewModel());
                 //bool closingRange
 
-                for(int i=0;i<resultDates.Count;i++)
+                for (int i = 0; i < resultDates.Count; i++)
                 {
                     TableCellViewModel cell = new TableCellViewModel();
 
-                    if(i == firstValidPriceIndex)
+                    if (i == firstValidPriceIndex)
                     {
                         var firstClosingPriceChangePercent = (((eventDateClosingPrice - firstValidClosingPrice) / firstValidClosingPrice) * 100);
                         cell.Text = firstClosingPriceChangePercent.Value.ToString("0.00") + "%";
@@ -380,14 +384,14 @@ namespace FinTech101.Models
                         cell.FontColor = firstClosingPriceChangePercent >= 0 ? "" : "white";
                         cell.ColSpan = startsOnIndex - firstValidPriceIndex;
                     }
-                    else if((i > firstValidPriceIndex && i < startsOnIndex) ||
+                    else if ((i > firstValidPriceIndex && i < startsOnIndex) ||
                         (((!isRange && i > startsOnIndex + 1) || (isRange && i > endsOnIndex + 1)) && i <= lastValidPriceIndex) ||
                         (isRange && i > startsOnIndex && i < endsOnIndex)
                         )
                     {
                         continue;
                     }
-                    else if(i == startsOnIndex)
+                    else if (i == startsOnIndex)
                     {
                         cell.BackgroundColor = "lightblue";
                     }
@@ -395,10 +399,10 @@ namespace FinTech101.Models
                     {
                         TableCellViewModel cellRange = new TableCellViewModel();
                         cellRange.Text = "...";
-                        cell.BackgroundColor = cellRange.BackgroundColor = "lightblue";                        
+                        cell.BackgroundColor = cellRange.BackgroundColor = "lightblue";
                         row4.TableCells.Add(cellRange);
                     }
-                    else if(((!isRange && i == startsOnIndex + 1) || (isRange && i == endsOnIndex + 1)) && i <= lastValidPriceIndex)
+                    else if (((!isRange && i == startsOnIndex + 1) || (isRange && i == endsOnIndex + 1)) && i <= lastValidPriceIndex)
                     {
                         var lastClosingPriceChangePercent = (((lastValidClosingPrice - eventDateClosingPrice) / eventDateClosingPrice) * 100);
                         cell.Text = lastClosingPriceChangePercent.Value.ToString("0.00") + "%";
@@ -416,14 +420,96 @@ namespace FinTech101.Models
             return (result);
         }
 
+        public static DataTable GetAllStockEntityPricesAroundDates(int setID, int? seID, DateTime startsOn, DateTime? endsOn, int daysBefore, int daysAfter)
+        {
+            DataTable dt = new DataTable();
+
+            using(SqlConnection sqlConn = new SqlConnection(ConfigurationManager.ConnectionStrings["Argaam_AnalyticsConnectionString"].ConnectionString))
+            {
+                sqlConn.Open();
+
+                SqlCommand sqlCmd = new SqlCommand();
+                SqlDataAdapter sqlDa = new SqlDataAdapter();
+
+                sqlCmd = new SqlCommand("SP_Q4_PricesAroundEventDate_Pivoted", sqlConn);
+                sqlCmd.Parameters.Add(new SqlParameter("@p_event_date", startsOn));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_event_end_date", endsOn));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_days_before", daysBefore * -1));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_days_after", daysAfter));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_se_type_id", setID));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_se_id", seID));
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                sqlDa.SelectCommand = sqlCmd;
+                sqlDa.Fill(dt);
+            }
+
+            DataTable result = new DataTable();
+            result.Columns.Add(new DataColumn("EntityName", typeof(String)));
+            result.Columns.Add(new DataColumn("CloseChangeBefore", typeof(decimal)));
+            result.Columns.Add(new DataColumn("CloseChangeAfter", typeof(decimal)));
+            result.Columns.Add(new DataColumn(startsOn.ToShortDateString(), typeof(String)));
+            result.Columns.Add(new DataColumn(endsOn.HasValue ? endsOn.Value.ToShortDateString() : "", typeof(String)));
+            result.Columns.Add(new DataColumn("EntityID", typeof(int)));
+
+            for (int i=1; i<dt.Rows.Count; i++)
+            {
+                try
+                {
+                    DataRow drOrig = dt.Rows[i];
+
+                    int currentSeID = (int)drOrig[0];
+                    String seName = FintechService.GetStockEntity(setID, currentSeID).NameEn;
+
+                    int eventDateCol = daysBefore + 1;
+                    while (eventDateCol > 0 && drOrig[eventDateCol] == DBNull.Value)
+                        eventDateCol--;
+                    decimal eventDateClosingPrice = (decimal)drOrig[eventDateCol];
+
+                    int firstCol = 1;
+                    while (firstCol < eventDateCol && drOrig[firstCol] == DBNull.Value)
+                        firstCol++;
+                    decimal firstClosingPrice = (decimal)drOrig[firstCol];
+
+                    int eventEndDateColumn = eventDateCol;
+                    if (endsOn.HasValue)
+                    {
+                        eventEndDateColumn = daysBefore + 2;
+                        while (eventDateCol < dt.Columns.Count && drOrig[eventEndDateColumn] == DBNull.Value)
+                            eventEndDateColumn++;
+                    }
+                    decimal eventEndDateClosingPrice = (decimal)drOrig[eventEndDateColumn];
+
+                    int lastCol = dt.Columns.Count - 1;
+                    while (lastCol > eventEndDateColumn && drOrig[lastCol] == DBNull.Value)
+                        lastCol--;
+                    decimal lastClosingPrice = (decimal)drOrig[lastCol];
+
+                    DataRow dr = result.NewRow();
+                    dr[0] = seName;
+                    dr[1] = (((eventDateClosingPrice - firstClosingPrice) / firstClosingPrice) * 100);
+                    dr[2] = (((lastClosingPrice - eventEndDateClosingPrice) / eventEndDateClosingPrice) * 100);
+                    dr[5] = currentSeID;
+
+                    result.Rows.Add(dr);
+                }
+                catch(Exception ex)
+                {
+
+                }
+            }
+
+            return (result);
+        }
+
         public static List<StockEntity> GetStockEntities(int setID)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
                 return (from p in aadc.StockEntities
-                                      where p.StockEntityTypeID == setID
-                                      orderby p.NameEn
-                                      select p).ToList();
+                        where p.StockEntityTypeID == setID
+                        orderby p.NameEn
+                        select p).ToList();
             }
         }
 

@@ -176,6 +176,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ArgaamAnalytics.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DateOrNumber.cs" />
     <Compile Include="Models\DateWithDoW.cs" />
     <Compile Include="Models\EventsService.cs" />
     <Compile Include="Models\FintechHomeViewModel.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Models\StockEntityAndType.cs" />
     <Compile Include="Models\TableCellViewModel.cs" />
     <Compile Include="Models\ValueTextModel.cs" />
+    <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -264,6 +266,7 @@
     <Content Include="Views\Event\AddEventCategory.cshtml" />
     <Content Include="Views\Event\EventSubCategoryDropDown.cshtml" />
     <Content Include="Views\Event\AddEvent.cshtml" />
+    <Content Include="Views\Home\q4_1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

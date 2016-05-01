@@ -1,4 +1,10 @@
 ﻿@model List<FinTech101.Models.TableRowViewModel>
+@{
+    if (!ViewBag.isPartial)
+    {
+        Layout = "~/Views/Shared/_Layout2.cshtml";
+    }
+}
 
 <h2>Q4</h2>
 
@@ -31,9 +37,9 @@
                 }
             </tbody>
         </table>
-    }
-    else
-    {
-        <p>No data found for these dates</p>
-    }
+                    }
+                    else
+                    {
+                        <p>No data found for these dates</p>
+                    }
 }

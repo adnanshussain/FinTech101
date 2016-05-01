@@ -1,6 +1,7 @@
 ﻿using FinTech101.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -138,7 +139,7 @@ namespace FinTech101.Controllers
             return PartialView();
         }
 
-        public ActionResult q4(int setID, int seID, int eventID, int daysBefore, int daysAfter)
+        public ActionResult q4(int setID, int seID, int eventID, int daysBefore, int daysAfter, bool isPartial = false)
         {
             List<TableRowViewModel> model = null;
 
@@ -161,7 +162,36 @@ namespace FinTech101.Controllers
                 }
             }
 
+            ViewBag.isPartial = isPartial;
+
             return (View("q4_with_range", model));
+        }
+
+        public ActionResult q4_1(int setID, int eventID, int daysBefore, int daysAfter)
+        {
+            Q4_1_Model model = new Q4_1_Model();
+            model.SetID = setID;
+            model.EventID = eventID;
+
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                var eventDate = (from p in aadc.Events
+                                 where p.EventID == eventID
+                                 select new
+                                 {
+                                     StartDate = p.StartsOn,
+                                     EndDate = p.EndsOn
+                                 }).FirstOrDefault();
+
+                model.IsRangeEvent = eventDate.EndDate.HasValue ? true : false;
+
+                model.Result = FintechService.GetAllStockEntityPricesAroundDates(setID, null, eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, daysBefore, daysAfter);
+
+                model.DaysBefore = daysBefore;
+                model.DaysAfter = daysAfter;
+            }
+
+            return (View("q4_1", model));
         }
 
         public ActionResult q7(int anchorSeID, int targetSetID, int targetSeID, decimal anchorPercent, int targetAfterDays, int fromYear, int toYear)

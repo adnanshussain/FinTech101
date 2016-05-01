@@ -110,6 +110,26 @@ $(function () {
         })
     });
 
+    $("#q4_1_go").on("click", function () {
+        initResults();
+
+        $.ajax('/home/q4_1', {
+            data: {
+                setID: $('#set_selection').val(),
+                eventID: $('#q4_1_event').val(),
+                daysBefore: $('#q4_1_days_before').val(),
+                daysAfter: $('#q4_1_days_after').val()
+            },
+            success: function (data, status, xhrObj) {
+                console.log("ajax success");
+                $('#result').html(data);
+            },
+            error: function (xhrObj, status, errorThrown) {
+                resultWasError();
+            }
+        })
+    });
+
     $("#q5_go").on("click", function () {
         initResults();
 

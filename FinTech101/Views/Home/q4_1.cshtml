@@ -1,0 +1,57 @@
+﻿@using System.Data
+@model FinTech101.Models.Q4_1_Model
+
+<h2>Q4.1</h2>
+
+@{
+    if (Model.Result != null)
+    {
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Entity</th>
+                    <th>Closing Before</th>
+                    <th>@Model.Result.Columns[3].ColumnName</th>
+                    @if (Model.IsRangeEvent)
+                    {
+                        <th>@Model.Result.Columns[4].ColumnName</th>
+                    }
+                    <th>Closing After</th>
+                    <th>Drill Down</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow dr in Model.Result.Rows)
+                {
+                    <tr>
+                        @try
+                        {
+                            decimal closingBefore = (decimal)dr[1];
+                            decimal closingAfter = (decimal)dr[2];
+                            <td>@dr[0]</td>
+                            <td style="text-align:center;background-color:@(closingBefore > 0 ? "lightgreen" : "red");color:@(closingBefore > 0 ? "" : "white")">@closingBefore.ToString("0.00") %</td>
+                            <td></td>
+                            if (Model.IsRangeEvent)
+                            {
+                                <td></td>
+                            }
+                            <td style="text-align:center;background-color:@(closingAfter > 0 ? "lightgreen" : "red");color:@(closingAfter > 0 ? "" : "white")">@closingAfter.ToString("0.00") %</td>
+                            <td>
+                                <a href="/home/q4?setID=@Model.SetID&seID=@((int)dr[5])&eventID=@Model.EventID&daysBefore=@Model.DaysBefore&daysAfter=@Model.DaysAfter"
+                                   onclick="window.open(this.href, 'mywin', 'left=50,top=50,width=800,height=640,toolbar=1,resizable=0,location=0'); return false;">Drill Down</a>
+                            </td>
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No data found for these dates</p>
+    }
+}
