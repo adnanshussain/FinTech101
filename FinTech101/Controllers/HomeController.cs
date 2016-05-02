@@ -63,6 +63,12 @@ namespace FinTech101.Controllers
                                  EndDate = p.EndsOn
                              };
                 ViewBag.AllEvents = events.AsEnumerable().Select((item, index) => new SelectListItem() { Value = item.Value.ToString(), Text = item.Desc /*+ " [" + item.StartDate.ToString("dd MMM yyyy") + "]"*/ }).ToList<SelectListItem>();
+
+                model.CompanyEventTypes = new SelectList(new List<SelectListItem>()
+                {
+                    new SelectListItem() { Value = "1", Text = "Earning Announcements" },
+                    new SelectListItem() { Value = "2", Text = "Dividend Announcements" }
+                }, "Value", "Text");
             }
 
             return View(model);
@@ -192,6 +198,18 @@ namespace FinTech101.Controllers
             }
 
             return (View("q4_1", model));
+        }
+
+        public ActionResult q4_2(int seID, int companyEventType, int daysBefore, int daysAfter)
+        {
+            DataTable result;
+
+            using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
+            {
+                result = FintechService.GetPricesChangeBasedOnCompanyEvent(seID,companyEventType, daysBefore, daysAfter);
+            }
+
+            return (View("q4_2", result));
         }
 
         public ActionResult q7(int anchorSeID, int targetSetID, int targetSeID, decimal anchorPercent, int targetAfterDays, int fromYear, int toYear)

@@ -130,6 +130,26 @@ $(function () {
         })
     });
 
+    $("#q4_2_go").on("click", function () {
+        initResults();
+
+        $.ajax('/home/q4_2', {
+            data: {
+                seID: $('#q4_2_se').val(),
+                companyEventType: $('#q4_2_cet').val(),
+                daysBefore: 1,
+                daysAfter: $('#q4_2_days_after').val()
+            },
+            success: function (data, status, xhrObj) {
+                console.log("ajax success");
+                $('#result').html(data);
+            },
+            error: function (xhrObj, status, errorThrown) {
+                resultWasError();
+            }
+        })
+    });
+
     $("#q5_go").on("click", function () {
         initResults();
 

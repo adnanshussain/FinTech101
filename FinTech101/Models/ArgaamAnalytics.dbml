@@ -153,4 +153,20 @@
       <Column Name="[Close]" Member="Close" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.SP_Q4_2_PriceChangesBasedOnCompanyEvents" Method="SP_Q4_2_PriceChangesBasedOnCompanyEvents">
+    <Parameter Name="p_se_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_company_event_type" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_days_before" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_days_after" Type="System.Int32" DbType="Int" />
+    <ElementType Name="SP_Q4_2_PriceChangesBasedOnCompanyEventsResult">
+      <Column Name="BeforeDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="BeforeClose" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="EventDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="EventClose" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="AfterDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="AfterClose" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="BeforeChange" Type="System.Decimal" DbType="Decimal(38,15)" CanBeNull="true" />
+      <Column Name="AfterChange" Type="System.Decimal" DbType="Decimal(38,15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

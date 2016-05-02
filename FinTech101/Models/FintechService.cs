@@ -502,6 +502,30 @@ namespace FinTech101.Models
             return (result);
         }
 
+        public static DataTable GetPricesChangeBasedOnCompanyEvent(int seID, int companyEventType, int daysBefore, int daysAfter)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection sqlConn = new SqlConnection(ConfigurationManager.ConnectionStrings["Argaam_AnalyticsConnectionString"].ConnectionString))
+            {
+                sqlConn.Open();
+
+                SqlCommand sqlCmd = new SqlCommand();
+                SqlDataAdapter sqlDa = new SqlDataAdapter();
+
+                sqlCmd = new SqlCommand("SP_Q4_2_PriceChangesBasedOnCompanyEvents", sqlConn);
+                sqlCmd.Parameters.Add(new SqlParameter("@p_se_id", seID));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_company_event_type", companyEventType));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_days_before", daysBefore * -1));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_days_after", daysAfter));
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                sqlDa.SelectCommand = sqlCmd;
+                sqlDa.Fill(dt);
+            }
+
+            return (dt);
+        }
         public static List<StockEntity> GetStockEntities(int setID)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())

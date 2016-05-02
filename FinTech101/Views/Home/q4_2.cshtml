@@ -1,0 +1,35 @@
+﻿@using System.Data
+@{
+    Layout = null;
+}
+@model System.Data.DataTable
+
+<table border="1" width="50%">
+    <thead>
+        <tr>
+            <th>Event Date</th>
+            <th>Event Close</th>
+            <th>After Date</th>
+            <th>After Close</th>
+            <th>After Change</th>
+        </tr>
+    </thead>
+    @{ 
+        foreach(DataRow dr in Model.Rows)
+        {
+            DateTime eventDate = (DateTime)dr[2];
+            decimal eventClosing = (decimal)dr[3];
+            DateTime nextDate = (DateTime)dr[4];
+            decimal nextClosing = (decimal)dr[5];
+            decimal afterChange = (decimal)dr[7];
+
+            <tr>
+                <td style="text-align:center">@eventDate.ToShortDateString()</td>
+                <td style="text-align:center">@eventClosing.ToString("0.00")</td>
+                <td style="text-align:center">@nextDate.ToShortDateString()</td>
+                <td style="text-align:center">@nextClosing.ToString("0.00")</td>
+                <td style="text-align:center;background-color:@(afterChange > 0 ? "lightgreen": afterChange < 0 ? "red" : "white");color:@(afterChange < 0 ? "white" : "black");">@afterChange.ToString("0.00")</td>
+            </tr>
+        }
+    }
+</table>

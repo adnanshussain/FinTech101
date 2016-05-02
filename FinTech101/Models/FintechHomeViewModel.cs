@@ -16,5 +16,6 @@ namespace FinTech101.Models
         public int SetMinYear;
         public int SetMaxYear;
         public ValueTextModel SelectedSET;
+        public SelectList CompanyEventTypes;
     }
 }

@@ -267,6 +267,7 @@
     <Content Include="Views\Event\EventSubCategoryDropDown.cshtml" />
     <Content Include="Views\Event\AddEvent.cshtml" />
     <Content Include="Views\Home\q4_1.cshtml" />
+    <Content Include="Views\Home\q4_2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

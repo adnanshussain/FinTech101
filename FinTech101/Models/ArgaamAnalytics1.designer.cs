@@ -149,6 +149,13 @@ namespace FinTech101.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_event_date, p_event_end_date, p_days_before, p_days_after, p_se_id, p_se_type_id);
 			return ((ISingleResult<SP_Q4_PricesAroundEventDateResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SP_Q4_2_PriceChangesBasedOnCompanyEvents")]
+		public ISingleResult<SP_Q4_2_PriceChangesBasedOnCompanyEventsResult> SP_Q4_2_PriceChangesBasedOnCompanyEvents([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_se_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_company_event_type, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_days_before, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_days_after)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_se_id, p_company_event_type, p_days_before, p_days_after);
+			return ((ISingleResult<SP_Q4_2_PriceChangesBasedOnCompanyEventsResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StockEntityTypes")]
@@ -1797,6 +1804,158 @@ namespace FinTech101.Models
 				if ((this._Close != value))
 				{
 					this._Close = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SP_Q4_2_PriceChangesBasedOnCompanyEventsResult
+	{
+		
+		private System.Nullable<System.DateTime> _BeforeDate;
+		
+		private decimal _BeforeClose;
+		
+		private System.Nullable<System.DateTime> _EventDate;
+		
+		private decimal _EventClose;
+		
+		private System.Nullable<System.DateTime> _AfterDate;
+		
+		private decimal _AfterClose;
+		
+		private System.Nullable<decimal> _BeforeChange;
+		
+		private System.Nullable<decimal> _AfterChange;
+		
+		public SP_Q4_2_PriceChangesBasedOnCompanyEventsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeforeDate", DbType="Date")]
+		public System.Nullable<System.DateTime> BeforeDate
+		{
+			get
+			{
+				return this._BeforeDate;
+			}
+			set
+			{
+				if ((this._BeforeDate != value))
+				{
+					this._BeforeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeforeClose", DbType="Decimal(18,2) NOT NULL")]
+		public decimal BeforeClose
+		{
+			get
+			{
+				return this._BeforeClose;
+			}
+			set
+			{
+				if ((this._BeforeClose != value))
+				{
+					this._BeforeClose = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventDate", DbType="Date")]
+		public System.Nullable<System.DateTime> EventDate
+		{
+			get
+			{
+				return this._EventDate;
+			}
+			set
+			{
+				if ((this._EventDate != value))
+				{
+					this._EventDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventClose", DbType="Decimal(18,2) NOT NULL")]
+		public decimal EventClose
+		{
+			get
+			{
+				return this._EventClose;
+			}
+			set
+			{
+				if ((this._EventClose != value))
+				{
+					this._EventClose = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AfterDate", DbType="Date")]
+		public System.Nullable<System.DateTime> AfterDate
+		{
+			get
+			{
+				return this._AfterDate;
+			}
+			set
+			{
+				if ((this._AfterDate != value))
+				{
+					this._AfterDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AfterClose", DbType="Decimal(18,2) NOT NULL")]
+		public decimal AfterClose
+		{
+			get
+			{
+				return this._AfterClose;
+			}
+			set
+			{
+				if ((this._AfterClose != value))
+				{
+					this._AfterClose = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeforeChange", DbType="Decimal(38,15)")]
+		public System.Nullable<decimal> BeforeChange
+		{
+			get
+			{
+				return this._BeforeChange;
+			}
+			set
+			{
+				if ((this._BeforeChange != value))
+				{
+					this._BeforeChange = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AfterChange", DbType="Decimal(38,15)")]
+		public System.Nullable<decimal> AfterChange
+		{
+			get
+			{
+				return this._AfterChange;
+			}
+			set
+			{
+				if ((this._AfterChange != value))
+				{
+					this._AfterChange = value;
 				}
 			}
 		}
