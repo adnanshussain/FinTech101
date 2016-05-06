@@ -182,6 +182,7 @@
     <Compile Include="Models\FintechHomeViewModel.cs" />
     <Compile Include="Models\FintechService.cs" />
     <Compile Include="Models\PartialClasses.cs" />
+    <Compile Include="Models\Q4_ViewModel.cs" />
     <Compile Include="Models\StockEntityAndType.cs" />
     <Compile Include="Models\TableCellViewModel.cs" />
     <Compile Include="Models\ValueTextModel.cs" />
@@ -268,6 +269,7 @@
     <Content Include="Views\Event\AddEvent.cshtml" />
     <Content Include="Views\Home\q4_1.cshtml" />
     <Content Include="Views\Home\q4_2.cshtml" />
+    <Content Include="Views\Home\q4_pivoted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

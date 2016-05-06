@@ -180,7 +180,7 @@ namespace FinTech101.Models
 
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
-                var spResult = (aadc.SP_Q4_PricesAroundEventDate(startsOn, endsOn, daysBefore * -1, daysAfter, seID, setID)).ToList();
+                var spResult = (aadc.SP_Q4_PricesAroundEventDate(startsOn, endsOn, daysBefore, daysAfter, seID, setID)).ToList();
 
                 var resultDates = (from r in spResult
                                    group r by new { r.ForDate, r.DoW }
@@ -420,11 +420,100 @@ namespace FinTech101.Models
             return (result);
         }
 
+        public static Q4_ViewModel GetStockEntityPricesAroundDates(int setID, int seID, DateTime startsOn, DateTime? endsOn, int daysBefore, int daysAfter)
+        {
+            Q4_ViewModel result = new Q4_ViewModel();
+            result.IsRange = false;
+
+            using (SqlConnection sqlConn = new SqlConnection(ConfigurationManager.ConnectionStrings["Argaam_AnalyticsConnectionString"].ConnectionString))
+            {
+                sqlConn.Open();
+
+                SqlCommand sqlCmd = new SqlCommand();
+                SqlDataAdapter sqlDa = new SqlDataAdapter();
+
+                sqlCmd = new SqlCommand("SP_Q4_PricesAroundEventDate_Pivoted", sqlConn);
+                sqlCmd.Parameters.Add(new SqlParameter("@p_event_date", startsOn));
+                if(endsOn.HasValue) 
+                    sqlCmd.Parameters.Add(new SqlParameter("@p_event_end_date", endsOn.Value));
+                else
+                    sqlCmd.Parameters.Add(new SqlParameter("@p_event_end_date", DBNull.Value));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_days_before", daysBefore));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_days_after", daysAfter));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_se_type_id", setID));
+                sqlCmd.Parameters.Add(new SqlParameter("@p_se_id", seID));
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                sqlDa.SelectCommand = sqlCmd;
+                sqlDa.Fill(result.ResultDataTable);
+            }
+
+            int columnIndex = 0;
+            DataColumn dc = null;
+
+            do
+            {
+                dc = result.ResultDataTable.Columns[columnIndex];
+                DateTime columnDate = DateTime.Parse(dc.ColumnName);
+
+                if (columnDate == startsOn)
+                {
+                    result.EventEndsOnIndex = result.EventStartsOnIndex = columnIndex;
+                    break;
+                }
+                columnIndex++;
+            } while (true);
+
+            if (endsOn.HasValue)
+            {
+                result.IsRange = true;
+                columnIndex++;
+                do
+                {
+                    dc = result.ResultDataTable.Columns[columnIndex];
+                    DateTime columnDate = DateTime.Parse(dc.ColumnName);
+
+                    if (columnDate == endsOn.Value)
+                    {
+                        result.EventEndsOnIndex = columnIndex;
+                        break;
+                    }
+                    columnIndex++;
+                } while (true);
+            }
+
+            decimal firstClosingPrice = (decimal)result.ResultDataTable.Rows[0][0];
+            decimal eventStartClosingPrice = (decimal)result.ResultDataTable.Rows[0][result.EventStartsOnIndex];
+            decimal eventEndClosingPrice = eventStartClosingPrice;
+            decimal lastClosingPrice = (decimal)result.ResultDataTable.Rows[0][result.ResultDataTable.Columns.Count - 1];
+
+            if (eventStartClosingPrice == 0)
+            {
+                result.ActualEventStartClosingPriceWasZero = true;
+                eventEndClosingPrice = eventStartClosingPrice = (decimal)result.ResultDataTable.Rows[0][result.EventStartsOnIndex - 1];
+            }
+
+            if(endsOn.HasValue)
+            {
+                eventEndClosingPrice = (decimal)result.ResultDataTable.Rows[0][result.EventEndsOnIndex];
+                if(eventEndClosingPrice == 0)
+                {
+                    result.ActualEventEndClosingPriceWasZero = true;
+                    eventEndClosingPrice = (decimal)result.ResultDataTable.Rows[0][result.EventEndsOnIndex - 1];
+                }
+            }
+
+            result.ClosingPriceChangeBeforeEvent = (((eventStartClosingPrice - firstClosingPrice) / firstClosingPrice) * 100);
+            result.ClosingPriceChangeAfterEvent = (((lastClosingPrice - eventEndClosingPrice) / eventEndClosingPrice) * 100);
+
+            return (result);
+        }
+
         public static DataTable GetAllStockEntityPricesAroundDates(int setID, int? seID, DateTime startsOn, DateTime? endsOn, int daysBefore, int daysAfter)
         {
             DataTable dt = new DataTable();
 
-            using(SqlConnection sqlConn = new SqlConnection(ConfigurationManager.ConnectionStrings["Argaam_AnalyticsConnectionString"].ConnectionString))
+            using (SqlConnection sqlConn = new SqlConnection(ConfigurationManager.ConnectionStrings["Argaam_AnalyticsConnectionString"].ConnectionString))
             {
                 sqlConn.Open();
 
@@ -452,7 +541,7 @@ namespace FinTech101.Models
             result.Columns.Add(new DataColumn(endsOn.HasValue ? endsOn.Value.ToShortDateString() : "", typeof(String)));
             result.Columns.Add(new DataColumn("EntityID", typeof(int)));
 
-            for (int i=1; i<dt.Rows.Count; i++)
+            for (int i = 1; i < dt.Rows.Count; i++)
             {
                 try
                 {
@@ -493,7 +582,7 @@ namespace FinTech101.Models
 
                     result.Rows.Add(dr);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
@@ -526,6 +615,7 @@ namespace FinTech101.Models
 
             return (dt);
         }
+
         public static List<StockEntity> GetStockEntities(int setID)
         {
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())

@@ -148,6 +148,7 @@ namespace FinTech101.Controllers
         public ActionResult q4(int setID, int seID, int eventID, int daysBefore, int daysAfter, bool isPartial = false)
         {
             List<TableRowViewModel> model = null;
+            Q4_ViewModel newResult = null;
 
             using (ArgaamAnalyticsDataContext aadc = new ArgaamAnalyticsDataContext())
             {
@@ -160,7 +161,8 @@ namespace FinTech101.Controllers
                                  }).FirstOrDefault();
                 try
                 {
-                    model = FintechService.GetStockEntityPricesAroundDates_UI(setID, seID, eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, daysBefore, daysAfter);
+                    //model = FintechService.GetStockEntityPricesAroundDates_UI(setID, seID, eventDate.StartDate, eventDate.EndDate.HasValue ? eventDate.EndDate : null, daysBefore, daysAfter);
+                    newResult = FintechService.GetStockEntityPricesAroundDates(setID, seID, eventDate.StartDate, eventDate.EndDate, daysBefore, daysAfter);
                 }
                 catch (Exception ex)
                 {
@@ -170,7 +172,10 @@ namespace FinTech101.Controllers
 
             ViewBag.isPartial = isPartial;
 
-            return (View("q4_with_range", model));
+            if (isPartial)
+                return (PartialView("q4_pivoted", newResult));
+            else
+                return (View("q4_pivoted", newResult));
         }
 
         public ActionResult q4_1(int setID, int eventID, int daysBefore, int daysAfter)
@@ -209,7 +214,7 @@ namespace FinTech101.Controllers
                 result = FintechService.GetPricesChangeBasedOnCompanyEvent(seID,companyEventType, daysBefore, daysAfter);
             }
 
-            return (View("q4_2", result));
+            return (PartialView("q4_2", result));
         }
 
         public ActionResult q7(int anchorSeID, int targetSetID, int targetSeID, decimal anchorPercent, int targetAfterDays, int fromYear, int toYear)

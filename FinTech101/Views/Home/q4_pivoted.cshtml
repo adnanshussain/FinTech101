@@ -1,0 +1,85 @@
+﻿@model FinTech101.Models.Q4_ViewModel
+<table border="1">
+    <thead>
+        <tr>
+            @for (int i = 0; i < Model.ResultDataTable.Columns.Count; i++)
+            {
+                int colSpan = 1;
+                if(!Model.IsRange && ((Model.ActualEventStartClosingPriceWasZero && i == Model.EventStartsOnIndex - 1) || (i == Model.EventStartsOnIndex)))
+                {
+                    colSpan = 2;
+                }
+
+                if (i == Model.EventStartsOnIndex && Model.ActualEventStartClosingPriceWasZero)
+                {
+                    if (Model.IsRange)
+                    {
+                        <th>...</th>
+                    }
+                    continue;
+                }
+                if (i == Model.EventEndsOnIndex && Model.ActualEventEndClosingPriceWasZero)
+                {
+                    continue;
+                }
+                <th colspan="@colSpan">@Model.ResultDataTable.Columns[i].ColumnName</th>
+                if (i == Model.EventStartsOnIndex && !Model.ActualEventStartClosingPriceWasZero && Model.IsRange)
+                {
+                    <th>...</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @for (int i = 0; i < Model.ResultDataTable.Columns.Count; i++)
+            {
+                int colSpan = 1;
+                if (!Model.IsRange && ((Model.ActualEventStartClosingPriceWasZero && i == Model.EventStartsOnIndex - 1) || (i == Model.EventStartsOnIndex)))
+                {
+                    colSpan = 2;
+                }
+
+                if (i == Model.EventStartsOnIndex && Model.ActualEventStartClosingPriceWasZero)
+                {
+                    if (Model.IsRange)
+                    {
+                        <td>...</td>
+                    }
+                    continue;
+                }
+                if (i == Model.EventEndsOnIndex && Model.ActualEventEndClosingPriceWasZero)
+                {
+                    continue;
+                }
+                <td colspan="@colSpan">@Model.ResultDataTable.Rows[0][i]</td>
+                if (i == Model.EventStartsOnIndex && !Model.ActualEventStartClosingPriceWasZero && Model.IsRange)
+                {
+                    <td>...</td>
+                }
+            }
+        </tr>
+        <tr>
+            <td colspan="@(Model.ActualEventStartClosingPriceWasZero ? Model.EventStartsOnIndex : Model.EventStartsOnIndex + 1)"
+                style="text-align:center;background-color:@(Model.ClosingPriceChangeBeforeEvent > 0 ? "lightgreen" : Model.ClosingPriceChangeBeforeEvent < 0 ? "red" : "white");
+                color:@(Model.ClosingPriceChangeBeforeEvent < 0 ? "white" : "black")">
+                @Model.ClosingPriceChangeBeforeEvent.ToString("0.00")
+            </td>
+            @if (Model.IsRange)
+            {
+                <td>...</td>
+            }
+            <td colspan="@(Model.ResultDataTable.Columns.Count - Model.EventEndsOnIndex)"
+                style="text-align:center;background-color:@(Model.ClosingPriceChangeAfterEvent > 0 ? "lightgreen" : Model.ClosingPriceChangeAfterEvent < 0 ? "red" : "white");
+                color:@(Model.ClosingPriceChangeAfterEvent < 0 ? "white" : "black")">
+                @Model.ClosingPriceChangeAfterEvent.ToString("0.00")
+            </td>
+        </tr>
+    </tbody>
+</table>
+@*StartIndex = @Model.EventStartsOnIndex <br />
+EndIndex = @Model.EventEndsOnIndex <br />
+StartIndexZero = @Model.ActualEventStartClosingPriceWasZero <br />
+EndIndexZero = @Model.ActualEventEndClosingPriceWasZero <br />
+BeforeChange = @Model.ClosingPriceChangeBeforeEvent.ToString("0.00") <br />
+AfterChange = @Model.ClosingPriceChangeAfterEvent.ToString("0.00") <br />*@
